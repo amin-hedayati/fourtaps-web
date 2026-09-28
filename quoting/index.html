@@ -1,0 +1,734 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>What do slow quotes cost you?</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,600&family=Public+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap">
+<style>
+:root{
+  --paper:#F8FAF7; --card:#FFFFFF; --ink:#16211C; --muted:#55655B;
+  --rule:#DCE4DD; --rule2:#B9C7BE;
+  --acc:#1E6B54; --acc-soft:#E4F0EA; --acc-ink:#FFFFFF;
+  --warn:#9C6B1F; --warn-soft:#F4ECDC;
+  --shadow:0 1px 2px rgba(20,32,26,.05),0 14px 38px -22px rgba(20,32,26,.3);
+  --maxw:640px;
+}
+body[data-wedge="W2"]{
+  --acc:#1D4E89; --acc-soft:#E4ECF6;
+}
+@media (prefers-color-scheme: dark){:root{
+  --paper:#0F1613; --card:#171F1B; --ink:#E5ECE7; --muted:#9CADA3;
+  --rule:#28322C; --rule2:#3C4A42; --acc:#4FA98B; --acc-soft:#1B2C25; --acc-ink:#0F1613;
+  --warn:#D2A45C; --warn-soft:#2C2417;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 16px 40px -24px rgba(0,0,0,.8);}
+ body[data-wedge="W2"]{--acc:#7FB2E8; --acc-soft:#16222F;}}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);overflow-x:hidden;
+  font:400 17px/1.6 "Public Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  -webkit-font-smoothing:antialiased}
+.wrap{max-width:none;margin:0;padding:0}
+
+/* ---- one screen at a time, Typeform-style -------------------------------- */
+.screen{min-height:100vh;min-height:100dvh;display:flex;align-items:center;
+  padding:72px 24px 84px}
+.screen.tall{align-items:flex-start;padding-top:56px}     /* result & contact scroll */
+.frame{width:100%;max-width:var(--maxw);margin:0 auto;animation:rise .5s cubic-bezier(.16,1,.3,1) both}
+@keyframes rise{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:none}}
+
+h1,h2{font-family:"Public Sans",sans-serif;font-weight:700;letter-spacing:-.02em;text-wrap:balance}
+h3{font-family:"Public Sans",sans-serif;font-weight:700;letter-spacing:-.01em}
+
+/* number pill above the question, the Typeform tell */
+.qnum{display:inline-flex;align-items:center;gap:7px;color:var(--acc);
+  font:600 15px/1 "Public Sans";margin-bottom:16px}
+.qnum .arw{font-size:15px;transform:translateY(.5px)}
+
+.q{font-family:"Public Sans",sans-serif;font-weight:700;letter-spacing:-.02em;
+  font-size:clamp(23px,4.4vw,33px);line-height:1.24;margin:0 0 8px;text-wrap:balance}
+.note{color:var(--muted);font-size:16px;margin:8px 0 0;line-height:1.5}
+
+/* choices */
+.opts{display:flex;flex-direction:column;gap:11px;margin-top:28px}
+.opt{display:flex;align-items:center;gap:14px;width:100%;text-align:left;cursor:pointer;
+  background:color-mix(in srgb,var(--acc) 5%,var(--card));
+  border:1.5px solid color-mix(in srgb,var(--acc) 30%,transparent);
+  border-radius:10px;padding:13px 15px;font:500 17px/1.35 inherit;color:var(--ink);
+  transition:background .12s,border-color .12s,transform .04s}
+.opt:hover{background:color-mix(in srgb,var(--acc) 12%,var(--card));
+  border-color:color-mix(in srgb,var(--acc) 55%,transparent)}
+.opt:active{transform:scale(.994)}
+.opt.on{background:var(--acc-soft);border-color:var(--acc)}
+.opt:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+.opt .key{flex:0 0 auto;width:27px;height:27px;border-radius:6px;display:grid;place-items:center;
+  font:600 13px/1 "IBM Plex Mono",monospace;color:var(--acc);
+  border:1.5px solid color-mix(in srgb,var(--acc) 45%,transparent);
+  background:var(--card);transition:background .12s,color .12s,border-color .12s}
+.opt.on .key{background:var(--acc);color:var(--acc-ink);border-color:var(--acc)}
+.opt .lbl{flex:1;min-width:0}
+.opt .lbl small{display:block;color:var(--muted);font-size:13.5px;font-weight:400;margin-top:3px}
+.opt .ck{flex:0 0 auto;width:18px;opacity:0;color:var(--acc);transition:opacity .12s}
+.opt.on .ck{opacity:1}
+
+/* text / number field */
+.field{margin-top:26px}
+input[type=number],input[type=text],input[type=email],input[type=tel]{
+  width:100%;background:transparent;color:var(--ink);border:none;
+  border-bottom:2px solid color-mix(in srgb,var(--acc) 40%,transparent);
+  border-radius:0;padding:8px 2px;font:600 clamp(22px,4vw,30px)/1.3 inherit}
+input::placeholder{color:var(--muted);opacity:.55;font-weight:500}
+input:focus{outline:none;border-bottom-color:var(--acc)}
+
+/* controls row: OK + keyboard hint */
+.controls{display:flex;align-items:center;gap:16px;margin-top:30px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:10px;background:var(--acc);color:var(--acc-ink);
+  border:none;border-radius:9px;padding:13px 22px;font:600 16.5px inherit;cursor:pointer;
+  transition:opacity .12s,transform .04s}
+.btn:hover{opacity:.92}.btn:active{transform:scale(.99)}
+.btn[disabled]{opacity:.4;cursor:default}
+.btn .en{display:inline-grid;place-items:center;min-width:20px;height:20px;padding:0 5px;border-radius:4px;
+  background:color-mix(in srgb,#fff 22%,transparent);font:600 12px "IBM Plex Mono",monospace}
+.hint{color:var(--muted);font-size:14px}
+.hint kbd{font:600 12px "IBM Plex Mono",monospace;background:var(--card);border:1px solid var(--rule2);
+  border-bottom-width:2px;border-radius:5px;padding:2px 6px;color:var(--ink)}
+.lnk{background:none;border:none;color:var(--muted);font:500 15px inherit;cursor:pointer;padding:8px 4px}
+.lnk:hover{color:var(--ink)}
+
+/* fixed progress bar, pinned to the very bottom */
+.tfprog{position:fixed;left:0;bottom:0;width:100%;height:5px;background:var(--rule);z-index:30}
+.tfprog i{display:block;height:100%;width:0;background:var(--acc);
+  transition:width .45s cubic-bezier(.4,0,.2,1)}
+
+/* ---- intro (welcome screen) ---- */
+.eyebrow{font:600 11.5px/1 "IBM Plex Mono",monospace;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--acc);margin-bottom:20px}
+.intro h1{font-size:clamp(32px,7vw,52px);line-height:1.04;margin:0}
+.intro .dek{font-size:19px;color:var(--muted);margin:20px 0 0;line-height:1.5}
+.intro .dek b{color:var(--ink);font-weight:600}
+.intro .controls{margin-top:32px}
+.fine{font-size:13px;color:var(--muted);margin:22px 0 0;line-height:1.55;max-width:52ch}
+
+/* ---- result ---- */
+.big{font-family:Newsreader,Georgia,serif;font-weight:600;font-size:clamp(46px,12vw,84px);
+  line-height:1;color:var(--acc);font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.big small{font-size:.36em;color:var(--muted);font-weight:400;letter-spacing:0}
+.rlabel{color:var(--muted);font-size:16px;margin-top:8px}
+.three{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:24px 0 4px;align-items:start}
+.three .big{font-family:Newsreader,Georgia,serif;font-size:clamp(28px,6vw,44px)}
+.three .rlabel{font-size:13.5px;line-height:1.4;margin-top:4px}
+@media(max-width:560px){.three{grid-template-columns:1fr;gap:20px;text-align:left}}
+
+h3.sec{font-family:"IBM Plex Mono",monospace;font-size:11.5px;font-weight:600;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--muted);margin:28px 0 10px}
+.bars{display:flex;flex-direction:column;gap:9px}
+.bar-row{display:grid;grid-template-columns:minmax(120px,1.3fr) 2fr auto;gap:12px;align-items:center;font-size:14px}
+.bar-row .bl{color:var(--ink)}
+.bar-track{background:var(--rule);border-radius:99px;height:11px;overflow:hidden}
+.bar-track i{display:block;height:100%;background:var(--acc);border-radius:99px;
+  animation:grow .7s cubic-bezier(.4,0,.2,1) both}
+@keyframes grow{from{width:0!important}}
+.bar-row .bh{font-family:"IBM Plex Mono",monospace;font-size:13px;color:var(--muted);
+  font-variant-numeric:tabular-nums;white-space:nowrap}
+@media(max-width:520px){.bar-row{grid-template-columns:1fr auto;gap:4px 10px}
+  .bar-track{grid-column:1/3;order:3}}
+
+.upside{margin-top:24px;padding:18px 20px;border-radius:12px;background:var(--acc-soft);
+  border:1px solid color-mix(in srgb,var(--acc) 25%,transparent)}
+.upside .ul{font:600 11.5px/1 "IBM Plex Mono",monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--acc)}
+.upside .uv{font-family:Newsreader,Georgia,serif;font-size:clamp(28px,6vw,40px);line-height:1.1;margin-top:8px;color:var(--acc)}
+.upside .un{font-size:14px;color:var(--muted);margin-top:8px;line-height:1.5}
+
+.flag{margin-top:14px;padding:14px 18px;border-radius:0 10px 10px 0;font-size:14.5px;line-height:1.55;
+  background:var(--card);border:1px solid var(--rule);border-left:3px solid var(--rule2)}
+.flag b{display:block;margin-bottom:4px}
+.flag.warn{background:var(--warn-soft);border-left-color:var(--warn);border-color:transparent}
+.caveat{background:var(--warn-soft);border-left:3px solid var(--warn);border-radius:0 10px 10px 0;
+  padding:14px 18px;margin-top:22px;font-size:14.5px;color:var(--ink);line-height:1.55}
+
+/* ---- contact ---- */
+.fieldrow{display:flex;flex-direction:column;gap:4px;margin-top:22px}
+.fieldrow input{border-bottom-width:2px;font-size:clamp(18px,3vw,22px);padding:12px 2px}
+.done{text-align:center}
+.done .big{color:var(--acc);font-family:"Public Sans",sans-serif}
+footer{max-width:var(--maxw);margin:40px auto 0;font-size:13px;color:var(--muted);line-height:1.65}
+body[data-screen="q"] footer,body[data-screen="intro"] footer{display:none}
+
+@media(max-width:520px){.screen{padding:56px 18px 76px}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div id="app"></div>
+<footer>Task shares come from 870 Canadian businesses that advertised a quoting or estimating seat in July and August 2026. Your figures stay in this browser until you enter an email.</footer>
+</div>
+<script>
+
+</script>
+<script>
+window.WEDGE = (function () {
+  var TASKS = {
+    price:     { label: "Pricing it up",            rem: .85, hint: "Looking every line up — the single biggest task in the job" },
+    scope:     { label: "Reading the scope & specs", rem: .60, hint: "Drawings, quantities, what is actually being asked for" },
+    prepare:   { label: "Writing the quote",        rem: .90, hint: "Filling the template, applying the margin rules" },
+    intake:    { label: "Taking the request in",    rem: .80, hint: "Reading the inbox, the portal, the voicemail" },
+    chase:     { label: "Sending & following up",   rem: .85, hint: "The part everyone drops when the week gets busy" },
+    record:    { label: "Logging it afterwards",    rem: .90, hint: "The CRM, the spreadsheet, the job file" },
+    negotiate: { label: "Negotiating & closing",    rem: .15, hint: "The relationship half — this one stays human" }
+  };
+  var RATE = { owner: 90, estimator: 32, sales: 38, shared: 40 };
+  var RATE_HINT = {
+    owner: "Owners usually value their hour at what it earns elsewhere — $75–120 is typical.",
+    estimator: "Median stated estimator wage in Canadian postings is about $27/hr; $32 all-in with overhead.",
+    sales: "Sales or account staff quoting between calls — $35–45/hr all-in is typical.",
+    shared: "Shared across a few people — use the average of what those hours cost you."
+  };
+  return {
+    endpoint: null,
+    wedge: "W2",
+  intro: {
+    eyebrow: "Eleven taps · about a minute",
+    title: "What do slow quotes cost you?",
+    dek: "Across 870 Canadian businesses hiring estimators, the heaviest part of the job is not writing the quote &mdash; it is <b>looking the numbers up</b>. Tick what actually happens on every quote and we will show you the hours behind each step, and what the jobs you quote late are worth.",
+    cta: "Start &rarr;",
+    fine: "Eleven questions, all of them a tap. <b>Nothing is sent anywhere</b> until you ask for it &mdash; your figures stay in this browser."
+  },
+    questions: [
+      { id: "who", type: "choice", ask: "Who puts the quotes together?",
+        sets: function (v) { return { rate: RATE[v] }; },
+        options: [
+          { value: "owner", label: "Me", hint: "The most common answer under 20 staff" },
+          { value: "estimator", label: "A dedicated estimator" },
+          { value: "sales", label: "Sales or account staff, between other things" },
+          { value: "shared", label: "Whoever is free that day" } ] },
+      { id: "quotes", type: "choice", numeric: true,
+        ask: "How many quotes go out in a week?",
+        note: "Everything that leaves with a price on it, however small.",
+        options: [
+          { value: 3, label: "Under 5" },
+          { value: 10, label: "5 to 15" },
+          { value: 22, label: "15 to 30" },
+          { value: 45, label: "30 to 60" },
+          { value: 80, label: "More than 60" } ] },
+      { id: "hoursEach", type: "choice", numeric: true,
+        ask: "How long does one take, start to finish?",
+        note: "From the request landing to the number going back out.",
+        options: [
+          { value: 0.5, label: "Under an hour", hint: "Counter or catalogue pricing" },
+          { value: 1.5, label: "One to two hours" },
+          { value: 3, label: "Two to four hours" },
+          { value: 6, label: "Half a day" },
+          { value: 10, label: "A full day or more", hint: "Plan sets, tenders, big fabrication" } ] },
+      { id: "rate", type: "choice", numeric: true,
+        ask: "What is that hour worth?",
+        note: function (a) { return RATE_HINT[a.who] || RATE_HINT.shared; },
+        options: function (a) {
+          var bands = a.who === "owner"
+            ? [[50, "$50 an hour"], [90, "$90 an hour", "typical for an owner"], [130, "$130 an hour"], [200, "$200 or more"]]
+            : [[27, "About $27 an hour"], [RATE[a.who] || 38, "About $" + (RATE[a.who] || 38) + " an hour", "the market rate all-in"],
+               [55, "About $55 an hour"], [80, "$80 or more"]];
+          return bands.map(function (b) { return { value: b[0], label: b[1], hint: b[2] }; });
+        } },
+      { id: "tasks", type: "multi",
+        ask: "Which of these happen on every quote?",
+        note: "Untick anything that isn't part of your process. Each one is removable to a different degree, so this changes the answer.",
+        options: Object.keys(TASKS).map(function (k) {
+          return { value: k, label: TASKS[k].label, hint: TASKS[k].hint }; }) },
+      { id: "priceSrc", type: "choice", ask: "When you price something, where do the numbers come from?",
+        note: "This is the question that decides whether any of it works.",
+        options: [
+          { value: "catalogue", label: "A supplier catalogue or an internal price list", hint: "A system can look these up directly" },
+          { value: "past", label: "Past jobs, or a spreadsheet we keep", hint: "Extractable, with one pass of tidying" },
+          { value: "rep", label: "I call the supplier rep", hint: "The price is a relationship — harder" },
+          { value: "head", label: "It's in my head", hint: "Honest, and the most common answer" } ] },
+      { id: "intake", type: "choice", ask: "How do the requests arrive?",
+        options: [
+          { value: "email", label: "Email, mostly with attachments" },
+          { value: "portal", label: "A bid portal or tender site", hint: "Structured input on a deadline — the best case" },
+          { value: "drawings", label: "Drawings and plan sets" },
+          { value: "mixed", label: "A mix of email and phone" },
+          { value: "phone", label: "Mostly phone", hint: "Somebody still has to write it down" } ] },
+      { id: "turnaround", type: "choice", ask: "How long does the customer usually wait?",
+        options: [
+          { value: "same", label: "Same day" },
+          { value: "d2", label: "One or two days" },
+          { value: "d5", label: "Three to five days" },
+          { value: "week", label: "A week or more", hint: "This is where jobs quietly go elsewhere" } ] },
+      { id: "lost", type: "choice", ask: "Have you lost work because the quote went out late?",
+        options: [
+          { value: "often", label: "Yes — regularly" },
+          { value: "some", label: "Once or twice that I know of" },
+          { value: "no", label: "No" },
+          { value: "dunno", label: "No idea, honestly", hint: "Very common — almost nobody tracks it" } ] },
+      { id: "jobValue", type: "choice", numeric: true,
+        ask: "What is an average job worth to you?",
+        note: "Revenue, not profit. This is what turns hours into a number worth acting on.",
+        options: [
+          { value: 1200, label: "Under $2,000" },
+          { value: 5000, label: "$2,000 to $10,000" },
+          { value: 25000, label: "$10,000 to $50,000" },
+          { value: 120000, label: "$50,000 to $250,000" },
+          { value: 400000, label: "More than $250,000" } ] },
+      { id: "scope", type: "choice", ask: "Besides quoting, what else does that person do?",
+        note: "The honest answer here is worth more than any number above it.",
+        options: [
+          { value: "none", label: "Nothing — quoting is the job" },
+          { value: "some", label: "Some sales, some scheduling, some admin" },
+          { value: "lots", label: "They run half the business — quoting is one part of the day" } ] }
+    ],
+    compute: function (a) {
+      var quotes = Math.max(0, +a.quotes || 0);
+      var each   = Math.max(0, +a.hoursEach || 0);
+      var total  = quotes * each;
+      var rate   = Math.max(1, +a.rate || 40);
+      var price  = { catalogue: 1, past: .8, rep: .5, head: .32 }[a.priceSrc] || .6;
+      var intake = { email: 1, portal: 1, drawings: .85, mixed: .72, phone: .45 }[a.intake] || .75;
+      var sel = (a.tasks || []).filter(function (k) { return TASKS[k]; });
+      if (!sel.length) sel = ["price"];
+      var per = total / sel.length, freed = 0, bars = [];
+      sel.forEach(function (k) {
+        // pricing is gated by where the prices live; intake by how requests arrive
+        var gate = k === "price" ? price
+                 : k === "intake" ? intake
+                 : k === "scope" ? (intake * .5 + .5)
+                 : 1;
+        var h = per * TASKS[k].rem * gate;
+        freed += h; bars.push({ label: TASKS[k].label, hours: h });
+      });
+      bars.sort(function (x, y) { return y.hours - x.hours; });
+      var annual = freed * rate * 52, residual = Math.max(0, total - freed);
+      var owner = a.who === "owner";
+
+      // revenue half — conservative, and zero where they told us lateness costs nothing
+      var recov = { often: 1, some: 0.5, no: 0, dunno: 0.35 }[a.lost];
+      if (recov == null) recov = 0.35;
+      var slow  = { same: .4, d2: .8, d5: 1.2, week: 1.6 }[a.turnaround] || 1;
+      var upside = Math.max(0, +a.jobValue || 0) * recov * slow * 12;
+
+      var flags = [];
+      if (a.priceSrc === "head" || a.priceSrc === "rep")
+        flags.push({ tone: "warn", title: "Your prices do not live anywhere a system can read.",
+          body: "You told us they are in your head, or on the phone with a rep. That has to come out first, and it is a project of its own — we would quote it separately rather than fold it in and hope. Anyone who tells you otherwise has not built one." });
+      if (a.intake === "phone")
+        flags.push({ tone: "warn", title: "Phone-only requests are the real blocker.",
+          body: "Somebody still has to write down what was asked for, and that somebody is a person. We would automate the second half of the job and the seat would stay — which is not what you are paying for. An email or web-form route in front of it fixes this cheaply." });
+      if (a.scope === "lots")
+        flags.push({ tone: "warn", title: "Quoting is one part of that person's day.",
+          body: "Taking the quoting out shrinks the job, it does not remove the seat. The hours above are still real; the salary line is not the argument to make here." });
+      else if (a.scope === "some")
+        flags.push({ title: "Part of this role sits outside quoting.",
+          body: "The lookup work goes; the sales and scheduling do not. That usually means more quoting capacity from the same person rather than one fewer person." });
+      if (a.turnaround === "week" || a.turnaround === "d5")
+        flags.push({ title: "Your turnaround is where the money is, not your payroll.",
+          body: "At three days and up, the fastest quote in the inbox is usually not yours. That is a revenue argument, and it is a stronger one than the hours." });
+
+      var ptline = "";
+      if (owner && freed >= 5) ptline = "Those are your evenings, not a salary line.";
+      else if (!owner && residual > 0 && residual <= 12)
+        ptline = "What is left is a few hours a day — usually absorbed, not hired for.";
+
+      return {
+        freed: freed, monthly: annual / 12, annual: annual, total: total, residual: residual,
+        bars: bars, flags: flags, ptline: ptline,
+        labels: {
+          hours:   owner ? "hours a week back in your hands" : "hours a week of lookup work",
+          monthly: owner ? "a month of capacity, at what your hour earns" : "a month, at your stated rate",
+          annual:  owner ? "a year of earning capacity" : "a year in quoting time"
+        },
+        extra: upside > 0 ? {
+          label: "And the other half",
+          value: "$" + Math.round(upside).toLocaleString("en-CA") + " a year",
+          note: "if same-day quoting recovers the work you currently lose to being late. Built from your own answers: an average job at " +
+                "$" + Math.round(+a.jobValue || 0).toLocaleString("en-CA") + ", and how often you told us lateness has cost you one."
+        } : {
+          label: "And the other half",
+          value: "Not estimated",
+          note: "You told us lateness has not cost you work, so we are not going to invent a revenue figure. The hours above stand on their own."
+        },
+        caveat: (a.priceSrc === "head" || a.priceSrc === "rep")
+          ? "How long it takes to get the pricing out of your head. That is the whole project here, and it is the one thing we cannot size from a form — it depends on how many products, how many exceptions, and how much of it only you know."
+          : "Whether faster quotes actually win more work. We can measure that your quoting time is mostly lookup; we cannot measure your win rate, and most shops have never counted it. The revenue figure is a hypothesis from your own answers — worth testing, not worth banking."
+      };
+    },
+    headline: function (r) {
+      var up = r.extra && r.extra.value !== "Not estimated";
+      return (up && r.annual < 40000) ? "The hours are the small half of this."
+           : r.freed >= 18 ? "There is more than a full seat of lookup here."
+           : r.freed >= 9  ? "There is a full part-time job in the lookup alone."
+           : r.freed >= 4  ? "Modest hours — but the late ones still cost you."
+                           : "Not much time. The turnaround is the thing to look at.";
+    }
+  };
+})();
+
+</script>
+<script>
+/* Shared engine for both wedge landings — Typeform-style: one question a screen,
+   letter-keyed answers, keyboard-first, a progress bar pinned to the bottom. The
+   page declares window.WEDGE with its questions, task list and arithmetic;
+   everything below is presentation. Nothing is sent anywhere until the visitor
+   asks for their result to be emailed — at which point the answers, the result and
+   the campaign the visit came from (`src`) go with it. */
+(function () {
+  const W = window.WEDGE;
+  /* Where the answers go. A page that sets endpoint: null has nowhere to send
+     them — the standalone copies Mostafa opens from a folder — so it ends at
+     the result and offers to print instead of asking for an email it cannot
+     deliver. */
+  const ENDPOINT = W.endpoint === undefined ? "/api/leads" : W.endpoint;
+  /* A copy with no endpoint may still send to a Google Sheet: `sheet` is the web
+     address of the Apps Script in tools/web/collect.gs. It gets one row per visit:
+     the answers and result when the owner reaches the result, and their name and
+     email on the same row if they ask for the written result. With neither, the
+     owner can copy the numbers; a page inside Claude cannot print. */
+  const SHEET = ENDPOINT ? null : (W.sheet || null);
+  const VISIT = Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+  const LEAD = (function () {
+    try { return (new URLSearchParams(location.search).get("lead") || "").slice(0, 40); } catch (e) { return ""; }
+  })();
+  const CALC = W.name || ({ W1: "Bookkeeping", W2: "Quoting" }[W.wedge]) || W.wedge;
+  const $ = s => document.querySelector(s);
+  const esc = s => String(s == null ? "" : s).replace(/[&<>"]/g,
+    c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+  const A = {};
+  const Q = W.questions;
+  let step = -1;
+  document.body.dataset.wedge = W.wedge;
+
+  /* Where this visitor came from. Read once at load, not at submit: the visitor spends
+     nine to eleven screens in here, and by the time they reach the form the query string
+     may be gone. Stashed in sessionStorage so a mid-flow reload keeps the attribution.
+     Falls back to the referrer host, because a LinkedIn click with no UTMs still says
+     something. Every storage access is guarded — private windows throw on both ends. */
+  const SRC = (function () {
+    const KEY = "wedge_src";
+    let stored = null;
+    try { stored = sessionStorage.getItem(KEY); } catch (e) { /* storage blocked */ }
+
+    const qs = location.search.replace(/^\?/, "").slice(0, 300);
+    let src = qs;
+    if (!src) {
+      try {
+        const h = document.referrer ? new URL(document.referrer).hostname : "";
+        if (h && h !== location.hostname) src = "ref=" + h;
+      } catch (e) { /* opaque or malformed referrer */ }
+    }
+    /* A fresh query string wins; otherwise keep whatever the first screen recorded. */
+    if (!qs && stored) return stored;
+    if (src) { try { sessionStorage.setItem(KEY, src); } catch (e) { /* ignore */ } }
+    return src;
+  })();
+
+  const val = (q, k) => typeof q[k] === "function" ? q[k](A) : q[k];
+  const opts = q => val(q, "options") || [];
+  const LETTER = i => String.fromCharCode(65 + i);   // 0 -> A, 1 -> B …
+
+  /* one persistent keyboard router; each screen registers its own actions */
+  let onEnter = null, onLetter = null, onBack = null;
+  document.addEventListener("keydown", e => {
+    const t = document.activeElement, typing = t && /^(INPUT|TEXTAREA)$/.test(t.tagName);
+    if (e.key === "Enter") { if (onEnter) { e.preventDefault(); onEnter(); } return; }
+    if (!typing && e.key.length === 1 && onLetter) {
+      const i = e.key.toUpperCase().charCodeAt(0) - 65;
+      if (i >= 0 && i < 26 && onLetter(i)) e.preventDefault();
+    }
+    if (!typing && e.key === "Backspace" && onBack) { e.preventDefault(); onBack(); }
+  });
+
+  /* progress bar, created once, lives outside #app */
+  const bar = document.createElement("div");
+  bar.className = "tfprog"; bar.innerHTML = "<i></i>";
+  document.body.appendChild(bar);
+  const setProgress = () => {
+    const pct = step < 0 ? 0 : step >= Q.length ? 100
+              : Math.round(((step + 1) / (Q.length + 1)) * 100);
+    bar.firstChild.style.width = pct + "%";
+  };
+
+  function render() {
+    onEnter = onLetter = onBack = null;
+    if (step < 0) renderIntro();
+    else if (step < Q.length) renderQ();
+    else if (step === Q.length) renderResult();
+    else renderContact();
+    setProgress();
+    window.scrollTo({ top: 0, behavior: step > 0 && step <= Q.length ? "auto" : "auto" });
+  }
+
+  const screen = (cls, inner) =>
+    `<div class="screen ${cls}"><div class="frame">${inner}</div></div>`;
+
+  /* ---------- intro ---------- */
+  function renderIntro() {
+    document.body.dataset.screen = "intro";
+    const start = () => { step = 0; render(); };
+    $("#app").innerHTML = screen("intro", `
+      <div class="eyebrow">${W.intro.eyebrow}</div>
+      <h1>${W.intro.title}</h1>
+      <p class="dek">${W.intro.dek}</p>
+      <div class="controls">
+        <button class="btn" id="start">${W.intro.cta} <span class="en">↵</span></button>
+        <span class="hint">press <kbd>Enter ↵</kbd></span>
+      </div>
+      <p class="fine">${W.intro.fine}</p>`);
+    $("#start").addEventListener("click", start);
+    onEnter = start;
+  }
+
+  /* ---------- questions ---------- */
+  function renderQ() {
+    document.body.dataset.screen = "q";
+    const q = Q[step];
+    const note = val(q, "note");
+    const advance = () => { step++; render(); };
+    const back = () => { step--; render(); };
+
+    const pick = v => {
+      A[q.id] = q.numeric ? +v : v;
+      if (q.sets) Object.entries(q.sets(v)).forEach(([k, x]) => { A[k] = x; });
+      advance();
+    };
+
+    let field, controls;
+    if (q.type === "number") {
+      const v = A[q.id] != null ? A[q.id] : (val(q, "prefill") ?? "");
+      field = `<div class="field"><input type="number" inputmode="decimal" id="num" min="0"
+                 step="${q.step || 1}" placeholder="${esc(val(q, "placeholder") || "")}"
+                 value="${esc(v)}"></div>`;
+      controls = okRow();
+    } else if (q.type === "multi") {
+      const on = A[q.id] || opts(q).filter(o => o.on !== false).map(o => o.value);
+      field = optList(q, o => on.includes(o.value));
+      controls = okRow();
+    } else {
+      field = optList(q, o => String(A[q.id]) === String(o.value));
+      controls = `<div class="controls">
+        <span class="hint">Tap an answer${opts(q).length <= 8 ? ` — or press <kbd>${LETTER(0)}</kbd> … <kbd>${LETTER(opts(q).length - 1)}</kbd>` : ""}</span>
+      </div>`;
+    }
+
+    $("#app").innerHTML = screen("", `
+      <div class="qnum">${step + 1} <span class="arw">→</span></div>
+      <div class="q">${val(q, "ask")}</div>
+      ${note ? `<p class="note">${note}</p>` : ""}
+      ${field}
+      ${controls}
+      ${step > 0 ? `<div class="controls" style="margin-top:14px"><button class="lnk" id="back">↑ Back</button></div>` : ""}`);
+
+    $("#back")?.addEventListener("click", back);
+    if (step > 0) onBack = back;
+
+    if (q.type === "number") {
+      const n = $("#num"); n.focus(); n.select?.();
+      const go = () => { const x = +n.value; if (!(x >= 0) || n.value === "") return; A[q.id] = x; advance(); };
+      $("#ok").addEventListener("click", go);
+      onEnter = go;
+    } else if (q.type === "multi") {
+      if (!A[q.id]) A[q.id] = opts(q).filter(o => o.on !== false).map(o => o.value);
+      const toggle = i => {                       // toggle in place — no full re-render, no re-animation
+        const o = opts(q)[i]; if (!o) return false;
+        const cur = A[q.id];
+        A[q.id] = cur.includes(o.value) ? cur.filter(x => x !== o.value) : cur.concat([o.value]);
+        const btn = document.querySelector('.opt[data-i="' + i + '"]');
+        if (btn) btn.classList.toggle("on", A[q.id].includes(o.value));
+        $("#ok").disabled = !A[q.id].length;
+        return true;
+      };
+      document.querySelectorAll(".opt").forEach(b => b.addEventListener("click",
+        () => toggle(+b.dataset.i)));
+      const go = () => { if (A[q.id].length) advance(); };
+      $("#ok").addEventListener("click", go);
+      $("#ok").disabled = !A[q.id].length;
+      onLetter = i => toggle(i);
+      onEnter = go;
+    } else {
+      document.querySelectorAll(".opt").forEach(b =>
+        b.addEventListener("click", () => pick(b.dataset.v)));
+      onLetter = i => { const o = opts(q)[i]; if (!o) return false; pick(o.value); return true; };
+      onEnter = () => { if (A[q.id] != null) advance(); };
+    }
+  }
+
+  function optList(q, isOn) {
+    return `<div class="opts">${opts(q).map((o, i) =>
+      `<button class="opt ${isOn(o) ? "on" : ""}" data-v="${esc(o.value)}" data-i="${i}">
+         <span class="key">${LETTER(i)}</span>
+         <span class="lbl">${esc(o.label)}${o.hint ? `<small>${esc(o.hint)}</small>` : ""}</span>
+         <span class="ck" aria-hidden="true">✓</span>
+       </button>`).join("")}</div>`;
+  }
+  const okRow = () => `<div class="controls">
+    <button class="btn" id="ok">OK <span class="en">↵</span></button>
+    <span class="hint">press <kbd>Enter ↵</kbd></span></div>`;
+
+  /* ---------- result ---------- */
+  const money = n => "$" + Math.round(n).toLocaleString("en-CA");
+  /* The answers in words, one line a question, for the form and for copying. */
+  const strip = s => String(s == null ? "" : s).replace(/<[^>]*>/g, "").replace(/&mdash;/g, "-").replace(/&amp;/g, "&");
+  function answersText() {
+    const lines = Q.map(q => {
+      const v = A[q.id];
+      if (v == null || (Array.isArray(v) && !v.length)) return null;
+      const label = x => { const o = opts(q).find(o => o.value === x); return o ? strip(o.label) : String(x); };
+      return strip(val(q, "ask")) + " " + (Array.isArray(v) ? v.map(label).join(", ") : label(v));
+    }).filter(Boolean);
+    if (SRC) lines.push("Came from: " + SRC);
+    return lines.join("\n");
+  }
+  function resultText(r) {
+    return r.freed.toFixed(1) + " hours a week could come off the desk, worth " + money(r.annual) +
+      " a year.\n\n" + answersText();
+  }
+  /* Fire-and-forget: the Apps Script answers from another address, so the page
+     sends as plain text and does not wait to read the reply. */
+  function toSheet(stage, r, who) {
+    const payload = Object.assign({ visit: VISIT, stage, calculator: CALC, lead: LEAD, src: SRC,
+      hours: r.freed, monthly: r.monthly, annual: r.annual, total: r.total, residual: r.residual,
+      extra: r.extra ? strip(r.extra.value) : "", flags: r.flags.map(f => strip(f.title)).join(" | "),
+      answers: answersText() }, who || {});
+    return fetch(SHEET, { method: "POST", mode: "no-cors", body: JSON.stringify(payload) });
+  }
+  let sentResult = "";
+  function renderResult() {
+    document.body.dataset.screen = "result";
+    const r = W.compute(A);
+    /* The result goes to the sheet once per set of answers, not on every return here. */
+    if (SHEET) { const key = JSON.stringify(A); if (key !== sentResult) { sentResult = key; toSheet("result", r).catch(() => {}); } }
+    /* A page that embeds the calculator may keep the result (the offline copy
+       files it against the company on the line); nothing here depends on it. */
+    if (typeof window.fourtapsResult === "function") { try { window.fourtapsResult(W.wedge, A, r); } catch (e) {} }
+    const maxH = Math.max.apply(null, r.bars.map(b => b.hours).concat([0.001]));
+    const send = () => { step++; render(); };
+    const back = () => { step = Q.length - 1; render(); };
+    $("#app").innerHTML = screen("tall", `
+      <div class="qnum">Your numbers</div>
+      <h2 style="font-size:clamp(24px,4.6vw,34px);margin:2px 0 0">${W.headline(r)}</h2>
+
+      <div class="three">
+        <div><div class="big">${r.freed.toFixed(1)}<small>h/wk</small></div><div class="rlabel">${r.labels.hours}</div></div>
+        <div><div class="big">${money(r.monthly)}</div><div class="rlabel">${r.labels.monthly}</div></div>
+        <div><div class="big">${money(r.annual)}</div><div class="rlabel">${r.labels.annual}</div></div>
+      </div>
+
+      <h3 class="sec">Where the hours go</h3>
+      <div class="bars">${r.bars.map(b => `<div class="bar-row">
+        <span class="bl">${esc(b.label)}</span>
+        <span class="bar-track"><i style="width:${Math.max(2, (b.hours / maxH) * 100)}%"></i></span>
+        <span class="bh">${b.hours.toFixed(1)} h</span></div>`).join("")}</div>
+      <p class="note" style="margin-top:12px">Out of <b>${r.total.toFixed(0)} hours a week</b> in total,
+        <b>${r.residual.toFixed(1)} hours</b> stay with a person — the review, the approvals, the judgement calls.
+        ${r.ptline ? `<br>${r.ptline}` : ""}</p>
+
+      ${r.extra ? `<div class="upside"><div class="ul">${r.extra.label}</div><div class="uv">${r.extra.value}</div>
+         <div class="un">${r.extra.note}</div></div>` : ""}
+
+      ${r.flags.map(f => `<div class="flag ${f.tone || ""}"><b>${f.title}</b>${f.body}</div>`).join("")}
+
+      <div class="caveat"><b>What this does not know.</b> ${r.caveat}</div>
+      <div class="controls">
+        ${ENDPOINT || SHEET ? `<button class="btn" id="send">Email me this — with the working shown <span class="en">↵</span></button>`
+          : `<button class="btn" id="send">Copy my numbers</button>`}
+        <button class="lnk" id="back">↑ Change an answer</button>
+      </div>`);
+    if (ENDPOINT || SHEET) $("#send").addEventListener("click", send);
+    else $("#send").addEventListener("click", () => copyNumbers(r));
+    $("#back").addEventListener("click", back);
+    onEnter = ENDPOINT || SHEET ? send : null; onBack = back;
+  }
+  function copyNumbers(r) {
+    const text = resultText(r), btn = $("#send");
+    const shown = () => {
+      if ($("#copied")) return;
+      $(".frame").insertAdjacentHTML("beforeend",
+        `<textarea id="copied" class="caveat" readonly rows="8" style="width:100%">${esc(text)}</textarea>`);
+      $("#copied").select();
+    };
+    try {
+      navigator.clipboard.writeText(text).then(() => { btn.textContent = "Copied"; }, shown);
+    } catch (e) { shown(); }
+  }
+
+  /* ---------- contact ---------- */
+  function renderContact() {
+    document.body.dataset.screen = "contact";
+    const back = () => { step--; render(); };
+    $("#app").innerHTML = screen("tall", `
+      <div class="qnum">Last step</div>
+      <div class="q">Where should it go?</div>
+      <p class="note">The numbers above with the working shown, and the two things worth
+        checking before anyone spends money. No newsletter — you have to ask us for the next thing.</p>
+      <div class="fieldrow">
+        <input type="text"  id="business" placeholder="Business name" autocomplete="organization">
+        <input type="text"  id="contact"  placeholder="Your name" autocomplete="name">
+        <input type="email" id="email"    placeholder="Email" autocomplete="email" inputmode="email">
+        <input type="tel"   id="phone"    placeholder="Phone (optional)" autocomplete="tel" inputmode="tel">
+        <input type="text"  id="website"  tabindex="-1" autocomplete="off" aria-hidden="true"
+               style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
+      </div>
+      <div class="controls">
+        <button class="btn" id="submit">Send it <span class="en">↵</span></button>
+        <button class="lnk" id="back">↑ Back to my numbers</button>
+      </div>`);
+    $("#business").focus();
+    $("#back").addEventListener("click", back);
+    onBack = back;
+
+    const submit = async () => {
+      const email = $("#email").value.trim();
+      if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) { $("#email").focus(); return; }
+      const btn = $("#submit"); btn.disabled = true; btn.textContent = "Sending…";
+      const r = W.compute(A);
+      if (SHEET) return sendToSheet(r, btn, { business: $("#business").value.trim(),
+        contact: $("#contact").value.trim(), email, phone: $("#phone").value.trim(),
+        website: ($("#website") || {}).value || "" });
+      try {
+        await fetch(ENDPOINT, { method: "POST", headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ wedge: W.wedge, business: $("#business").value.trim(),
+            contact: $("#contact").value.trim(), email, phone: $("#phone").value.trim(),
+            src: SRC, answers: A, result: { freed: r.freed, monthly: r.monthly, annual: r.annual,
+                                  residual: r.residual, total: r.total,
+                                  flags: r.flags.map(f => f.title),
+                                  extra: r.extra ? r.extra.value : null } }) });
+        onEnter = onBack = null;
+        document.body.dataset.screen = "done";
+        $("#app").innerHTML = screen("done", `
+          <div class="big">✓</div>
+          <h2 style="margin-top:14px">On its way.</h2>
+          <p class="note" style="margin-top:10px">We read every one of these ourselves. If your numbers
+            look unusual — in either direction — expect a question back rather than a pitch.</p>`);
+      } catch (e) {
+        btn.disabled = false; btn.textContent = "Send it";
+        $(".frame").insertAdjacentHTML("beforeend",
+          `<div class="caveat">That didn't send. Try again in a moment, or email us directly.</div>`);
+      }
+    };
+    $("#submit").addEventListener("click", submit);
+    onEnter = submit;
+  }
+
+  async function sendToSheet(r, btn, who) {
+    try {
+      await toSheet("contact", r, who);
+      onEnter = onBack = null;
+      document.body.dataset.screen = "done";
+      $("#app").innerHTML = screen("done", `
+        <div class="big">✓</div>
+        <h2 style="margin-top:14px">Got it.</h2>
+        <p class="note" style="margin-top:10px">Mostafa from FourTaps will send your written result,
+          usually within one working day. We read every one of these ourselves.</p>`);
+    } catch (e) {
+      btn.disabled = false; btn.textContent = "Send it";
+      if (!$("#notsent")) $(".frame").insertAdjacentHTML("beforeend",
+        `<div class="caveat" id="notsent">That didn't send. Check your connection and try again.</div>`);
+    }
+  }
+
+  render();
+})();
+
+</script>
+</body>
+</html>
