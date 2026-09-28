@@ -163,7 +163,7 @@ body[data-screen="q"] footer,body[data-screen="intro"] footer{display:none}
 <div class="wrap">
 
 <div id="app"></div>
-<footer>Task shares come from 1,105 Canadian businesses that advertised this seat in July and August 2026. Your figures stay in this browser until you enter an email.</footer>
+<footer>Task shares come from 1,105 Canadian businesses that advertised this seat in July and August 2026. Your answers and result go to FourTaps when you finish; your name and email only if you give them.</footer>
 </div>
 <script>
 
@@ -190,13 +190,14 @@ window.WEDGE = (function () {
   };
   return {
     endpoint: null,
+    sheet: "https://script.google.com/macros/s/AKfycbwNovQb4P3pQYDnkjEPbyGxJiMJgqOvWy2ln0KodAAIKzCPUAtzoVVI1XnFOvavsxGSJg/exec",
     wedge: "W1",
   intro: {
     eyebrow: "Nine taps · about a minute",
     title: "What do the books cost you?",
     dek: "Most of a bookkeeping seat is <b>re-typing things that already arrived as files</b>. Tick the tasks that actually happen in your week and we will show you the hours behind each one, at your own cost per hour.",
     cta: "Start &rarr;",
-    fine: "Nine questions, all of them a tap. <b>Nothing is sent anywhere</b> until you ask for it &mdash; your figures stay in this browser."
+    fine: "Nine questions, all of them a tap. When you reach your result, your answers and the result go to FourTaps, so we can talk them through with you. Your name and email go only if you ask for the written result."
   },
     questions: [
       { id: "who", type: "choice", ask: "Who does the books today?",
