@@ -139,25 +139,17 @@ section[id]{scroll-margin-top:76px}
 
 /* your numbers */
 .numbers{position:relative;padding:96px 0 104px}
-.numbers-in{display:flex;flex-direction:column;align-items:center;text-align:center;gap:28px}
-.x12{position:relative;width:100%;max-width:860px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
-.xt{border-radius:28px;padding:32px 24px;display:flex;flex-direction:column;align-items:center;gap:18px}
+.numbers-in{display:flex;flex-direction:column;align-items:center;text-align:center;gap:26px}
+.x12{position:relative;width:100%;max-width:720px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.xt{border-radius:24px;padding:30px 24px;display:flex;flex-direction:column;align-items:center;gap:12px}
 .xt-hand{background:#FFFFFF;border:1px solid #DDE1EC}
 .xt-ft{background:#0A0F2C}
 .xt-lab{font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#4B5270}
-.xring{position:relative;width:150px;height:150px;display:flex;align-items:center;justify-content:center}
-.xring svg{position:absolute;inset:0}
-.xring-t{font-size:30px;font-weight:700;letter-spacing:-0.03em;color:#0A0F2C}
-.xarc{animation:arcIn 1.4s cubic-bezier(.2,.8,.2,1) .3s backwards}
-.xarc.quick{animation-delay:1.1s}
+.xt-n{font-size:56px;font-weight:700;line-height:1;letter-spacing:-0.03em;color:#0A0F2C}
+.xt-ft .xt-n{color:#D7FF3F}
 .xt-cost{font-size:15px;font-weight:500;color:#4B5270}
-.xbadge{position:absolute;left:50%;top:50%;width:92px;height:92px;margin:-46px 0 0 -46px;border-radius:50%;background:#D7FF3F;color:#0A0F2C;display:flex;align-items:center;justify-content:center;font-size:30px;font-weight:700;box-shadow:0 0 0 8px #F3F5FA,0 18px 40px -16px rgba(10,15,44,.45);z-index:1}
-.xcap{display:flex;align-items:center;gap:16px;font-size:20px;color:#4B5270}
-.xcap b{font-family:"Plus Jakarta Sans",sans-serif;color:#0A0F2C}
-.xdot{width:5px;height:5px;border-radius:50%;background:var(--tap)}
-@keyframes arcIn{from{stroke-dasharray:0 364.4}}
-.go{display:flex;flex-direction:column;align-items:center;gap:14px;width:100%}
-.go-lab{font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#4B5270}
+.xt-ft .xt-cost{color:rgba(255,255,255,.75)}
+.xbadge{position:absolute;left:50%;top:50%;width:76px;height:76px;margin:-38px 0 0 -38px;border-radius:50%;background:#D7FF3F;color:#0A0F2C;display:flex;align-items:center;justify-content:center;font-size:25px;font-weight:700;box-shadow:0 0 0 8px #F3F5FA,0 18px 40px -16px rgba(10,15,44,.45);z-index:1}
 .go-row{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:14px}
 .fine{margin:0;max-width:680px;font-size:13px;line-height:1.5;color:#4B5270;text-align:center}
 
@@ -300,7 +292,10 @@ section[id]{scroll-margin-top:76px}
 }
 @media (max-width:640px){
   .x12{grid-template-columns:minmax(0,1fr)}
-  .xbadge{width:72px;height:72px;margin:-36px 0 0 -36px;font-size:24px}
+  .xbadge{width:64px;height:64px;margin:-32px 0 0 -32px;font-size:21px}
+  .xt-n{font-size:48px}
+  .xt-hand{padding-bottom:46px}
+  .xt-ft{padding-top:46px}
   .go-row{flex-direction:column;align-items:stretch;width:100%}
   .cta-row{flex-direction:column;align-items:stretch;width:100%}
   .ind{font-size:21px}
@@ -407,26 +402,21 @@ section[id]{scroll-margin-top:76px}
 <div class="x12">
 <div class="xt xt-hand">
 <span class="xt-lab">By hand</span>
-<div class="xring"><svg width="150" height="150" viewBox="0 0 140 140" aria-hidden="true"><circle cx="70" cy="70" r="58" fill="none" stroke="#E3E6EF" stroke-width="10"></circle><circle class="xarc" cx="70" cy="70" r="58" fill="none" stroke="#9AA1B8" stroke-width="10" stroke-linecap="round" stroke-dasharray="364.4 364.4" transform="rotate(-90 70 70)"></circle></svg><span class="display xring-t">2 hrs</span></div>
+<span class="display xt-n">2 hrs</span>
 <span class="xt-cost">≈ $70 of staff time</span>
 </div>
 <div class="xbadge"><span class="display">12×</span></div>
 <div class="xt xt-ft">
 <span class="xt-lab lime">With fourtaps</span>
-<div class="xring"><svg width="150" height="150" viewBox="0 0 140 140" aria-hidden="true"><circle cx="70" cy="70" r="58" fill="none" stroke="rgba(255,255,255,.1)" stroke-width="10"></circle><circle class="xarc quick" cx="70" cy="70" r="58" fill="none" stroke="#D7FF3F" stroke-width="10" stroke-linecap="round" stroke-dasharray="30.4 364.4" transform="rotate(-90 70 70)"></circle></svg><span class="display xring-t" style="color:#FFFFFF">10 min</span></div>
-<span class="xt-cost" style="color:rgba(255,255,255,.75)">≈ $6 of staff time</span>
+<span class="display xt-n">10 min</span>
+<span class="xt-cost">≈ $6 of staff time</span>
 </div>
 </div>
-<div class="xcap"><span><b>12×</b> faster</span><span class="xdot" aria-hidden="true"></span><span><b>12×</b> cheaper</span></div>
-<div class="go">
-<span class="go-lab">Calculate your own savings</span>
 <div class="go-row">
-<a class="btn btn-primary btn-big" href="quoting/">Quoting desk<span class="arrow" aria-hidden="true">→</span></a>
-<a class="btn btn-primary btn-big" href="bookkeeping/">Bookkeeping desk<span class="arrow" aria-hidden="true">→</span></a>
-<a class="btn btn-ghost btn-big" href="mailto:mostafa@fourtaps.com?subject=A%20free%20call%20with%20fourtaps" style="font-size:17px">Or book a free call</a>
+<a class="btn btn-primary btn-big" href="quoting/">Quoting calculator<span class="arrow" aria-hidden="true">→</span></a>
+<a class="btn btn-primary btn-big" href="bookkeeping/">Bookkeeping calculator<span class="arrow" aria-hidden="true">→</span></a>
 </div>
-</div>
-<p class="fine">*Example: a customer quote that takes about 2 hours by hand takes about 10 minutes with fourtaps. Staff cost based on $35 an hour. Your numbers will depend on your business.</p>
+<p class="fine">Example, with staff time at $35 an hour. Your numbers will depend on your business.</p>
 </div>
 </section>
 
