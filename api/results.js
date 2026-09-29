@@ -26,8 +26,8 @@ export async function POST(request) {
   const [saved, copied] = await Promise.allSettled([save(r), copyToSheet(r)]);
   if (saved.status === "rejected") console.error("database:", saved.reason);
   if (copied.status === "rejected") console.error("sheet copy:", copied.reason);
-  const ok = saved.status === "fulfilled" || copied.status === "fulfilled";
-  return reply(ok ? 200 : 502, ok);
+  const db = saved.status === "fulfilled", sheet = copied.status === "fulfilled";
+  return reply(db || sheet ? 200 : 502, db || sheet, { db, sheet });
 }
 
 function clean(d) {
@@ -84,6 +84,7 @@ async function copyToSheet(r) {
   if (answer.ok !== true) throw new Error("the Sheet refused the copy");
 }
 
-function reply(status, ok) {
-  return Response.json({ ok }, { status });
+// db and sheet say which of the two took the result, for checking by hand.
+function reply(status, ok, where = {}) {
+  return Response.json({ ok, ...where }, { status });
 }
