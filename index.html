@@ -20,9 +20,7 @@ section[id]{scroll-margin-top:76px}
 .page{width:100%;background:#F3F5FA;overflow-x:clip}
 .display{font-family:"Plus Jakarta Sans",ui-sans-serif,system-ui,sans-serif;letter-spacing:-0.025em}
 .wrap{width:100%;max-width:1240px;margin:0 auto;padding:0 40px}
-.mark{position:relative;white-space:nowrap;z-index:0}
-.mark::before{content:"";position:absolute;left:-.08em;right:-.08em;bottom:.06em;height:.42em;background:#D7FF3F;border-radius:6px;z-index:-1;transform-origin:left;animation:markIn .8s cubic-bezier(.2,.8,.2,1) backwards;animation-delay:inherit}
-.reveal .mark::before{animation-delay:.3s}
+.mark{white-space:nowrap}
 .eyebrow{display:inline-flex;align-items:center;gap:10px;font-size:13px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--tap)}
 .eyebrow::before{content:"";width:22px;height:2px;background:currentColor;border-radius:2px}
 .head{display:flex;flex-direction:column;align-items:center;text-align:center;gap:20px;max-width:820px;margin:0 auto}
@@ -89,9 +87,7 @@ section[id]{scroll-margin-top:76px}
 .fade-up{animation:fadeUp .9s cubic-bezier(.2,.8,.2,1) backwards}
 .bw{display:inline-block;transform-origin:center;animation:tidy 1.6s cubic-bezier(.25,.8,.3,1) .7s backwards}
 .m4{display:inline-block;transform-origin:50% 100%;animation:press4 2s linear 2.6s}
-.m4::before{animation:mark4 2s steps(1,end) 2.6s backwards !important}
 @keyframes press4{0%,12%,25%,37%,50%,62%,75%,87%,100%{transform:none}14%,39%,64%,89%{transform:translateY(2px) scale(.94)}18%,43%,68%,93%{transform:scale(1.015)}21%,46%,71%,96%{transform:none}}
-@keyframes mark4{0%{transform:scaleX(0)}14%{transform:scaleX(.25)}39%{transform:scaleX(.5)}64%{transform:scaleX(.75)}89%,100%{transform:scaleX(1)}}
 @keyframes tidy{from{color:#9AA1B8;transform:scaleX(1.06)}to{color:inherit;transform:none}}
 .cue{display:inline-flex;align-items:center;gap:6px;margin-top:4px;min-height:44px;font-size:16px;font-weight:600;color:#4B5270}
 .cue:hover{color:var(--tap)}
@@ -140,16 +136,15 @@ section[id]{scroll-margin-top:76px}
 /* your numbers */
 .numbers{position:relative;padding:96px 0 104px}
 .numbers-in{display:flex;flex-direction:column;align-items:center;text-align:center;gap:26px}
-.x12{position:relative;width:100%;max-width:720px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
-.xt{border-radius:24px;padding:30px 24px;display:flex;flex-direction:column;align-items:center;gap:12px}
-.xt-hand{background:#FFFFFF;border:1px solid #DDE1EC}
-.xt-ft{background:#0A0F2C}
-.xt-lab{font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#4B5270}
-.xt-n{font-size:56px;font-weight:700;line-height:1;letter-spacing:-0.03em;color:#0A0F2C}
-.xt-ft .xt-n{color:#D7FF3F}
-.xt-cost{font-size:15px;font-weight:500;color:#4B5270}
-.xt-ft .xt-cost{color:rgba(255,255,255,.75)}
-.xbadge{position:absolute;left:50%;top:50%;width:76px;height:76px;margin:-38px 0 0 -38px;border-radius:50%;background:#D7FF3F;color:#0A0F2C;display:flex;align-items:center;justify-content:center;font-size:25px;font-weight:700;box-shadow:0 0 0 8px #F3F5FA,0 18px 40px -16px rgba(10,15,44,.45);z-index:1}
+.cmp{width:100%;max-width:640px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));background:#FFFFFF;border:1px solid #DDE1EC;border-radius:24px}
+.cmp-col{padding:30px 16px;display:flex;flex-direction:column;align-items:center;gap:12px}
+.cmp-col+.cmp-col{border-left:1px solid #DDE1EC}
+.cmp-lab{font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#4B5270}
+.cmp-n{font-size:56px;font-weight:700;line-height:1;letter-spacing:-0.03em;color:#0A0F2C}
+.cmp-cost{font-size:15px;font-weight:500;color:#4B5270}
+.now .cmp-lab,.now .cmp-n{color:var(--tap)}
+.cmp-x{margin:-6px 0 0;font-size:18px;color:#4B5270}
+.cmp-x b{font-weight:700;color:#0A0F2C}
 .go-row{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:14px}
 .fine{margin:0;max-width:680px;font-size:13px;line-height:1.5;color:#4B5270;text-align:center}
 
@@ -265,7 +260,6 @@ section[id]{scroll-margin-top:76px}
 }
 @keyframes wordIn{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
 @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
-@keyframes markIn{from{transform:scaleX(0)}to{transform:scaleX(1)}}
 @keyframes panelIn{from{opacity:0;transform:translateX(18px)}to{opacity:1;transform:none}}
 @keyframes reveal{from{opacity:0;transform:translateY(48px)}to{opacity:1;transform:none}}
 @keyframes marquee{to{transform:translateX(-50%)}}
@@ -291,11 +285,6 @@ section[id]{scroll-margin-top:76px}
   .card:hover{transform:none}
 }
 @media (max-width:640px){
-  .x12{grid-template-columns:minmax(0,1fr)}
-  .xbadge{width:64px;height:64px;margin:-32px 0 0 -32px;font-size:21px}
-  .xt-n{font-size:48px}
-  .xt-hand{padding-bottom:46px}
-  .xt-ft{padding-top:46px}
   .go-row{flex-direction:column;align-items:stretch;width:100%}
   .cta-row{flex-direction:column;align-items:stretch;width:100%}
   .ind{font-size:21px}
@@ -310,6 +299,10 @@ section[id]{scroll-margin-top:76px}
   .plan{padding:28px 24px}
   .faq-q{font-size:18px}
   .seq{padding:20px 16px}
+  .cmp-n{font-size:40px}
+  .cmp-col{padding:26px 10px}
+  .cmp-lab{font-size:12px;letter-spacing:.1em}
+  .cmp-cost{font-size:14px}
   .taps{gap:6px}
   .tkl{font-size:11px}
 }
@@ -399,19 +392,19 @@ section[id]{scroll-margin-top:76px}
 <span class="eyebrow">Your numbers</span>
 <h2 class="display h2" style="font-size:54px;letter-spacing:-0.015em;max-width:820px">What could it be worth <span class="mark">to your business?</span></h2>
 <p class="lede" style="line-height:1.55;max-width:none">Take one everyday task, like sending a customer quote:</p>
-<div class="x12">
-<div class="xt xt-hand">
-<span class="xt-lab">By hand</span>
-<span class="display xt-n">2 hrs</span>
-<span class="xt-cost">≈ $70 of staff time</span>
+<div class="cmp">
+<div class="cmp-col">
+<span class="cmp-lab">By hand</span>
+<span class="display cmp-n">2 hrs</span>
+<span class="cmp-cost">≈ $70 of staff time</span>
 </div>
-<div class="xbadge"><span class="display">12×</span></div>
-<div class="xt xt-ft">
-<span class="xt-lab lime">With fourtaps</span>
-<span class="display xt-n">10 min</span>
-<span class="xt-cost">≈ $6 of staff time</span>
+<div class="cmp-col now">
+<span class="cmp-lab">With fourtaps</span>
+<span class="display cmp-n">10 min</span>
+<span class="cmp-cost">≈ $6 of staff time</span>
 </div>
 </div>
+<p class="cmp-x"><b class="display">12×</b> faster</p>
 <div class="go-row">
 <a class="btn btn-primary btn-big" href="quoting/">Quoting calculator<span class="arrow" aria-hidden="true">→</span></a>
 <a class="btn btn-primary btn-big" href="bookkeeping/">Bookkeeping calculator<span class="arrow" aria-hidden="true">→</span></a>
