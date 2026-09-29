@@ -301,7 +301,7 @@ section[id]{scroll-margin-top:76px}
 <a class="navlink" href="#services">Services</a>
 <a class="navlink" href="#faq">FAQ</a>
 </nav>
-<a class="btn btn-primary" href="#book" style="min-height:46px;padding:0 20px;font-size:15px">Book a free call</a>
+<a class="btn btn-primary" href="book/" style="min-height:46px;padding:0 20px;font-size:15px">Book a free call</a>
 </div>
 </header>
 
@@ -526,7 +526,7 @@ section[id]{scroll-margin-top:76px}
 <h2 class="display">You're four taps from <span class="lime">a lighter week.</span></h2>
 <p>Book a free 30-minute call. We'll tell you, honestly, where AI can help your business and where it can't.</p>
 <div class="cta-row">
-<a class="btn btn-lime" href="mailto:mostafa@fourtaps.com?subject=A%20free%20call%20with%20fourtaps">Book your free call<span class="arrow" aria-hidden="true">→</span></a>
+<a class="btn btn-lime" href="book/">Book your free call<span class="arrow" aria-hidden="true">→</span></a>
 <a class="btn btn-outline-light" href="mailto:mostafa@fourtaps.com">mostafa@fourtaps.com</a>
 </div>
 </div>
@@ -682,8 +682,8 @@ section[id]{scroll-margin-top:76px}
     return '<span class="display ind">'+esc(x)+'<i aria-hidden="true"><b></b><b></b><b></b><b></b></i></span>';
   }).join('');
 
-  /* a company's code on this link follows them into the calculators */
-  if(location.search) all('a[href="quoting/"],a[href="bookkeeping/"]').forEach(function(a){ a.href+=location.search; });
+  /* a company's code on this link follows them into the calculators and the call page */
+  if(location.search) all('a[href="quoting/"],a[href="bookkeeping/"],a[href="book/"]').forEach(function(a){ a.href+=location.search; });
 
   /* the four steps */
   var steps=all('.step'), panels=all('.panel');

@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>fourtaps — Book a free call</title>
+<meta name="description" content="Book a free 30-minute call with fourtaps. We tell you, honestly, where AI can help your business and where it can't.">
+<meta name="theme-color" content="#F3F5FA">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Public+Sans:wght@400;500;600;700&display=swap">
+<style>
+:root{--tap:#2A3BF5;--ink:#0A0F2C;--muted:#4B5270;--rule:#DDE1EC;--sans:"Public Sans",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;color-scheme:light}
+*{box-sizing:border-box}
+[hidden]{display:none !important}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:#F3F5FA;color:var(--ink);font:400 17px/1.6 var(--sans);-webkit-font-smoothing:antialiased}
+a{color:var(--ink);text-decoration:none}a:hover{color:var(--tap)}
+.page{width:100%;min-height:100vh;min-height:100svh;position:relative;overflow-x:clip}
+.display{font-family:"Plus Jakarta Sans",ui-sans-serif,system-ui,sans-serif;letter-spacing:-0.025em}
+.wrap{width:100%;max-width:1100px;margin:0 auto;padding:0 40px}
+.gridbg{position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(rgba(10,15,44,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(10,15,44,.06) 1px,transparent 1px);background-size:56px 56px;background-position:center top;-webkit-mask-image:radial-gradient(ellipse 70% 60% at 50% 20%,#000 10%,transparent 75%);mask-image:radial-gradient(ellipse 70% 60% at 50% 20%,#000 10%,transparent 75%)}
+.top{position:relative;padding-top:env(safe-area-inset-top,0px)}
+.top-in{height:76px;display:flex;align-items:center;justify-content:space-between;gap:24px}
+.brand{display:flex;align-items:center;gap:12px}
+.brand-name{font-size:23px;font-weight:700}
+.back{display:inline-flex;align-items:center;min-height:44px;font-size:15px;font-weight:600;color:var(--muted)}
+.logo{width:36px;height:36px;border-radius:11px;background:var(--tap);display:grid;grid-template-columns:repeat(2,auto);place-content:center;gap:4px;flex-shrink:0}
+.pill{width:7px;height:7px;border-radius:50%;background:#FFFFFF}
+.pill.lime{background:#D7FF3F}
+main{position:relative;padding:56px 0 calc(96px + env(safe-area-inset-bottom,0px))}
+.cols{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:56px;align-items:start}
+.say{display:flex;flex-direction:column;gap:20px;padding-top:12px}
+.eyebrow{display:inline-flex;align-items:center;gap:10px;font-size:13px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--tap)}
+.eyebrow::before{content:"";width:22px;height:2px;background:currentColor;border-radius:2px}
+.h1{margin:0;font-size:60px;line-height:1.02;font-weight:700;letter-spacing:-0.02em;text-wrap:balance}
+.dek{margin:0;max-width:44ch;font-size:19px;line-height:1.55;color:var(--muted)}
+.pts{margin:8px 0 0;padding:0;list-style:none;display:flex;flex-direction:column;gap:14px}
+.pts li{display:grid;grid-template-columns:34px minmax(0,1fr);gap:14px;align-items:start;font-size:17px;line-height:1.45}
+.pts b{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;background:#E7EAFE;color:var(--tap);font:700 15px/1 "Plus Jakarta Sans",sans-serif}
+.card{background:#FFFFFF;border:1px solid var(--rule);border-radius:24px;padding:32px}
+form.card{display:flex;flex-direction:column;gap:18px}
+.f{display:flex;flex-direction:column;gap:7px}
+.f label{font-size:15px;font-weight:600}
+.f label span{font-weight:400;color:var(--muted)}
+.two{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+input,textarea{width:100%;background:#FFFFFF;color:var(--ink);border:1.5px solid var(--rule);border-radius:14px;padding:13px 15px;font:500 17px/1.4 var(--sans);transition:border-color .2s,box-shadow .2s}
+textarea{min-height:104px;resize:vertical}
+input::placeholder,textarea::placeholder{color:var(--muted);opacity:.65;font-weight:400}
+input:focus,textarea:focus{outline:none;border-color:var(--tap);box-shadow:0 0 0 3px rgba(42,59,245,.18)}
+.bad input{border-color:#B42318}
+.why{font-size:14px;color:#B42318}
+.hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:56px;padding:0 24px;border:0;border-radius:14px;background:var(--tap);color:#FFFFFF;font:700 17px/1.2 var(--sans);cursor:pointer;transition:transform .25s cubic-bezier(.2,.8,.2,1),box-shadow .25s}
+.btn:hover{color:#FFFFFF;transform:translate(-3px,-3px);box-shadow:5px 5px 0 0 var(--ink)}
+.btn:active{transform:none;box-shadow:none}
+.btn[disabled]{opacity:.5;cursor:default;transform:none;box-shadow:none}
+.btn:focus-visible,.back:focus-visible,.brand:focus-visible{outline:3px solid var(--tap);outline-offset:3px}
+.fine{margin:0;font-size:13px;line-height:1.55;color:var(--muted)}
+.oops{margin:0;padding:14px 16px;border-radius:14px;background:#FFF1D6;font-size:15px;line-height:1.5}
+.done{display:flex;flex-direction:column;align-items:center;text-align:center;gap:14px;padding:56px 32px}
+.tick{width:80px;height:80px;border-radius:50%;display:grid;place-items:center;background:#D7FF3F;color:var(--ink);font:700 36px/1 "Plus Jakarta Sans",sans-serif}
+.done h2{margin:6px 0 0;font-size:32px;line-height:1.1;font-weight:700}
+.done p{margin:0;max-width:38ch;color:var(--muted)}
+.rise{animation:rise .6s cubic-bezier(.2,.8,.2,1) backwards}
+@keyframes rise{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+@media (max-width:900px){
+  .wrap{padding:0 20px}
+  .cols{grid-template-columns:minmax(0,1fr);gap:32px}
+  .h1{font-size:42px}
+  main{padding-top:32px}
+  .card{padding:24px 20px}
+  .top-in{height:68px;gap:12px}
+  .brand-name{font-size:21px}
+}
+@media (max-width:480px){.two{grid-template-columns:minmax(0,1fr)}}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none !important;transition:none !important}}
+</style>
+</head>
+<body>
+<div class="page">
+<div class="gridbg" aria-hidden="true"></div>
+
+<header class="top">
+<div class="wrap top-in">
+<a class="brand" data-home href="../" aria-label="fourtaps home">
+<span class="logo" aria-hidden="true"><span class="pill"></span><span class="pill"></span><span class="pill"></span><span class="pill lime"></span></span>
+<span class="display brand-name">fourtaps</span>
+</a>
+<a class="back" data-home href="../">← Back to home</a>
+</div>
+</header>
+
+<main>
+<div class="wrap cols">
+
+<div class="say rise">
+<span class="eyebrow">Free call · 30 minutes</span>
+<h1 class="display h1">Book your free call</h1>
+<p class="dek">We’ll tell you, honestly, where AI can help your business and where it can’t. No pitch, no pressure.</p>
+<ol class="pts">
+<li><b>1</b><span>You tell us how a normal week runs: the emails, the admin, the copy-paste.</span></li>
+<li><b>2</b><span>We listen for the repeated work that quietly eats your hours.</span></li>
+<li><b>3</b><span>You get a short, plain list of where AI could help, and where it won’t.</span></li>
+</ol>
+</div>
+
+<div class="rise" style="animation-delay:.12s">
+<form class="card" id="form" novalidate>
+<div class="f" id="f-name"><label for="name">Your name</label>
+<input id="name" name="name" type="text" autocomplete="name" required>
+<span class="why" id="w-name" hidden>Please tell us your name.</span></div>
+<div class="f"><label for="business">Business name <span>(optional)</span></label>
+<input id="business" name="business" type="text" autocomplete="organization"></div>
+<div class="two">
+<div class="f" id="f-email"><label for="email">Email</label>
+<input id="email" name="email" type="email" autocomplete="email" inputmode="email" required>
+<span class="why" id="w-email" hidden>Please give an email we can reach you on.</span></div>
+<div class="f"><label for="phone">Phone <span>(optional)</span></label>
+<input id="phone" name="phone" type="tel" autocomplete="tel" inputmode="tel"></div>
+</div>
+<div class="f"><label for="best_time">A good time to call <span>(optional)</span></label>
+<input id="best_time" name="best_time" type="text" placeholder="Tuesday morning, or any weekday after 3"></div>
+<div class="f"><label for="about">What would you like to talk about? <span>(optional)</span></label>
+<textarea id="about" name="about" placeholder="The work that takes your team the most time"></textarea></div>
+<input class="hp" id="website" name="website" type="text" tabindex="-1" autocomplete="off" aria-hidden="true">
+<p class="oops" id="oops" role="alert" hidden>That didn’t send. Check your connection and try again.</p>
+<button class="btn" id="send" type="submit">Request my call <span aria-hidden="true">→</span></button>
+<p class="fine">We use this only to arrange your call. We never sell or share it.</p>
+</form>
+
+<div class="card done" id="done" role="status" hidden>
+<span class="tick" aria-hidden="true">✓</span>
+<h2 class="display">Got it.</h2>
+<p>Mostafa will write to you within one working day to set a time.</p>
+<a class="btn" data-home href="../" style="margin-top:10px">Back to home</a>
+</div>
+</div>
+
+</div>
+</main>
+</div>
+
+<script>
+(function(){
+  var d=document;
+  function $(id){return d.getElementById(id)}
+  function val(id){return $(id).value.trim()}
+  var VISIT=Date.now().toString(36)+Math.random().toString(36).slice(2,8);
+  var LEAD='';
+  try{ LEAD=(new URLSearchParams(location.search).get('lead')||'').slice(0,40); }catch(e){}
+  var SRC=location.search.replace(/^\?/,'').slice(0,300);
+  /* the way home keeps the company code the visitor arrived with */
+  if(location.search) [].forEach.call(d.querySelectorAll('a[data-home]'),function(a){ a.href='../'+location.search; });
+
+  function check(field,ok){
+    $('f-'+field).classList.toggle('bad',!ok); $('w-'+field).hidden=ok;
+    $(field).setAttribute('aria-invalid',!ok);
+    return ok;
+  }
+  $('form').addEventListener('submit',function(e){
+    e.preventDefault();
+    var name=check('name',val('name').length>0);
+    var email=check('email',/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(val('email')));
+    if(!name){ $('name').focus(); return; }
+    if(!email){ $('email').focus(); return; }
+    var btn=$('send'), label=btn.innerHTML;
+    btn.disabled=true; btn.textContent='Sending…'; $('oops').hidden=true;
+    fetch('/api/calls',{method:'POST',body:JSON.stringify({visit:VISIT,name:val('name'),business:val('business'),
+      email:val('email'),phone:val('phone'),best_time:val('best_time'),about:val('about'),
+      website:$('website').value,lead:LEAD,src:SRC})})
+    .then(function(res){ if(!res.ok) throw new Error('not saved'); })
+    .then(function(){ $('form').hidden=true; $('done').hidden=false; $('done').scrollIntoView({block:'center'}); })
+    .catch(function(){ btn.disabled=false; btn.innerHTML=label; $('oops').hidden=false; });
+  });
+})();
+</script>
+</body>
+</html>

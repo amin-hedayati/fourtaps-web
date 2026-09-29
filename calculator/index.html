@@ -147,7 +147,7 @@ main{position:relative;padding:72px 0 calc(96px + env(safe-area-inset-bottom,0px
 </div>
 <div class="res-go">
 <a class="btn btn-lime" id="full" href="../quoting/">Get the full answer in eleven taps<span aria-hidden="true">→</span></a>
-<a class="btn btn-outline-light" href="mailto:mostafa@fourtaps.com?subject=A%20free%20call%20with%20fourtaps">Or book a free call</a>
+<a class="btn btn-outline-light" id="call" href="../book/">Or book a free call</a>
 <span class="res-fine">Estimate only: quotes × hours × share × the hourly cost × 52 weeks, the same sum as our full quoting calculator. The full one also asks where your prices live and how requests arrive.</span>
 </div>
 </div>
@@ -181,6 +181,7 @@ main{position:relative;padding:72px 0 calc(96px + env(safe-area-inset-bottom,0px
   /* a company's code on this link follows them into the full calculator */
   if(location.search){
     $('full').href='../quoting/'+location.search;
+    $('call').href='../book/'+location.search;
     [].forEach.call(d.querySelectorAll('a[href="../"]'),function(a){ a.href='../'+location.search; });
   }
   draw();
