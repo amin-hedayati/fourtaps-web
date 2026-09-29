@@ -70,7 +70,7 @@ section[id]{scroll-margin-top:76px}
 .m4{display:inline-block;transform-origin:50% 100%;animation:press4 2s linear 2.6s}
 @keyframes press4{0%,12%,25%,37%,50%,62%,75%,87%,100%{transform:none}14%,39%,64%,89%{transform:translateY(2px) scale(.94)}18%,43%,68%,93%{transform:scale(1.015)}21%,46%,71%,96%{transform:none}}
 @keyframes tidy{from{color:#9AA1B8;transform:scaleX(1.06)}to{color:inherit;transform:none}}
-.cue{display:inline-flex;align-items:center;gap:12px;margin-top:4px;min-height:44px;font-size:16px;font-weight:600;color:#4B5270}
+.cue{display:inline-flex;flex-direction:column;align-items:center;gap:12px;margin-top:4px;font-size:16px;font-weight:600;color:#4B5270}
 .cue:hover{color:var(--tap)}
 .cue-o{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:#FFFFFF;border:1.5px solid #DDE1EC;color:var(--tap);font-size:18px;line-height:1;animation:halo 2.6s ease-out infinite;transition:border-color .25s}
 .cue:hover .cue-o{border-color:var(--tap)}
@@ -155,6 +155,7 @@ section[id]{scroll-margin-top:76px}
 
 /* steps */
 .tint{background:rgba(231,234,254,.55);position:relative}
+.first{padding:96px 0}
 .steps-grid{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:32px;align-items:stretch}
 .steps-list{display:flex;flex-direction:column;gap:8px}
 .step{appearance:none;border:1px solid transparent;cursor:pointer;text-align:left;font:inherit;width:100%;min-height:76px;padding:16px 20px;border-radius:18px;background:transparent;color:#0A0F2C;display:flex;align-items:center;gap:18px;transition:background .3s,transform .3s,border-color .3s}
@@ -241,6 +242,7 @@ section[id]{scroll-margin-top:76px}
   .h2,.cta h2{font-size:38px}
   .section{padding:88px 0}
   .numbers{padding:72px 0 80px}
+  .first{padding:72px 0}
   .book{padding:88px 0 64px}
   .panel{padding:32px 24px;min-height:0}
   .panel h3{font-size:34px}
@@ -316,7 +318,7 @@ section[id]{scroll-margin-top:76px}
 <div class="spine" aria-hidden="true"></div>
 </section>
 
-<section id="journey-how" style="position:relative;padding:24px 0 16px">
+<section id="journey-how" class="tint first">
 <div class="wrap how-in">
 <div class="reveal head" style="gap:16px">
 <span class="eyebrow">The how</span>
