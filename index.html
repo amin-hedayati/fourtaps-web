@@ -29,13 +29,6 @@ section[id]{scroll-margin-top:76px}
 .section{padding:128px 0}
 .stack{display:flex;flex-direction:column;gap:56px}
 
-/* four taps, now and then: four plain circles in a row that fade in, one after another, and fade out */
-.taps4{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none}
-.tap4{position:absolute;display:flex;gap:22px}
-.tap4 i{width:14px;height:14px;border-radius:50%;background:var(--tap);opacity:0;
-  animation:tapFade 3.2s ease-in-out both;animation-delay:calc(var(--n)*.3s)}
-@keyframes tapFade{0%{opacity:0;transform:scale(.9)}30%,55%{opacity:.26;transform:scale(1)}100%{opacity:0;transform:scale(1)}}
-
 /* the sky behind the whole page: drawn small on a canvas and stretched, so it stays light to run */
 .sky{position:fixed;inset:0;z-index:-1;width:100%;height:100%;pointer-events:none}
 
@@ -48,7 +41,7 @@ section[id]{scroll-margin-top:76px}
 .navlink{font-size:15px;font-weight:600;color:#0A0F2C;padding:8px 14px;border-radius:10px;transition:background .25s}
 .navlink:hover{background:rgba(42,59,245,.08);color:var(--tap)}
 .logo{width:36px;height:36px;border-radius:11px;background:var(--tap);display:flex;align-items:center;justify-content:center;gap:3px;flex-shrink:0}
-.pill{width:4px;height:14px;border-radius:4px;background:#FFFFFF}
+.pill{width:5px;height:5px;border-radius:50%;background:#FFFFFF}
 .pill.lime{background:#D7FF3F}
 
 /* buttons */
@@ -77,8 +70,11 @@ section[id]{scroll-margin-top:76px}
 .m4{display:inline-block;transform-origin:50% 100%;animation:press4 2s linear 2.6s}
 @keyframes press4{0%,12%,25%,37%,50%,62%,75%,87%,100%{transform:none}14%,39%,64%,89%{transform:translateY(2px) scale(.94)}18%,43%,68%,93%{transform:scale(1.015)}21%,46%,71%,96%{transform:none}}
 @keyframes tidy{from{color:#9AA1B8;transform:scaleX(1.06)}to{color:inherit;transform:none}}
-.cue{display:inline-flex;align-items:center;gap:6px;margin-top:4px;min-height:44px;font-size:16px;font-weight:600;color:#4B5270}
+.cue{display:inline-flex;align-items:center;gap:12px;margin-top:4px;min-height:44px;font-size:16px;font-weight:600;color:#4B5270}
 .cue:hover{color:var(--tap)}
+.cue-o{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:#FFFFFF;border:1.5px solid #DDE1EC;color:var(--tap);font-size:18px;line-height:1;animation:halo 2.6s ease-out infinite;transition:border-color .25s}
+.cue:hover .cue-o{border-color:var(--tap)}
+@keyframes halo{0%{box-shadow:0 0 0 0 rgba(42,59,245,.26)}70%,100%{box-shadow:0 0 0 14px rgba(42,59,245,0)}}
 .spine{position:relative;width:2px;height:80px;margin:32px auto 0;flex-shrink:0;border-radius:2px;background:linear-gradient(180deg,rgba(10,15,44,0),rgba(10,15,44,.14),rgba(10,15,44,0));overflow:hidden}
 .spine::after{content:"";position:absolute;left:0;top:-30px;width:2px;height:30px;border-radius:2px;background:var(--tap);animation:spineDot 2.6s cubic-bezier(.6,0,.4,1) infinite}
 @keyframes spineDot{0%{top:-30px}100%{top:80px}}
@@ -141,8 +137,8 @@ section[id]{scroll-margin-top:76px}
 .marquee{display:flex;width:max-content;animation:marquee 40s linear infinite}
 .marquee:hover{animation-play-state:paused}
 .ind{display:flex;align-items:center;gap:32px;padding-right:32px;font-size:26px;font-weight:600;white-space:nowrap;color:#FFFFFF}
-.ind i{display:flex;gap:3px}
-.ind i b{width:4px;height:14px;border-radius:4px;background:#D7FF3F}
+.ind i{display:flex;gap:4px}
+.ind i b{width:6px;height:6px;border-radius:50%;background:#D7FF3F}
 
 /* cards */
 .grid-3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
@@ -207,8 +203,8 @@ section[id]{scroll-margin-top:76px}
 .book{padding:128px 0 96px}
 .cta{position:relative;overflow:hidden;border-radius:36px;background:var(--tap);color:#FFFFFF;padding:88px 64px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:28px}
 .cta-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.08) 1px,transparent 1px);background-size:56px 56px}
-.cta-pills{position:relative;display:flex;gap:6px;align-items:center;height:40px}
-.cta-pills .pill{width:8px;height:32px;border-radius:8px}
+.cta-pills{position:relative;display:flex;gap:9px;align-items:center}
+.cta-pills .pill{width:13px;height:13px}
 .cta h2{position:relative;margin:0;font-size:68px;line-height:1.02;font-weight:700;max-width:880px;text-wrap:balance}
 .cta p{position:relative;margin:0;font-size:20px;line-height:1.55;color:rgba(255,255,255,.88);max-width:560px}
 .cta-row{position:relative;display:flex;flex-wrap:wrap;justify-content:center;gap:14px}
@@ -218,8 +214,8 @@ section[id]{scroll-margin-top:76px}
 .foot{padding:32px 0 calc(48px + env(safe-area-inset-bottom,0px));font-size:15px;color:#4B5270}
 .foot-in{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px}
 .foot-brand{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
-.foot-brand .logo{width:28px;height:28px;border-radius:9px}
-.foot-brand .pill{width:3px;height:11px}
+.foot-brand .logo{width:28px;height:28px;border-radius:9px;gap:2px}
+.foot-brand .pill{width:4px;height:4px}
 .foot-brand b{font-family:"Plus Jakarta Sans",sans-serif;letter-spacing:-0.025em;font-size:18px;font-weight:700;color:#0A0F2C}
 .foot nav{display:flex;flex-wrap:wrap;gap:24px}
 .foot nav a{color:#4B5270}
@@ -279,7 +275,6 @@ section[id]{scroll-margin-top:76px}
 }
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
-  .taps4{display:none}
   *,*::before,*::after{animation:none !important;transition:none !important}
 }
 </style>
@@ -287,7 +282,6 @@ section[id]{scroll-margin-top:76px}
 <body>
 <div class="page">
 <canvas class="sky" id="sky" aria-hidden="true"></canvas>
-<div class="taps4" id="taps4" aria-hidden="true"></div>
 
 <header class="nav">
 <div class="wrap nav-in">
@@ -317,7 +311,7 @@ section[id]{scroll-margin-top:76px}
 <span class="word" style="animation-delay:1.8s"><span class="mark m4">four taps.</span></span>
 </h1>
 <p class="fade-up hero-dek" style="animation-delay:4.2s">AI consultancy for small businesses. We turn your team’s daily busywork into simple workflows.</p>
-<a class="fade-up cue" href="#journey-how" style="animation-delay:4.5s">See how <span aria-hidden="true">↓</span></a>
+<a class="fade-up cue" href="#journey-how" style="animation-delay:4.5s">See how <span class="cue-o" aria-hidden="true">↓</span></a>
 </div>
 <div class="spine" aria-hidden="true"></div>
 </section>
@@ -564,23 +558,6 @@ section[id]{scroll-margin-top:76px}
   function all(s){return [].slice.call(d.querySelectorAll(s))}
   function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
   var still=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  /* four taps, now and then, somewhere on the screen */
-  var taps=$('#taps4');
-  if(taps&&!still){
-    var tap=function(){
-      if(d.hidden) return;
-      var g=d.createElement('div');
-      g.className='tap4';
-      g.style.left=Math.round(24+Math.random()*Math.max(0,innerWidth-122-48))+'px';
-      g.style.top=Math.round(90+Math.random()*Math.max(0,innerHeight-180))+'px';
-      g.innerHTML='<i style="--n:0"></i><i style="--n:1"></i><i style="--n:2"></i><i style="--n:3"></i>';
-      taps.appendChild(g);
-      setTimeout(function(){ g.remove(); },4400);
-    };
-    setTimeout(tap,1400);
-    setInterval(tap,4800);
-  }
 
   /* the sky: three soft shapes that drift on their own, and take new colours
      and outlines as the page is scrolled. Each list holds four states, for the
