@@ -29,17 +29,12 @@ section[id]{scroll-margin-top:76px}
 .section{padding:128px 0}
 .stack{display:flex;flex-direction:column;gap:56px}
 
-/* four taps, now and then: four soft marks in a row, the last one lime, as in the logo */
+/* four taps, now and then: four plain circles in a row that fade in, one after another, and fade out */
 .taps4{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none}
-.tap4{position:absolute;display:flex;gap:24px}
-.tap4 i{position:relative;width:11px;height:11px;border-radius:50%;background:var(--tap);opacity:0;
-  animation:tapDot 2.6s cubic-bezier(.2,.8,.2,1) both;animation-delay:calc(var(--n)*.28s)}
-.tap4 i::after{content:"";position:absolute;inset:-15px;border-radius:50%;border:1.5px solid var(--tap);opacity:0;
-  animation:tapRing 2.6s cubic-bezier(.2,.8,.2,1) both;animation-delay:calc(var(--n)*.28s)}
-.tap4 i:nth-child(4){background:#A9D61F}
-.tap4 i:nth-child(4)::after{border-color:#A9D61F}
-@keyframes tapDot{0%{opacity:0;transform:scale(.3)}10%{opacity:.4;transform:scale(1)}18%{transform:scale(.72)}30%{opacity:.34;transform:scale(1)}100%{opacity:0;transform:scale(1)}}
-@keyframes tapRing{0%,12%{opacity:0;transform:scale(.35)}20%{opacity:.34}75%,100%{opacity:0;transform:scale(1.55)}}
+.tap4{position:absolute;display:flex;gap:22px}
+.tap4 i{width:14px;height:14px;border-radius:50%;background:var(--tap);opacity:0;
+  animation:tapFade 3.2s ease-in-out both;animation-delay:calc(var(--n)*.3s)}
+@keyframes tapFade{0%{opacity:0;transform:scale(.9)}30%,55%{opacity:.26;transform:scale(1)}100%{opacity:0;transform:scale(1)}}
 
 /* the sky behind the whole page: drawn small on a canvas and stretched, so it stays light to run */
 .sky{position:fixed;inset:0;z-index:-1;width:100%;height:100%;pointer-events:none}
@@ -577,17 +572,14 @@ section[id]{scroll-margin-top:76px}
       if(d.hidden) return;
       var g=d.createElement('div');
       g.className='tap4';
-      var k=.85+Math.random()*.55, wide=116*k;
-      g.style.left=Math.round(24+Math.random()*Math.max(0,innerWidth-wide-48))+'px';
+      g.style.left=Math.round(24+Math.random()*Math.max(0,innerWidth-122-48))+'px';
       g.style.top=Math.round(90+Math.random()*Math.max(0,innerHeight-180))+'px';
-      g.style.transformOrigin='0 50%';
-      g.style.transform='rotate('+(Math.random()*16-8).toFixed(1)+'deg) scale('+k.toFixed(2)+')';
       g.innerHTML='<i style="--n:0"></i><i style="--n:1"></i><i style="--n:2"></i><i style="--n:3"></i>';
       taps.appendChild(g);
-      setTimeout(function(){ g.remove(); },3800);
+      setTimeout(function(){ g.remove(); },4400);
     };
     setTimeout(tap,1400);
-    setInterval(tap,4200);
+    setInterval(tap,4800);
   }
 
   /* the sky: three soft shapes that drift on their own, and take new colours
