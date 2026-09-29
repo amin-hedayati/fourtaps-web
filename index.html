@@ -17,7 +17,7 @@ html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
 body{margin:0;background:#F3F5FA;color:#0A0F2C;font-family:"Public Sans",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased}
 a{color:#0A0F2C;text-decoration:none}a:hover{color:#2A3BF5}
 section[id]{scroll-margin-top:76px}
-.page{width:100%;background:#F3F5FA;overflow-x:clip}
+.page{width:100%;background:#F3F5FA;overflow-x:clip;isolation:isolate}
 .display{font-family:"Plus Jakarta Sans",ui-sans-serif,system-ui,sans-serif;letter-spacing:-0.025em}
 .wrap{width:100%;max-width:1240px;margin:0 auto;padding:0 40px}
 .mark{white-space:nowrap}
@@ -41,15 +41,8 @@ section[id]{scroll-margin-top:76px}
 @keyframes pulseDown{0%{opacity:0;transform:translateY(-60px)}6%{opacity:.5}18%{opacity:.4}26%{opacity:0;transform:translateY(var(--dist))}100%{opacity:0;transform:translateY(var(--dist))}}
 @keyframes glowCol{0%{opacity:0}8%{opacity:.9}22%{opacity:.5}32%,100%{opacity:0}}
 
-/* colourful living background */
-.aurora{position:absolute;inset:0;overflow:hidden;pointer-events:none;-webkit-mask-image:linear-gradient(180deg,#000 0%,#000 60%,transparent 100%);mask-image:linear-gradient(180deg,#000 0%,#000 60%,transparent 100%)}
-.blob{position:absolute;border-radius:50%;filter:blur(90px);will-change:transform}
-.b1{width:620px;height:520px;left:calc(50% - 760px);top:-120px;background:color-mix(in srgb,var(--tap) 26%,transparent);animation:drift1 26s ease-in-out infinite alternate}
-.b2{width:560px;height:480px;left:calc(50% + 200px);top:-60px;background:rgba(215,255,63,.30);animation:drift2 30s ease-in-out infinite alternate}
-.b3{width:520px;height:440px;left:calc(50% - 260px);top:260px;background:rgba(139,92,246,.16);animation:drift3 34s ease-in-out infinite alternate}
-@keyframes drift1{0%{transform:translate(0,0) scale(1)}50%{transform:translate(120px,60px) scale(1.1)}100%{transform:translate(40px,140px) scale(.95)}}
-@keyframes drift2{0%{transform:translate(0,0) scale(1)}50%{transform:translate(-140px,90px) scale(1.12)}100%{transform:translate(-60px,-20px) scale(.9)}}
-@keyframes drift3{0%{transform:translate(0,0) scale(1)}50%{transform:translate(160px,-60px) scale(.92)}100%{transform:translate(-120px,-20px) scale(1.08)}}
+/* the sky behind the whole page: drawn small on a canvas and stretched, so it stays light to run */
+.sky{position:fixed;inset:0;z-index:-1;width:100%;height:100%;pointer-events:none}
 
 /* nav */
 .nav{position:sticky;top:0;z-index:20;padding-top:env(safe-area-inset-top,0px);backdrop-filter:saturate(1.5) blur(16px);-webkit-backdrop-filter:saturate(1.5) blur(16px);background:rgba(243,245,250,.8);border-bottom:1px solid rgba(10,15,44,.08)}
@@ -170,7 +163,7 @@ section[id]{scroll-margin-top:76px}
 .qmark{font-family:"Plus Jakarta Sans",sans-serif;font-size:56px;line-height:.6;font-weight:800;color:var(--tap)}
 
 /* steps */
-.tint{background:#E7EAFE;position:relative}
+.tint{background:rgba(231,234,254,.55);position:relative}
 .steps-grid{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:32px;align-items:stretch}
 .steps-list{display:flex;flex-direction:column;gap:8px}
 .step{appearance:none;border:1px solid transparent;cursor:pointer;text-align:left;font:inherit;width:100%;min-height:76px;padding:16px 20px;border-radius:18px;background:transparent;color:#0A0F2C;display:flex;align-items:center;gap:18px;transition:background .3s,transform .3s,border-color .3s}
@@ -298,6 +291,7 @@ section[id]{scroll-margin-top:76px}
 </head>
 <body>
 <div class="page">
+<canvas class="sky" id="sky" aria-hidden="true"></canvas>
 
 <header class="nav">
 <div class="wrap nav-in">
@@ -317,7 +311,6 @@ section[id]{scroll-margin-top:76px}
 <main>
 
 <section id="top" class="hero">
-<div class="aurora" aria-hidden="true"><span class="blob b1"></span><span class="blob b2"></span><span class="blob b3"></span></div>
 <div class="glines" aria-hidden="true" id="glines"></div>
 <div class="wrap hero-in">
 <h1 class="display h1">
@@ -588,6 +581,60 @@ section[id]{scroll-margin-top:76px}
     }
     g.innerHTML=html;
   }
+
+  /* the sky: three soft shapes that drift on their own, and take new colours
+     and outlines as the page is scrolled. Each list holds four states, for the
+     top of the page, one third, two thirds and the bottom. */
+  (function(){
+    var sky=$('#sky'), ctx=sky&&sky.getContext&&sky.getContext('2d');
+    if(!ctx) return;
+    var KEYS=[0,.33,.66,1], W=0, H=0, ps=0, t0=performance.now();
+    var SHAPES=[
+      {c:['#2A3BF5','#8B5CF6','#06B6D4','#2A3BF5'],a:.36,x:[.18,.30,.15,.26],y:[.20,.32,.55,.38],r:[.42,.36,.46,.40],sx:[1,1.5,.8,1.25],sy:[1,.8,1.4,.95],rot:[0,.6,-.5,.3],T:26,ph:0},
+      {c:['#D7FF3F','#F472B6','#D7FF3F','#5EEAD4'],a:.42,x:[.82,.74,.86,.70],y:[.16,.46,.30,.62],r:[.38,.40,.34,.44],sx:[1,.8,1.6,1],sy:[1,1.5,.8,1.2],rot:[0,-.5,.7,-.2],T:31,ph:2.1},
+      {c:['#8B5CF6','#2A3BF5','#A3E635','#8B5CF6'],a:.28,x:[.45,.56,.40,.50],y:[.64,.76,.80,.70],r:[.36,.42,.38,.46],sx:[1.2,1,.9,1.6],sy:[.9,1,1.5,.9],rot:[.2,-.3,.5,0],T:37,ph:4.2}
+    ];
+    SHAPES.forEach(function(b){
+      b.c=b.c.map(function(h){ return [parseInt(h.slice(1,3),16),parseInt(h.slice(3,5),16),parseInt(h.slice(5,7),16)]; });
+    });
+    function at(list,p){
+      var i=0; while(i<KEYS.length-2&&p>KEYS[i+1]) i++;
+      var f=Math.max(0,Math.min(1,(p-KEYS[i])/(KEYS[i+1]-KEYS[i]))); f=f*f*(3-2*f);
+      var a=list[i], b=list[i+1];
+      return typeof a==='number' ? a+(b-a)*f : [a[0]+(b[0]-a[0])*f,a[1]+(b[1]-a[1])*f,a[2]+(b[2]-a[2])*f];
+    }
+    function size(){ W=sky.width=Math.max(48,Math.ceil(innerWidth/8)); H=sky.height=Math.max(48,Math.ceil(innerHeight/8)); }
+    function goal(){ var max=d.documentElement.scrollHeight-innerHeight; return max>0?Math.max(0,Math.min(1,scrollY/max)):0; }
+    function draw(time){
+      var t=(time-t0)/1000, M=Math.max(W,H);
+      ps+=(goal()-ps)*(still?1:.05);
+      ctx.clearRect(0,0,W,H);
+      SHAPES.forEach(function(b){
+        var w=still?b.ph:t*2*Math.PI/b.T+b.ph, c=at(b.c,ps);
+        var R=at(b.r,ps)*M*(1+.06*Math.sin(w*1.3));
+        var rgb=Math.round(c[0])+','+Math.round(c[1])+','+Math.round(c[2]);
+        ctx.save();
+        ctx.translate((at(b.x,ps)+.07*Math.sin(w))*W,(at(b.y,ps)+.06*Math.cos(w*.8))*H);
+        ctx.rotate(at(b.rot,ps)+.15*Math.sin(w*.5));
+        ctx.scale(at(b.sx,ps),at(b.sy,ps));
+        var g=ctx.createRadialGradient(0,0,0,0,0,R);
+        g.addColorStop(0,'rgba('+rgb+','+b.a+')');
+        g.addColorStop(.55,'rgba('+rgb+','+(b.a*.45).toFixed(3)+')');
+        g.addColorStop(1,'rgba('+rgb+',0)');
+        ctx.fillStyle=g; ctx.beginPath(); ctx.arc(0,0,R,0,Math.PI*2); ctx.fill();
+        ctx.restore();
+      });
+    }
+    size(); ps=goal();
+    if(still){
+      draw(t0);
+      addEventListener('resize',function(){ size(); draw(t0); });
+      addEventListener('scroll',function(){ draw(t0); },{passive:true});
+    } else {
+      addEventListener('resize',size);
+      (function loop(time){ draw(time); requestAnimationFrame(loop); })(t0);
+    }
+  })();
 
   /* kinds of work: the chips, and the card they change */
   var UC=[
