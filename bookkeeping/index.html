@@ -190,7 +190,7 @@ window.WEDGE = (function () {
   };
   return {
     endpoint: null,
-    sheet: "https://script.google.com/macros/s/AKfycbwfCScLJyqVr5G6LWdxwj9-RSmKgegp920hUruuDPJVsuxCDPyDLjWuY5wYgkmNkenUzg/exec",
+    sheet: "/api/results",
     wedge: "W1",
   intro: {
     eyebrow: "Nine taps · about a minute",
@@ -546,14 +546,15 @@ window.WEDGE = (function () {
     return r.freed.toFixed(1) + " hours a week could come off the desk, worth " + money(r.annual) +
       " a year.\n\n" + answersText();
   }
-  /* Fire-and-forget: the Apps Script answers from another address, so the page
-     sends as plain text and does not wait to read the reply. */
+  /* The site's own function saves the result, then copies it to the Sheet.
+     A refusal comes back as an error, so the owner is told it did not send. */
   function toSheet(stage, r, who) {
     const payload = Object.assign({ visit: VISIT, stage, calculator: CALC, lead: LEAD, src: SRC,
       hours: r.freed, monthly: r.monthly, annual: r.annual, total: r.total, residual: r.residual,
       extra: r.extra ? strip(r.extra.value) : "", flags: r.flags.map(f => strip(f.title)).join(" | "),
       answers: answersText() }, who || {});
-    return fetch(SHEET, { method: "POST", mode: "no-cors", body: JSON.stringify(payload) });
+    return fetch(SHEET, { method: "POST", body: JSON.stringify(payload) })
+      .then(res => { if (!res.ok) throw new Error("not saved"); return res; });
   }
   let sentResult = "";
   function renderResult() {
