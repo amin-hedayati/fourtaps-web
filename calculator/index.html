@@ -180,7 +180,10 @@ main{position:relative;padding:72px 0 calc(96px + env(safe-area-inset-bottom,0px
   [q,h,r,s].forEach(function(el){ el.addEventListener('input',draw); });
   $('form').addEventListener('submit',function(e){ e.preventDefault(); });
   /* a company's code on this link follows them into the full calculator */
-  if(location.search) $('full').href='../quoting/'+location.search;
+  if(location.search){
+    $('full').href='../quoting/'+location.search;
+    [].forEach.call(d.querySelectorAll('a[href="../"]'),function(a){ a.href='../'+location.search; });
+  }
   draw();
 })();
 </script>

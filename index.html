@@ -717,6 +717,9 @@ section[id]{scroll-margin-top:76px}
     return '<span class="display ind">'+esc(x)+'<i aria-hidden="true"><b></b><b></b><b></b><b></b></i></span>';
   }).join('');
 
+  /* a company's code on this link follows them into the calculators */
+  if(location.search) all('a[href="quoting/"],a[href="bookkeeping/"]').forEach(function(a){ a.href+=location.search; });
+
   /* the four steps */
   var steps=all('.step'), panels=all('.panel');
   function step(i,focus){
