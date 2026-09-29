@@ -33,15 +33,16 @@ section[id]{scroll-margin-top:76px}
 .sky{position:fixed;inset:0;z-index:-1;width:100%;height:100%;pointer-events:none}
 
 /* nav */
-.nav{position:sticky;top:0;z-index:20;padding-top:env(safe-area-inset-top,0px);backdrop-filter:saturate(1.5) blur(16px);-webkit-backdrop-filter:saturate(1.5) blur(16px);background:rgba(243,245,250,.8);border-bottom:1px solid rgba(10,15,44,.08)}
+.nav{position:sticky;top:0;z-index:20;padding-top:env(safe-area-inset-top,0px);background:rgb(243,245,250);border-bottom:1px solid rgba(10,15,44,.08);transition:background-color .35s ease}
+.nav.moved{background:rgba(243,245,250,.62);backdrop-filter:saturate(1.5) blur(16px);-webkit-backdrop-filter:saturate(1.5) blur(16px)}
 .nav-in{height:76px;display:flex;align-items:center;justify-content:space-between;gap:24px}
 .brand{display:flex;align-items:center;gap:12px}
 .brand-name{font-size:23px;font-weight:700}
 .navlinks{display:flex;align-items:center;gap:6px}
 .navlink{font-size:15px;font-weight:600;color:#0A0F2C;padding:8px 14px;border-radius:10px;transition:background .25s}
 .navlink:hover{background:rgba(42,59,245,.08);color:var(--tap)}
-.logo{width:36px;height:36px;border-radius:11px;background:var(--tap);display:flex;align-items:center;justify-content:center;gap:3px;flex-shrink:0}
-.pill{width:5px;height:5px;border-radius:50%;background:#FFFFFF}
+.logo{width:36px;height:36px;border-radius:11px;background:var(--tap);display:grid;grid-template-columns:repeat(2,auto);place-content:center;gap:4px;flex-shrink:0}
+.pill{width:7px;height:7px;border-radius:50%;background:#FFFFFF}
 .pill.lime{background:#D7FF3F}
 
 /* buttons */
@@ -138,7 +139,7 @@ section[id]{scroll-margin-top:76px}
 .marquee{display:flex;width:max-content;animation:marquee 40s linear infinite}
 .marquee:hover{animation-play-state:paused}
 .ind{display:flex;align-items:center;gap:32px;padding-right:32px;font-size:26px;font-weight:600;white-space:nowrap;color:#FFFFFF}
-.ind i{display:flex;gap:4px}
+.ind i{display:grid;grid-template-columns:repeat(2,auto);gap:4px}
 .ind i b{width:6px;height:6px;border-radius:50%;background:#D7FF3F}
 
 /* cards */
@@ -205,8 +206,8 @@ section[id]{scroll-margin-top:76px}
 .book{padding:128px 0 96px}
 .cta{position:relative;overflow:hidden;border-radius:36px;background:var(--tap);color:#FFFFFF;padding:88px 64px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:28px}
 .cta-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.08) 1px,transparent 1px);background-size:56px 56px}
-.cta-pills{position:relative;display:flex;gap:9px;align-items:center}
-.cta-pills .pill{width:13px;height:13px}
+.cta-pills{position:relative;display:grid;grid-template-columns:repeat(2,auto);gap:8px}
+.cta-pills .pill{width:12px;height:12px}
 .cta h2{position:relative;margin:0;font-size:68px;line-height:1.02;font-weight:700;max-width:880px;text-wrap:balance}
 .cta p{position:relative;margin:0;font-size:20px;line-height:1.55;color:rgba(255,255,255,.88);max-width:560px}
 .cta-row{position:relative;display:flex;flex-wrap:wrap;justify-content:center;gap:14px}
@@ -216,8 +217,8 @@ section[id]{scroll-margin-top:76px}
 .foot{padding:32px 0 calc(48px + env(safe-area-inset-bottom,0px));font-size:15px;color:#4B5270}
 .foot-in{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px}
 .foot-brand{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
-.foot-brand .logo{width:28px;height:28px;border-radius:9px;gap:2px}
-.foot-brand .pill{width:4px;height:4px}
+.foot-brand .logo{width:28px;height:28px;border-radius:9px;gap:3px}
+.foot-brand .pill{width:5px;height:5px}
 .foot-brand b{font-family:"Plus Jakarta Sans",sans-serif;letter-spacing:-0.025em;font-size:18px;font-weight:700;color:#0A0F2C}
 .foot nav{display:flex;flex-wrap:wrap;gap:24px}
 .foot nav a{color:#4B5270}
@@ -558,6 +559,10 @@ section[id]{scroll-margin-top:76px}
   function all(s){return [].slice.call(d.querySelectorAll(s))}
   function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
   var still=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* the top menu is solid until the page moves */
+  var bar=$('.nav'), moved=function(){ bar.classList.toggle('moved',scrollY>8); };
+  moved(); addEventListener('scroll',moved,{passive:true});
 
   /* the sky: three soft shapes that drift on their own, and take new colours
      and outlines as the page is scrolled. Each list holds four states, for the

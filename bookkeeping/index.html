@@ -39,8 +39,8 @@ body{margin:0;background:var(--paper);color:var(--ink);overflow-x:hidden;
   height:calc(72px + env(safe-area-inset-top,0px));padding:env(safe-area-inset-top,0px) 24px 0}
 .brand{display:flex;align-items:center;gap:12px;color:var(--ink);text-decoration:none}
 .brand-name{font:700 22px/1 var(--display);letter-spacing:-.025em}
-.logo{width:34px;height:34px;border-radius:10px;background:var(--acc);display:flex;align-items:center;justify-content:center;gap:3px;flex-shrink:0}
-.pill{width:5px;height:5px;border-radius:50%;background:#FFFFFF}
+.logo{width:34px;height:34px;border-radius:10px;background:var(--acc);display:grid;grid-template-columns:repeat(2,auto);place-content:center;gap:4px;flex-shrink:0}
+.pill{width:7px;height:7px;border-radius:50%;background:#FFFFFF}
 .pill.lime{background:var(--lime)}
 .home{display:inline-flex;align-items:center;min-height:44px;font-weight:600;font-size:15px;color:var(--muted);text-decoration:none}
 .home:hover{color:var(--acc)}
