@@ -29,17 +29,17 @@ section[id]{scroll-margin-top:76px}
 .section{padding:128px 0}
 .stack{display:flex;flex-direction:column;gap:56px}
 
-/* four grid lines light up, animate, fade */
-.glines{position:absolute;inset:0;pointer-events:none;overflow:hidden;-webkit-mask-image:linear-gradient(180deg,#000 0%,#000 70%,transparent 100%);mask-image:linear-gradient(180deg,#000 0%,#000 70%,transparent 100%)}
-.burst{position:absolute;width:170px;height:1px}
-.burst span{position:absolute;top:0;width:1.5px;height:140px;margin-left:-.25px;background:linear-gradient(180deg,transparent 0%,rgba(170,215,40,.9) 35%,var(--tap) 75%,transparent 100%);opacity:0;transform:translateY(-120px);animation:pulseDown var(--t) cubic-bezier(.37,0,.63,1) infinite backwards;animation-delay:var(--d)}
-.burst span:nth-child(1){left:0}
-.burst span:nth-child(2){left:56px;animation-delay:calc(var(--d) + .5s)}
-.burst span:nth-child(3){left:112px;animation-delay:calc(var(--d) + 1s)}
-.burst span:nth-child(4){left:168px;animation-delay:calc(var(--d) + 1.5s)}
-.burst::before{content:"";position:absolute;left:-24px;top:-60px;width:216px;height:calc(var(--dist) + 180px);background:linear-gradient(180deg,transparent 0%,color-mix(in srgb,var(--tap) 16%,transparent) 40%,rgba(215,255,63,.18) 70%,transparent 100%);filter:blur(24px);opacity:0;animation:glowCol var(--t) ease-in-out infinite backwards;animation-delay:var(--d)}
-@keyframes pulseDown{0%{opacity:0;transform:translateY(-60px)}6%{opacity:.5}18%{opacity:.4}26%{opacity:0;transform:translateY(var(--dist))}100%{opacity:0;transform:translateY(var(--dist))}}
-@keyframes glowCol{0%{opacity:0}8%{opacity:.9}22%{opacity:.5}32%,100%{opacity:0}}
+/* four taps, now and then: four soft marks in a row, the last one lime, as in the logo */
+.taps4{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none}
+.tap4{position:absolute;display:flex;gap:24px}
+.tap4 i{position:relative;width:11px;height:11px;border-radius:50%;background:var(--tap);opacity:0;
+  animation:tapDot 2.6s cubic-bezier(.2,.8,.2,1) both;animation-delay:calc(var(--n)*.28s)}
+.tap4 i::after{content:"";position:absolute;inset:-15px;border-radius:50%;border:1.5px solid var(--tap);opacity:0;
+  animation:tapRing 2.6s cubic-bezier(.2,.8,.2,1) both;animation-delay:calc(var(--n)*.28s)}
+.tap4 i:nth-child(4){background:#A9D61F}
+.tap4 i:nth-child(4)::after{border-color:#A9D61F}
+@keyframes tapDot{0%{opacity:0;transform:scale(.3)}10%{opacity:.4;transform:scale(1)}18%{transform:scale(.72)}30%{opacity:.34;transform:scale(1)}100%{opacity:0;transform:scale(1)}}
+@keyframes tapRing{0%,12%{opacity:0;transform:scale(.35)}20%{opacity:.34}75%,100%{opacity:0;transform:scale(1.55)}}
 
 /* the sky behind the whole page: drawn small on a canvas and stretched, so it stays light to run */
 .sky{position:fixed;inset:0;z-index:-1;width:100%;height:100%;pointer-events:none}
@@ -284,7 +284,7 @@ section[id]{scroll-margin-top:76px}
 }
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
-  .glines{display:none}
+  .taps4{display:none}
   *,*::before,*::after{animation:none !important;transition:none !important}
 }
 </style>
@@ -292,6 +292,7 @@ section[id]{scroll-margin-top:76px}
 <body>
 <div class="page">
 <canvas class="sky" id="sky" aria-hidden="true"></canvas>
+<div class="taps4" id="taps4" aria-hidden="true"></div>
 
 <header class="nav">
 <div class="wrap nav-in">
@@ -311,7 +312,6 @@ section[id]{scroll-margin-top:76px}
 <main>
 
 <section id="top" class="hero">
-<div class="glines" aria-hidden="true" id="glines"></div>
 <div class="wrap hero-in">
 <h1 class="display h1">
 <span class="word" style="animation-delay:.1s">Turn</span>
@@ -570,16 +570,24 @@ section[id]{scroll-margin-top:76px}
   function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
   var still=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  /* four lines that light up behind the headline */
-  var g=$('#glines');
-  if(g&&!still){
-    var t=28,n=8,html='';
-    for(var i=0;i<n;i++){
-      html+='<div class="burst" style="top:'+(Math.random()*60).toFixed(1)+'%;left:'+(2+Math.random()*82).toFixed(1)+
-        '%;--d:'+(4.8+i*(t/n)+Math.random()*1.2).toFixed(2)+'s;--t:'+t+'s;--dist:'+Math.round(200+Math.random()*260)+
-        'px"><span></span><span></span><span></span><span></span></div>';
-    }
-    g.innerHTML=html;
+  /* four taps, now and then, somewhere on the screen */
+  var taps=$('#taps4');
+  if(taps&&!still){
+    var tap=function(){
+      if(d.hidden) return;
+      var g=d.createElement('div');
+      g.className='tap4';
+      var k=.85+Math.random()*.55, wide=116*k;
+      g.style.left=Math.round(24+Math.random()*Math.max(0,innerWidth-wide-48))+'px';
+      g.style.top=Math.round(90+Math.random()*Math.max(0,innerHeight-180))+'px';
+      g.style.transformOrigin='0 50%';
+      g.style.transform='rotate('+(Math.random()*16-8).toFixed(1)+'deg) scale('+k.toFixed(2)+')';
+      g.innerHTML='<i style="--n:0"></i><i style="--n:1"></i><i style="--n:2"></i><i style="--n:3"></i>';
+      taps.appendChild(g);
+      setTimeout(function(){ g.remove(); },3800);
+    };
+    setTimeout(tap,1400);
+    setInterval(tap,4200);
   }
 
   /* the sky: three soft shapes that drift on their own, and take new colours
