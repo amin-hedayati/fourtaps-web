@@ -13,200 +13,184 @@
   --paper:#F3F5FA; --card:#FFFFFF; --ink:#0A0F2C; --muted:#4B5270;
   --rule:#DDE1EC; --rule2:#C3C9DC;
   --acc:#2A3BF5; --acc-soft:#E7EAFE; --acc-ink:#FFFFFF;
-  --lime:#D7FF3F; --night:#0A0F2C;
-  --warn:#8A5300; --warn-soft:#FFF1D6;
+  --lime:#D7FF3F; --night:#0A0F2C; --warn-soft:#FFF1D6;
   --display:"Plus Jakarta Sans",ui-sans-serif,system-ui,sans-serif;
   --sans:"Public Sans",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
-  --maxw:640px;
   color-scheme:light;
 }
 *{box-sizing:border-box}
 [hidden]{display:none!important}
 html{-webkit-text-size-adjust:100%}
-body{margin:0;background:var(--paper);color:var(--ink);overflow-x:hidden;
-  font:400 17px/1.6 var(--sans);
-  -webkit-font-smoothing:antialiased}
-.wrap{position:relative;max-width:none;margin:0;padding:0}
-#app,footer{position:relative;z-index:1}
-.gridbg{position:fixed;inset:0;z-index:0;pointer-events:none;
-  background-image:linear-gradient(rgba(10,15,44,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(10,15,44,.06) 1px,transparent 1px);
-  background-size:56px 56px;background-position:center top;
-  -webkit-mask-image:radial-gradient(ellipse 70% 60% at 50% 20%,#000 10%,transparent 75%);
-  mask-image:radial-gradient(ellipse 70% 60% at 50% 20%,#000 10%,transparent 75%)}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 17px/1.6 var(--sans);-webkit-font-smoothing:antialiased}
+.page{min-height:100vh;overflow-x:clip}
+a{color:inherit}
 
-/* ---- the bar at the top ---- */
-.top{position:absolute;top:0;left:0;right:0;z-index:5;display:flex;align-items:center;justify-content:space-between;gap:16px;
+/* top bar */
+.top{display:flex;align-items:center;justify-content:space-between;gap:16px;max-width:1108px;margin:0 auto;
   height:calc(72px + env(safe-area-inset-top,0px));padding:env(safe-area-inset-top,0px) 24px 0}
-.brand{display:flex;align-items:center;gap:12px;color:var(--ink);text-decoration:none}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none}
 .brand-name{font:700 22px/1 var(--display);letter-spacing:-.025em}
-.logo{width:34px;height:34px;border-radius:10px;background:var(--acc);display:grid;grid-template-columns:repeat(2,auto);place-content:center;gap:4px;flex-shrink:0}
+.logo{width:34px;height:34px;border-radius:10px;background:var(--acc);display:grid;grid-template-columns:repeat(2,auto);place-content:center;gap:4px}
 .pill{width:7px;height:7px;border-radius:50%;background:#FFFFFF}
 .pill.lime{background:var(--lime)}
-.home{display:inline-flex;align-items:center;min-height:44px;font-weight:600;font-size:15px;color:var(--muted);text-decoration:none}
+.home{white-space:nowrap;display:inline-flex;align-items:center;min-height:44px;font-weight:600;font-size:15px;color:var(--muted);text-decoration:none}
 .home:hover{color:var(--acc)}
-.brand:focus-visible,.home:focus-visible{outline:3px solid var(--acc);outline-offset:3px;border-radius:6px}
 
-/* ---- one screen at a time, Typeform-style -------------------------------- */
-.screen{min-height:100vh;min-height:100dvh;display:flex;align-items:center;
-  padding:104px 24px 84px}
-.screen.tall{align-items:flex-start;padding-top:112px}     /* result & contact scroll */
-.frame{width:100%;max-width:var(--maxw);margin:0 auto;animation:rise .6s cubic-bezier(.2,.8,.2,1) both}
-@keyframes rise{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+main{max-width:1108px;margin:0 auto;padding:8px 24px 64px}
+h1{font:700 clamp(28px,4.2vw,40px)/1.08 var(--display);letter-spacing:-.02em;margin:0;text-wrap:balance}
+.dek{font-size:16px;line-height:1.5;color:var(--muted);margin:8px 0 0;max-width:68ch}
+.dek b{color:var(--ink);font-weight:600}
+.grid{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:48px;align-items:start;margin-top:26px}
 
-h1,h2,h3{font-family:var(--display);font-weight:700;line-height:1.15;letter-spacing:-.025em;text-wrap:balance}
+/* left: what they set */
+.sec + .sec{margin-top:30px}
+.sec-h{font:700 13px/1.2 var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--acc);margin:0}
+.sec-n{font-size:14.5px;line-height:1.45;color:var(--muted);margin:4px 0 12px}
+.ctl{padding:16px 0;border-top:1px solid var(--rule)}
+.ctl:first-of-type{border-top:0;padding-top:4px}
+.ctl-top{display:flex;align-items:baseline;justify-content:space-between;gap:16px}
+.ctl-top label,.ctl-top .lk{font:600 16.5px/1.35 var(--sans)}
+.ctl-top output{font:700 19px/1.2 var(--display);color:var(--acc);white-space:nowrap;font-variant-numeric:tabular-nums}
+.ctl-note{font-size:13.5px;color:var(--muted);margin:4px 0 0;line-height:1.45}
+.ctl-note:empty{display:none}
+input[type=range]{-webkit-appearance:none;appearance:none;display:block;width:100%;height:32px;margin:8px 0 0;background:transparent;cursor:pointer}
+input[type=range]:focus{outline:none}
+input[type=range]:focus-visible{outline:3px solid var(--acc);outline-offset:3px;border-radius:8px}
+input[type=range]::-webkit-slider-runnable-track{height:6px;border-radius:99px;background:linear-gradient(to right,var(--acc) var(--p,50%),var(--rule) var(--p,50%))}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:26px;height:26px;margin-top:-10px;border-radius:50%;background:#FFFFFF;border:3px solid var(--acc);box-shadow:0 2px 8px rgba(10,15,44,.22)}
+input[type=range]::-moz-range-track{height:6px;border-radius:99px;background:var(--rule)}
+input[type=range]::-moz-range-progress{height:6px;border-radius:99px;background:var(--acc)}
+input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:#FFFFFF;border:3px solid var(--acc)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.chip{min-height:44px;padding:9px 15px;border-radius:999px;border:1.5px solid var(--rule2);background:var(--card);color:var(--ink);
+  font:600 15px/1.25 var(--sans);cursor:pointer;transition:background .2s,border-color .2s,color .2s}
+.chip small{font-weight:500;color:var(--muted);margin-left:4px}
+.chip:hover{border-color:var(--ink)}
+.chip.on{background:var(--acc);border-color:var(--acc);color:var(--acc-ink)}
+.chip.on small{color:rgba(255,255,255,.75)}
+.chips.multi .chip.on{background:var(--acc-soft);color:var(--ink);border-color:var(--acc)}
+.chips.multi .chip.on::before{content:"✓";color:var(--acc);font-weight:700;margin-right:6px}
+/* who does the quoting, as three stops in one row under the hour slider,
+   evenly spaced: the slider's scale bends so each sits under its own rate */
+.stops{position:relative;height:62px;margin-top:2px}
+.stop{position:absolute;top:0;left:calc(13px + (100% - 26px) * var(--f));transform:translateX(-50%);
+  display:flex;flex-direction:column;align-items:center}
+.stop::before{content:"";width:2px;height:8px;border-radius:2px;background:var(--rule2)}
+.stop button{display:flex;flex-direction:column;align-items:center;gap:1px;white-space:nowrap;padding:6px 12px;border-radius:14px;
+  border:1.5px solid var(--rule2);background:var(--card);color:var(--ink);font:600 13px/1.2 var(--sans);cursor:pointer;
+  transition:background .2s,border-color .2s,color .2s}
+.stop button small{font-weight:500;font-size:12px;color:var(--muted)}
+.stop button:hover{border-color:var(--ink)}
+.stop.on::before{background:var(--acc)}
+.stop.on button{background:var(--acc);border-color:var(--acc);color:var(--acc-ink)}
+.stop.on button small{color:rgba(255,255,255,.75)}
+.stop button:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+.chip:focus-visible,.row-head:focus-visible,.btn:focus-visible{outline:3px solid var(--acc);outline-offset:3px}
 
-/* number pill above the question, the Typeform tell */
-.qnum{display:inline-flex;align-items:center;gap:8px;color:var(--acc);
-  font:700 15px/1 "Public Sans",sans-serif;margin-bottom:16px}
-.qnum .arw{font-size:15px;transform:translateY(.5px)}
+/* our guesses, one line each */
+.rows{background:var(--card);border:1.5px solid var(--rule);border-radius:20px;overflow:hidden}
+.rows.unlock{border-color:color-mix(in srgb,var(--acc) 45%,var(--rule))}
+.row + .row{border-top:1px solid var(--rule)}
+.row-head{display:grid;grid-template-columns:minmax(0,1fr) auto;column-gap:12px;align-items:center;width:100%;min-height:60px;
+  padding:12px 18px;background:none;border:0;color:inherit;font:inherit;text-align:left;cursor:pointer}
+.row-head:hover .row-edit{text-decoration:underline}
+.row-q{font-size:13.5px;line-height:1.3;color:var(--muted)}
+.row-a{font-size:16px;line-height:1.35;font-weight:600;margin-top:2px}
+.row-a .why{font-weight:400;color:var(--muted);font-size:14px}
+.tag{display:inline-block;font:700 10.5px/1 var(--sans);letter-spacing:.06em;text-transform:uppercase;border-radius:999px;padding:4px 7px;margin-right:8px;
+  vertical-align:2px;color:var(--muted);background:var(--paper);border:1px solid var(--rule)}
+.row.yours .tag{color:var(--acc);background:var(--acc-soft);border-color:transparent}
+.row-edit{grid-column:2;grid-row:1 / span 2;font-weight:600;font-size:14.5px;color:var(--acc)}
+.row.open .row-head{background:var(--paper)}
+.row-body{padding:2px 18px 16px;background:var(--paper)}
+.row-body .chips{margin-top:0}
+.done{margin-top:12px}
 
-.q{font-family:var(--display);font-weight:700;letter-spacing:-.025em;
-  font-size:clamp(24px,4.6vw,34px);line-height:1.18;margin:0 0 8px;text-wrap:balance}
-.note{color:var(--muted);font-size:16px;margin:8px 0 0;line-height:1.5}
-.note b{color:var(--ink)}
-
-/* choices */
-.opts{display:flex;flex-direction:column;gap:10px;margin-top:28px}
-.opt{display:flex;align-items:center;gap:14px;width:100%;min-height:58px;text-align:left;cursor:pointer;
-  background:var(--card);border:1.5px solid var(--rule);
-  border-radius:16px;padding:12px 16px;font:500 17px/1.35 var(--sans);color:var(--ink);
-  transition:background .2s,border-color .2s,transform .2s cubic-bezier(.2,.8,.2,1)}
-.opt:hover{border-color:var(--ink)}
-.opt:active{transform:scale(.99)}
-.opt.on{background:var(--acc-soft);border-color:var(--acc)}
-.opt:focus-visible{outline:3px solid var(--acc);outline-offset:3px}
-.opt .key{flex:0 0 auto;width:32px;height:32px;border-radius:10px;display:grid;place-items:center;
-  font:700 14px/1 var(--display);color:var(--ink);
-  border:1.5px solid var(--rule);
-  background:var(--paper);transition:background .2s,color .2s,border-color .2s}
-.opt.on .key{background:var(--acc);color:var(--acc-ink);border-color:var(--acc)}
-.opt .lbl{flex:1;min-width:0}
-.opt .lbl small{display:block;color:var(--muted);font-size:14px;font-weight:400;margin-top:3px}
-.opt .ck{flex:0 0 auto;width:18px;opacity:0;color:var(--acc);font-weight:700;transition:opacity .2s}
-.opt.on .ck{opacity:1}
-
-/* text / number field */
-.field{margin-top:26px}
-input[type=number],input[type=text],input[type=email],input[type=tel]{
-  width:100%;background:var(--card);color:var(--ink);
-  border:1.5px solid var(--rule);
-  border-radius:14px;padding:14px 16px;font:600 clamp(18px,3vw,22px)/1.3 var(--sans);
-  transition:border-color .2s,box-shadow .2s}
-input::placeholder{color:var(--muted);opacity:.7;font-weight:500}
-input:focus{outline:none;border-color:var(--acc);box-shadow:0 0 0 3px color-mix(in srgb,var(--acc) 18%,transparent)}
-
-/* controls row: OK + keyboard hint */
-.controls{display:flex;align-items:center;gap:16px;margin-top:30px;flex-wrap:wrap}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:54px;background:var(--acc);color:var(--acc-ink);
-  border:none;border-radius:14px;padding:12px 24px;font:700 16px/1.25 var(--sans);text-align:left;cursor:pointer;
+/* right: the number and what it means */
+.panel{position:sticky;top:20px;display:flex;flex-direction:column;gap:16px}
+.card{background:var(--night);color:#FFFFFF;border-radius:24px;padding:24px 24px 20px;display:flex;flex-direction:column}
+.card .pair{margin-bottom:16px}
+.card .lock{margin-top:auto}    /* when the card is stretched, the locked figure sits at its foot */
+.year{display:inline-block;transform-origin:left center;font:700 clamp(44px,6vw,64px)/1 var(--display);letter-spacing:-.02em;color:var(--lime);font-variant-numeric:tabular-nums}
+.year.bump{animation:bump .35s ease}
+@keyframes bump{40%{transform:scale(1.035)}}
+.lab{font-size:13.5px;line-height:1.4;color:rgba(255,255,255,.75);margin-top:6px}
+.pair{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-top:16px;padding-top:14px;border-top:1px solid rgba(255,255,255,.16)}
+.pair b{font:700 22px/1 var(--display);letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.pair b small{font:600 12px/1 var(--sans);letter-spacing:0;color:rgba(255,255,255,.6);margin-left:4px}
+.lock{padding:14px 16px;border-radius:16px;border:1px dashed rgba(255,255,255,.3);background:rgba(255,255,255,.06);transition:background .3s}
+.lock.open{background:var(--acc);border:1px solid var(--acc)}
+.lock-h{font:700 12px/1.2 var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--lime)}
+.lock-v{font:700 22px/1.2 var(--display);letter-spacing:-.01em;margin-top:8px}
+.lock.open .lock-v{font-size:30px}
+.lock-n{font-size:13.5px;line-height:1.45;color:rgba(255,255,255,.82);margin-top:6px}
+.dots{display:flex;gap:6px;margin-top:10px}
+.dots i{width:24px;height:6px;border-radius:99px;background:rgba(255,255,255,.22)}
+.dots i.on{background:var(--lime)}
+.lock.open .dots{display:none}
+.box{background:var(--card);border:1px solid var(--rule);border-radius:20px;padding:16px 20px 18px}
+.box h3{font:700 12px/1.2 var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:0 0 6px}
+.bar{display:grid;grid-template-columns:minmax(110px,1.3fr) 2fr auto;gap:10px;align-items:center;font-size:14px;margin-top:8px}
+.track{height:10px;border-radius:99px;background:var(--acc-soft);overflow:hidden}
+.track i{display:block;height:100%;background:var(--acc);border-radius:99px}
+.bar span:last-child{font-weight:600;font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
+.flag{background:var(--warn-soft);border-radius:14px;padding:12px 14px;font-size:14px;line-height:1.5}
+.flag b{display:block;margin-bottom:2px}
+.flags{display:flex;flex-direction:column;gap:10px}
+.flags:empty{display:none}
+.cta{display:flex;flex-wrap:wrap;gap:10px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:12px 22px;border:0;border-radius:14px;
+  background:var(--acc);color:var(--acc-ink);font:700 16px/1.25 var(--sans);text-decoration:none;cursor:pointer;
   transition:transform .25s cubic-bezier(.2,.8,.2,1),box-shadow .25s}
 .btn:hover{transform:translate(-3px,-3px);box-shadow:5px 5px 0 0 var(--ink)}
-.btn:active{transform:none;box-shadow:none}
-.btn:focus-visible,.lnk:focus-visible{outline:3px solid var(--acc);outline-offset:3px}
-.btn[disabled]{opacity:.4;cursor:default;transform:none;box-shadow:none}
-.btn .en{display:inline-grid;place-items:center;min-width:22px;height:22px;padding:0 5px;border-radius:6px;
-  background:rgba(255,255,255,.2);font:700 12px/1 "Public Sans",sans-serif}
-.hint{color:var(--muted);font-size:14px}
-.hint kbd{font:700 12px/1 "Public Sans",sans-serif;background:var(--card);border:1px solid var(--rule2);
-  border-bottom-width:2px;border-radius:6px;padding:3px 7px;color:var(--ink)}
-.lnk{background:none;border:none;border-radius:8px;color:var(--muted);font:600 15px var(--sans);cursor:pointer;
-  min-height:44px;padding:8px 4px}
-.lnk:hover{color:var(--acc)}
+.btn.alt{background:var(--card);color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--rule2)}
+.btn.alt:hover{box-shadow:inset 0 0 0 1.5px var(--ink),5px 5px 0 0 var(--ink)}
+.btn.small{min-height:44px;padding:8px 18px;font-size:15px}
+.trust{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+.trust li{display:grid;grid-template-columns:18px minmax(0,1fr);gap:6px;font-size:14px;line-height:1.5;color:var(--muted)}
+.trust li::before{content:"✓";color:var(--acc);font-weight:700}
+.trust b{color:var(--ink);font-weight:600}
+.fine{font-size:13px;line-height:1.5;color:var(--muted);margin:0}
+.btn[disabled]{opacity:.5;cursor:default;transform:none;box-shadow:none}
+/* the written result: a short form that opens in place */
+.mail{position:relative;display:flex;flex-direction:column;gap:10px;background:var(--card);border:1px solid var(--rule);border-radius:20px;padding:16px 18px}
+.mail-h{font:700 16px/1.3 var(--display);margin:0}
+.mail input{width:100%;background:var(--card);color:var(--ink);border:1.5px solid var(--rule);border-radius:12px;padding:12px 14px;font:500 16px/1.3 var(--sans)}
+.mail input:focus{outline:none;border-color:var(--acc);box-shadow:0 0 0 3px color-mix(in srgb,var(--acc) 18%,transparent)}
+.mail input.hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
+.mail-err{margin:0;font-size:14px;color:#B42318}
+.sent{background:var(--card);border:1px solid var(--rule);border-radius:20px;padding:16px 18px;font-size:15px;line-height:1.5}
+.sent b{display:block;font:700 17px/1.3 var(--display);margin-bottom:4px}
+.foot{max-width:1108px;margin:0 auto;padding:0 24px calc(40px + env(safe-area-inset-bottom,0px));font-size:13px;line-height:1.65;color:var(--muted)}
 
-/* fixed progress bar, pinned to the very bottom */
-.tfprog{position:fixed;left:0;bottom:0;width:100%;height:6px;background:var(--rule);z-index:30}
-.tfprog i{display:block;height:100%;width:0;background:var(--acc);border-radius:0 6px 6px 0;
-  transition:width .45s cubic-bezier(.4,0,.2,1)}
-
-/* ---- the number so far, on the question screens ---- */
-.sofar{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:25;
-  display:inline-flex;align-items:baseline;gap:8px;white-space:nowrap;padding:12px 20px;border-radius:999px;
-  background:var(--night);color:rgba(255,255,255,.75);font:600 14px/1 var(--sans);
-  box-shadow:0 18px 40px -16px rgba(10,15,44,.55);animation:riseX .5s cubic-bezier(.2,.8,.2,1) both}
-.sofar b{font:700 21px/1 var(--display);letter-spacing:-.02em;color:var(--lime);font-variant-numeric:tabular-nums}
-.sofar.wait{background:var(--card);color:var(--muted);border:1px solid var(--rule);box-shadow:none;animation:none}
-.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
-@keyframes riseX{from{opacity:0;transform:translate(-50%,14px)}to{opacity:1;transform:translateX(-50%)}}
-
-/* ---- intro (welcome screen) ---- */
-.eyebrow{display:inline-flex;align-items:center;gap:10px;font:700 13px/1.3 "Public Sans",sans-serif;
-  letter-spacing:.14em;text-transform:uppercase;color:var(--acc);margin-bottom:20px}
-.eyebrow::before{content:"";flex:0 0 auto;width:22px;height:2px;background:currentColor;border-radius:2px}
-.intro h1{font-size:clamp(36px,8vw,60px);line-height:1.02;letter-spacing:-.02em;margin:0}
-.intro .dek{font-size:19px;color:var(--muted);margin:20px 0 0;line-height:1.55}
-.intro .dek b{color:var(--ink);font-weight:600}
-.intro .controls{margin-top:32px}
-.fine{font-size:13px;color:var(--muted);margin:22px 0 0;line-height:1.55;max-width:52ch}
-
-/* ---- result ---- */
-.big{font-family:var(--display);font-weight:700;font-size:clamp(46px,12vw,84px);
-  line-height:1;color:var(--acc);font-variant-numeric:tabular-nums;letter-spacing:-.02em}
-.big small{font-size:.36em;color:var(--muted);font-weight:600;letter-spacing:0;margin-left:3px}
-.rlabel{color:var(--muted);font-size:16px;margin-top:8px}
-.three{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px 18px;margin:24px 0 4px;align-items:start;
-  background:var(--night);color:#FFFFFF;border-radius:24px;padding:28px 24px}
-.three .big{font-size:clamp(26px,5.2vw,36px);color:var(--lime)}
-.three .big small{color:rgba(255,255,255,.6)}
-.three .rlabel{font-size:13.5px;line-height:1.4;margin-top:6px;color:rgba(255,255,255,.75)}
-@media(max-width:560px){.three{grid-template-columns:1fr;gap:20px;text-align:left}
-  .three .big{font-size:40px}}
-
-h3.sec{font:700 13px/1 "Public Sans",sans-serif;letter-spacing:.12em;
-  text-transform:uppercase;color:var(--muted);margin:32px 0 12px}
-.bars{display:flex;flex-direction:column;gap:10px}
-.bar-row{display:grid;grid-template-columns:minmax(120px,1.3fr) 2fr auto;gap:12px;align-items:center;font-size:14.5px}
-.bar-row .bl{color:var(--ink)}
-.bar-track{background:var(--acc-soft);border-radius:99px;height:12px;overflow:hidden}
-.bar-track i{display:block;height:100%;background:var(--acc);border-radius:99px;
-  animation:grow .7s cubic-bezier(.4,0,.2,1) both}
-@keyframes grow{from{width:0!important}}
-.bar-row .bh{font-weight:600;font-size:13.5px;color:var(--muted);
-  font-variant-numeric:tabular-nums;white-space:nowrap}
-@media(max-width:520px){.bar-row{grid-template-columns:1fr auto;gap:4px 10px}
-  .bar-track{grid-column:1/3;order:3}}
-
-.upside{margin-top:24px;padding:24px;border-radius:24px;background:var(--acc);color:#FFFFFF}
-.upside .ul{font:700 13px/1 "Public Sans",sans-serif;letter-spacing:.12em;text-transform:uppercase;color:var(--lime)}
-.upside .uv{font-family:var(--display);font-weight:700;letter-spacing:-.02em;font-size:clamp(28px,6vw,40px);line-height:1.1;margin-top:10px;color:#FFFFFF}
-.upside .un{font-size:14.5px;color:rgba(255,255,255,.88);margin-top:8px;line-height:1.5}
-
-.flag{margin-top:12px;padding:16px 18px;border-radius:16px;font-size:14.5px;line-height:1.55;
-  background:var(--card);border:1px solid var(--rule)}
-.flag b{display:block;margin-bottom:4px;font-size:15.5px}
-.flag.warn{background:var(--warn-soft);border-color:transparent}
-.caveat{background:var(--warn-soft);border-radius:16px;
-  padding:16px 18px;margin-top:22px;font-size:14.5px;color:var(--ink);line-height:1.55}
-textarea.caveat{display:block;border:0;font:var(--sans);font-size:14px;resize:vertical}
-
-/* ---- contact ---- */
-.fieldrow{display:flex;flex-direction:column;gap:10px;margin-top:22px}
-.done{text-align:center}
-.done .big{width:88px;height:88px;margin:0 auto;border-radius:50%;display:grid;place-items:center;
-  background:var(--lime);color:var(--ink);font-size:40px}
-footer{max-width:var(--maxw);margin:40px auto 0;padding:0 24px calc(40px + env(safe-area-inset-bottom,0px));
-  font-size:13px;color:var(--muted);line-height:1.65}
-body[data-screen="q"] footer,body[data-screen="intro"] footer{display:none}
-
-@media(max-width:520px){.screen{padding:96px 20px 76px}.screen.tall{padding-top:100px}
-  .top{padding-left:20px;padding-right:20px}.brand-name{font-size:21px}footer{padding-left:20px;padding-right:20px}}
+/* phone: the number rides along at the top from the start */
+.mbar{display:none}
+@media(max-width:860px){
+  main{padding-left:20px;padding-right:20px}
+  .top{padding-left:20px;padding-right:20px}
+  .grid{grid-template-columns:minmax(0,1fr);gap:26px;margin-top:18px}
+  .panel{position:static}
+  .mbar{display:flex;position:sticky;top:0;z-index:30;align-items:baseline;gap:10px;margin:14px -20px 0;padding:10px 20px;
+    background:var(--night);color:#FFFFFF;box-shadow:0 14px 30px -18px rgba(10,15,44,.7)}
+  .mbar b{font:700 26px/1 var(--display);letter-spacing:-.02em;color:var(--lime);font-variant-numeric:tabular-nums}
+  .mbar span{font-size:13px;color:rgba(255,255,255,.7)}
+  .mbar em{margin-left:auto;font:700 15px/1 var(--display);font-style:normal;font-variant-numeric:tabular-nums}
+  .year{font-size:44px}
+}
+@media(max-width:520px){.stop button{padding:6px 9px;font-size:12.5px}.brand-name{font-size:20px}.bar{grid-template-columns:1fr auto;gap:4px 10px}.track{grid-column:1 / 3;order:3}}
 @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
-
 </style>
 </head>
 <body>
-<div class="wrap">
-<div class="gridbg" aria-hidden="true"></div>
+<div class="page">
 <header class="top">
-<a class="brand" data-home href="../" aria-label="fourtaps home"><span class="logo" aria-hidden="true"><span class="pill"></span><span class="pill"></span><span class="pill"></span><span class="pill lime"></span></span><span class="brand-name">fourtaps</span></a>
-<a class="home" data-home href="../">← Home</a>
+  <a class="brand" data-home href="../" aria-label="fourtaps home"><span class="logo" aria-hidden="true"><span class="pill"></span><span class="pill"></span><span class="pill"></span><span class="pill lime"></span></span><span class="brand-name">fourtaps</span></a>
+  <a class="home" data-home href="../">← Home</a>
 </header>
-
-<div id="app"></div>
-<footer>Task shares come from 870 Canadian businesses that advertised a quoting or estimating seat in July and August 2026. Your answers and result go to fourtaps when you finish; your name and email only if you give them.</footer>
+<main id="app"></main>
+<footer class="foot">Task shares come from 870 Canadian businesses that advertised a quoting or estimating seat in July and August 2026. What you set goes to fourtaps as you change it; your name and email only if you give them.</footer>
 </div>
-<script>
 
-</script>
 <script>
 window.WEDGE = (function () {
   var TASKS = {
@@ -226,26 +210,27 @@ window.WEDGE = (function () {
     shared: "Shared across a few people — use the average of what those hours cost you."
   };
   return {
-    endpoint: null,
     sheet: "/api/results",
     wedge: "W2",
-    numberAfter: "hoursEach",   // the answer that makes a dollar figure possible
+    trust: [   // only what is true today; tools by name, never their logos
+      "<b>Measured, not guessed:</b> job ads from 870 Canadian businesses hiring estimators, July and August 2026.",
+      "<b>Works with what you use:</b> Excel, Google Sheets, Outlook, Gmail, QuickBooks and Xero. Nothing to replace."
+    ],
   intro: {
-    eyebrow: "Eleven taps · about a minute",
     title: "What do slow quotes cost you?",
-    dek: "Across 870 Canadian businesses hiring estimators, the heaviest part of the job is not writing the quote &mdash; it is <b>looking the numbers up</b>. Tick what actually happens on every quote and we will show you the hours behind each step, and what the jobs you quote late are worth.",
-    cta: "Start &rarr;",
-    fine: "Eleven questions, all of them a tap. When you reach your result, your answers and the result go to fourtaps, so we can talk them through with you. Your name and email go only if you ask for the written result."
+    dek: "Across 870 Canadian businesses hiring estimators, the heaviest part of the job is not writing the quote &mdash; it is <b>looking the numbers up</b>. Set your week below and watch what it costs."
   },
     questions: [
       { id: "who", type: "choice", ask: "Who puts the quotes together?",
         sets: function (v) { return { rate: RATE[v] }; },
         options: [
           { value: "owner", label: "Me", hint: "The most common answer under 20 staff" },
-          { value: "estimator", label: "A dedicated estimator" },
-          { value: "sales", label: "Sales or account staff, between other things" },
-          { value: "shared", label: "Whoever is free that day" } ] },
+          { value: "estimator", label: "A dedicated estimator", chip: "An estimator" },
+          { value: "sales", label: "Sales or account staff, between other things", chip: "Sales staff" },
+          { value: "shared", label: "Whoever is free that day", chip: "Whoever is free" } ] },
       { id: "quotes", type: "choice", numeric: true,
+        slider: { min: 1, max: 80, step: 1, start: 10,
+          show: function (v) { return v + (v === 1 ? " quote" : " quotes"); } },
         ask: "How many quotes go out in a week?",
         note: "Everything that leaves with a price on it, however small.",
         options: [
@@ -255,6 +240,8 @@ window.WEDGE = (function () {
           { value: 45, label: "30 to 60" },
           { value: 80, label: "More than 60" } ] },
       { id: "hoursEach", type: "choice", numeric: true,
+        slider: { min: 0.5, max: 10, step: 0.5, start: 1.5,
+          show: function (v) { return v < 1 ? "30 minutes" : v + (v === 1 ? " hour" : " hours"); } },
         ask: "How long does one take, start to finish?",
         note: "From the request landing to the number going back out.",
         options: [
@@ -273,22 +260,22 @@ window.WEDGE = (function () {
                [55, "About $55 an hour"], [80, "$80 or more"]];
           return bands.map(function (b) { return { value: b[0], label: b[1], hint: b[2] }; });
         } },
+      { id: "priceSrc", type: "choice", ask: "When you price something, where do the numbers come from?",
+        note: "This is the question that decides whether any of it works.",
+        options: [
+          { value: "catalogue", label: "A supplier catalogue or an internal price list", chip: "A catalogue or price list", hint: "A system can look these up directly" },
+          { value: "past", label: "Past jobs, or a spreadsheet we keep", chip: "Past jobs or a spreadsheet", hint: "Extractable, with one pass of tidying" },
+          { value: "rep", label: "I call the supplier rep", hint: "The price is a relationship — harder" },
+          { value: "head", label: "It's in my head", hint: "Honest, and the most common answer" } ] },
       { id: "tasks", type: "multi",
         ask: "Which of these happen on every quote?",
         note: "Untick anything that isn't part of your process. Each one is removable to a different degree, so this changes the answer.",
         options: Object.keys(TASKS).map(function (k) {
           return { value: k, label: TASKS[k].label, hint: TASKS[k].hint }; }) },
-      { id: "priceSrc", type: "choice", ask: "When you price something, where do the numbers come from?",
-        note: "This is the question that decides whether any of it works.",
-        options: [
-          { value: "catalogue", label: "A supplier catalogue or an internal price list", hint: "A system can look these up directly" },
-          { value: "past", label: "Past jobs, or a spreadsheet we keep", hint: "Extractable, with one pass of tidying" },
-          { value: "rep", label: "I call the supplier rep", hint: "The price is a relationship — harder" },
-          { value: "head", label: "It's in my head", hint: "Honest, and the most common answer" } ] },
       { id: "intake", type: "choice", ask: "How do the requests arrive?",
         options: [
-          { value: "email", label: "Email, mostly with attachments" },
-          { value: "portal", label: "A bid portal or tender site", hint: "Structured input on a deadline — the best case" },
+          { value: "email", label: "Email, mostly with attachments", chip: "Email with attachments" },
+          { value: "portal", label: "A bid portal or tender site", chip: "A bid portal", hint: "Structured input on a deadline — the best case" },
           { value: "drawings", label: "Drawings and plan sets" },
           { value: "mixed", label: "A mix of email and phone" },
           { value: "phone", label: "Mostly phone", hint: "Somebody still has to write it down" } ] },
@@ -404,48 +391,171 @@ window.WEDGE = (function () {
     }
   };
 })();
-
 </script>
 <script>
-/* Shared engine for both wedge landings — Typeform-style: one question a screen,
-   letter-keyed answers, keyboard-first, a progress bar pinned to the bottom. The
-   page declares window.WEDGE with its questions, task list and arithmetic;
-   everything below is presentation. Nothing is sent anywhere until the visitor
-   asks for their result to be emailed — at which point the answers, the result and
-   the campaign the visit came from (`src`) go with it. */
+/* The quoting calculator on one page: three sliders, then our guesses for the
+   rest, each a line the visitor can change, and three questions that unlock
+   the work lost to slow quotes. The figures beside them change as they go.
+   The sums are in window.WEDGE above; everything below is the page. */
 (function () {
-  const W = window.WEDGE;
-  /* Where the answers go. A page that sets endpoint: null has nowhere to send
-     them — the standalone copies Mostafa opens from a folder — so it ends at
-     the result and offers to print instead of asking for an email it cannot
-     deliver. */
-  const ENDPOINT = W.endpoint === undefined ? "/api/leads" : W.endpoint;
-  /* A copy with no endpoint may still send to a Google Sheet: `sheet` is the web
-     address of the Apps Script in tools/web/collect.gs. It gets one row per visit:
-     the answers and result when the owner reaches the result, and their name and
-     email on the same row if they ask for the written result. With neither, the
-     owner can copy the numbers; a page inside Claude cannot print. */
-  const SHEET = ENDPOINT ? null : (W.sheet || null);
-  const VISIT = Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+  const W = window.WEDGE, Q = W.questions;
+  const byId = id => Q.find(q => q.id === id);
+  const val = (q, k) => typeof q[k] === "function" ? q[k](A) : q[k];
+  const opts = q => val(q, "options") || [];
+  const money = n => "$" + Math.round(n).toLocaleString("en-CA");
+  const strip = s => String(s == null ? "" : s).replace(/<[^>]*>/g, "");
+  const $ = s => document.querySelector(s);
+
+  /* Sliders start where the current calculator starts them; the other answers
+     start at our guess, marked as a guess until the visitor changes it. Two of
+     the guesses are the answers the calculator itself calls the most common. */
+  const A = { quotes: 10, hoursEach: 1.5, rate: 40, priceSrc: "head", intake: "mixed",
+    scope: "some", turnaround: "d2", lost: "dunno", jobValue: 5000 };
+  A.tasks = opts(byId("tasks")).map(o => o.value);
+  const yours = new Set();          // our guesses the visitor has changed
+  const moved = new Set();          // sliders the visitor has moved
+  const WHY = { priceSrc: "the most common answer", lost: "the most common answer" };
+  const FINE = ["priceSrc", "tasks", "intake", "scope"], LOCK = ["turnaround", "lost", "jobValue"];
+  const LABEL = { priceSrc: "Where your prices come from", tasks: "Tasks on every quote", intake: "How requests arrive",
+    scope: "What else that person does", turnaround: "How long customers wait", lost: "Work lost to late quotes",
+    jobValue: "Average job value" };
+  const who = byId("who");
+  /* The hour slider bends between fixed points so the three people under it sit
+     evenly spaced, each under its own rate: $20 at the start, $32 a sixth of the
+     way, $40 halfway, $90 five sixths of the way, $200 at the end. */
+  const BENDS = [[0, 20], [1000 / 6, 32], [500, 40], [5000 / 6, 90], [1000, 200]];
+  const along = (x, from, to) => {
+    for (let i = 1; i < BENDS.length; i++) {
+      const [p0, r0] = [BENDS[i - 1][from], BENDS[i - 1][to]], [p1, r1] = [BENDS[i][from], BENDS[i][to]];
+      if (x <= p1 || i === BENDS.length - 1) return r0 + (r1 - r0) * (x - p0) / (p1 - p0);
+    }
+  };
+  const toRate = p => Math.round(along(p, 0, 1));
+  const toPos = r => along(r, 1, 0);
+  /* Who quotes, as stops at their usual rates. Sales staff ($38) and whoever is
+     free ($40) are one stop: two dollars apart, they would sit on top of each other. */
+  const STOPS = [
+    { who: "estimator", label: "Estimator", rate: who.sets("estimator").rate },
+    { who: "shared", label: "Sales / shared", rate: who.sets("shared").rate },
+    { who: "owner", label: "Me (owner)", rate: who.sets("owner").rate } ];
+
+  const slider = id => {
+    const q = byId(id), s = q.slider;
+    return `<div class="ctl"><div class="ctl-top"><label for="s-${id}">${strip(val(q, "ask"))}</label><output id="o-${id}" for="s-${id}"></output></div>
+      <p class="ctl-note" id="n-${id}"></p>
+      <input type="range" id="s-${id}" min="${s.min}" max="${s.max}" step="${s.step}"></div>`;
+  };
+  const row = id => {
+    const q = byId(id), multi = q.type === "multi";
+    return `<div class="row" id="r-${id}">
+      <button type="button" class="row-head" aria-expanded="false" aria-controls="b-${id}">
+        <span class="row-q">${LABEL[id]}</span>
+        <span class="row-a"><span class="tag"></span><span class="txt"></span></span>
+        <span class="row-edit">Change</span>
+      </button>
+      <div class="row-body" id="b-${id}" hidden>
+        <div class="chips${multi ? " multi" : ""}" role="group" aria-label="${strip(val(q, "ask"))}">${opts(q).map(o =>
+          `<button type="button" class="chip" data-v="${o.value}" aria-pressed="false">${o.chip || o.label}</button>`).join("")}</div>
+        ${multi ? `<button type="button" class="btn small done">Done</button>` : ""}
+      </div>
+    </div>`;
+  };
+
+  $("#app").innerHTML = `
+    <h1>${W.intro.title}</h1>
+    <p class="dek">${W.intro.dek}</p>
+    <div class="mbar" aria-hidden="true"><b id="myear"></b><span>a year</span><em id="mmo"></em></div>
+    <div class="grid">
+      <div>
+        <section class="sec" id="wk" aria-labelledby="h1s">
+          <h2 class="sec-h" id="h1s">Your week</h2>
+          <p class="sec-n">Three sliders. The number moves as you go.</p>
+          ${slider("quotes")}
+          ${slider("hoursEach")}
+          <div class="ctl">
+            <div class="ctl-top"><label for="s-rate">${strip(val(byId("rate"), "ask"))}</label><output id="o-rate" for="s-rate"></output></div>
+            <input type="range" id="s-rate" min="0" max="1000" step="1">
+            <div class="stops" id="stops" role="group" aria-label="Who puts the quotes together">${STOPS.map(s =>
+              `<div class="stop" style="--f:${toPos(s.rate) / 1000}"><button type="button" data-who="${s.who}" aria-pressed="false"><span>${s.label}</span><small>$${s.rate}/hr</small></button></div>`).join("")}</div>
+          </div>
+        </section>
+        <section class="sec" aria-labelledby="h2s">
+          <h2 class="sec-h" id="h2s">Our guesses</h2>
+          <p class="sec-n">We filled these in for you. Change any that are wrong.</p>
+          <div class="rows">${FINE.map(row).join("")}</div>
+        </section>
+        <section class="sec" aria-labelledby="h3s">
+          <h2 class="sec-h" id="h3s">Unlock: work lost to slow quotes</h2>
+          <p class="sec-n">Answer these three and we show what late quotes cost you in jobs.</p>
+          <div class="rows unlock">${LOCK.map(row).join("")}</div>
+        </section>
+      </div>
+      <aside class="panel" aria-label="Your numbers">
+        <div class="card">
+          <div class="year" id="year"></div><div class="lab" id="ylab"></div>
+          <div class="pair">
+            <div><b id="hw"></b><div class="lab" id="hl"></div></div>
+            <div><b id="mo"></b><div class="lab" id="ml"></div></div>
+          </div>
+          <div class="lock" id="lock">
+            <div class="lock-h">Work lost to slow quotes</div>
+            <div class="lock-v" id="lockv"></div>
+            <div class="lock-n" id="lockn"></div>
+            <div class="dots" aria-hidden="true"><i></i><i></i><i></i></div>
+          </div>
+        </div>
+        <div class="box"><h3>Where the hours go</h3><div id="bars"></div></div>
+        <div class="flags" id="flags"></div>
+        <div class="cta">
+          <button type="button" class="btn" id="send">Email me this, with the working</button>
+          <a class="btn alt" data-book href="../book/">Book a free call</a>
+        </div>
+        <form class="mail" id="mail" hidden novalidate>
+          <p class="mail-h">Where should it go?</p>
+          <input id="m-business" type="text" placeholder="Business name" autocomplete="organization" aria-label="Business name">
+          <input id="m-contact" type="text" placeholder="Your name" autocomplete="name" aria-label="Your name">
+          <input id="m-email" type="email" placeholder="Email" autocomplete="email" inputmode="email" aria-label="Email" required>
+          <input id="m-phone" type="tel" placeholder="Phone (optional)" autocomplete="tel" inputmode="tel" aria-label="Phone (optional)">
+          <input id="m-website" class="hp" type="text" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <p class="mail-err" id="m-err" role="alert" hidden></p>
+          <button type="submit" class="btn" id="m-send">Send it</button>
+          <p class="fine">The numbers with the working shown, and the two things worth checking before anyone spends money. No newsletter.</p>
+        </form>
+        <div class="sent" id="sent" role="status" hidden><b>Got it.</b>Mostafa from fourtaps will send your written result, usually within one working day. We read every one of these ourselves.</div>
+        ${W.trust ? `<ul class="trust">${W.trust.map(t => `<li><span>${t}</span></li>`).join("")}</ul>` : ""}
+        <p class="fine">What you set here goes to fourtaps as you change it, so we can talk it through with you. Your name and email go only if you ask for the written result.</p>
+      </aside>
+    </div>`;
+
+  /* warnings only from what the visitor told us, never from our guesses */
+  function flagsFor() {
+    const mine = { quotes: A.quotes, hoursEach: A.hoursEach, rate: A.rate, who: A.who, tasks: A.tasks };
+    yours.forEach(id => { mine[id] = A[id]; });
+    return W.compute(mine).flags;
+  }
+
+  /* ---------- saving ---------- */
+  /* One row per visit in fourtaps' database, copied to the Sheet (web/api/
+     results.js). A visit lasts as long as the browser tab, so a reload replaces
+     the same row; a different company code is a different visit. Nothing goes
+     before the visitor changes something; then what they set is saved a moment
+     after they stop, and when the page is hidden or closed. Stage "first" until
+     the lost-jobs figure is unlocked, "result" once it is, and "contact" from
+     the moment they ask for the written result. */
+  const SHEET = W.sheet;
   const LEAD = (function () {
     try { return (new URLSearchParams(location.search).get("lead") || "").slice(0, 40); } catch (e) { return ""; }
   })();
-  const CALC = W.name || ({ W1: "Bookkeeping", W2: "Quoting" }[W.wedge]) || W.wedge;
-  const $ = s => document.querySelector(s);
-  const esc = s => String(s == null ? "" : s).replace(/[&<>"]/g,
-    c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
-  const A = {};
-  const Q = W.questions;
-  let step = -1;
-  document.body.dataset.wedge = W.wedge;
-  /* the way home keeps the company code the visitor arrived with */
-  if (location.search) document.querySelectorAll("a[data-home]").forEach(a => { a.href = "../" + location.search; });
-
-  /* Where this visitor came from. Read once at load, not at submit: the visitor spends
-     nine to eleven screens in here, and by the time they reach the form the query string
-     may be gone. Stashed in sessionStorage so a mid-flow reload keeps the attribution.
-     Falls back to the referrer host, because a LinkedIn click with no UTMs still says
-     something. Every storage access is guarded — private windows throw on both ends. */
+  const VISIT = (function () {
+    const KEY = "wedge_visit_" + W.wedge + "_" + LEAD;
+    let v = null;
+    try { v = sessionStorage.getItem(KEY); } catch (e) { /* storage blocked */ }
+    if (!v) {
+      v = Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+      try { sessionStorage.setItem(KEY, v); } catch (e) { /* storage blocked */ }
+    }
+    return v;
+  })();
   const SRC = (function () {
     const KEY = "wedge_src";
     let stored = null;
@@ -459,361 +569,174 @@ window.WEDGE = (function () {
         if (h && h !== location.hostname) src = "ref=" + h;
       } catch (e) { /* opaque or malformed referrer */ }
     }
-    /* A fresh query string wins; otherwise keep whatever the first screen recorded. */
+    /* A fresh query string wins; otherwise keep whatever the first visit recorded. */
     if (!qs && stored) return stored;
     if (src) { try { sessionStorage.setItem(KEY, src); } catch (e) { /* ignore */ } }
     return src;
   })();
-
-  const val = (q, k) => typeof q[k] === "function" ? q[k](A) : q[k];
-  const opts = q => val(q, "options") || [];
-  const LETTER = i => String.fromCharCode(65 + i);   // 0 -> A, 1 -> B …
-
-  /* one persistent keyboard router; each screen registers its own actions */
-  let onEnter = null, onLetter = null, onBack = null;
-  document.addEventListener("keydown", e => {
-    const t = document.activeElement, typing = t && /^(INPUT|TEXTAREA)$/.test(t.tagName);
-    if (t && t.tagName === "A") return;          // a focused link keeps its own Enter
-    if (e.key === "Enter") { if (onEnter) { e.preventDefault(); onEnter(); } return; }
-    if (!typing && e.key.length === 1 && onLetter) {
-      const i = e.key.toUpperCase().charCodeAt(0) - 65;
-      if (i >= 0 && i < 26 && onLetter(i)) e.preventDefault();
-    }
-    if (!typing && e.key === "Backspace" && onBack) { e.preventDefault(); onBack(); }
-  });
-
-  /* progress bar, created once, lives outside #app */
-  const bar = document.createElement("div");
-  bar.className = "tfprog"; bar.innerHTML = "<i></i>";
-  document.body.appendChild(bar);
-  const setProgress = () => {
-    const pct = step < 0 ? 0 : step >= Q.length ? 100
-              : Math.round(((step + 1) / (Q.length + 1)) * 100);
-    bar.firstChild.style.width = pct + "%";
-  };
-
-  /* the number so far: a dollar figure on the question screens from the moment
-     the answers can carry one, so nobody waits for the last tap to see a number.
-     Unanswered questions take the sums' own middle values; it is sent nowhere. */
-  const sofar = document.createElement("div");
-  sofar.className = "sofar"; sofar.hidden = true; sofar.setAttribute("aria-hidden", "true");
-  const sofarSay = document.createElement("p");
-  sofarSay.className = "sr"; sofarSay.setAttribute("role", "status");
-  document.body.appendChild(sofar); document.body.appendChild(sofarSay);
-  const STILL = !!(window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches);
-  let sofarWas = 0, sofarRaf = 0;
-  function setSoFar() {
-    cancelAnimationFrame(sofarRaf);
-    if (step < 0 || step >= Q.length) { sofar.hidden = true; sofarSay.textContent = ""; return; }
-    const a = Object.assign({}, A);
-    Q.forEach(q => { if (q.type === "multi" && a[q.id] == null)
-      a[q.id] = opts(q).filter(o => o.on !== false).map(o => o.value); });
-    let annual = 0;
-    try { annual = W.compute(a).annual || 0; } catch (e) { annual = 0; }
-    if (!(annual > 0)) {
-      const at = Q.findIndex(q => q.id === W.numberAfter), left = at < 0 ? 0 : at - step + 1;
-      sofarWas = 0; sofar.hidden = left <= 0; sofar.className = "sofar wait";
-      sofar.textContent = "Your number in " + left + (left === 1 ? " tap" : " taps");
-      sofarSay.textContent = ""; return;
-    }
-    const fresh = sofar.hidden || sofar.className !== "sofar";
-    if (fresh) { sofar.className = "sofar"; sofar.innerHTML = "<span>So far</span><b></b><span>a year</span>"; }
-    sofar.hidden = false;
-    const out = sofar.querySelector("b"), from = sofarWas, t0 = performance.now();
-    sofarWas = annual;
-    sofarSay.textContent = "So far, " + money(annual) + " a year.";
-    if (STILL || from === annual) { out.textContent = money(annual); return; }
-    (function tick(t) {
-      const p = Math.min(1, (t - t0) / 700), e = 1 - Math.pow(1 - p, 3);
-      out.textContent = money(from + (annual - from) * e);
-      if (p < 1) sofarRaf = requestAnimationFrame(tick);
-    })(t0);
-  }
-
-  function render() {
-    onEnter = onLetter = onBack = null;
-    if (step < 0) renderIntro();
-    else if (step < Q.length) renderQ();
-    else if (step === Q.length) renderResult();
-    else renderContact();
-    setProgress();
-    setSoFar();
-    window.scrollTo({ top: 0, behavior: step > 0 && step <= Q.length ? "auto" : "auto" });
-  }
-
-  const screen = (cls, inner) =>
-    `<div class="screen ${cls}"><div class="frame">${inner}</div></div>`;
-
-  /* ---------- intro ---------- */
-  function renderIntro() {
-    document.body.dataset.screen = "intro";
-    const start = () => { step = 0; render(); };
-    $("#app").innerHTML = screen("intro", `
-      <div class="eyebrow">${W.intro.eyebrow}</div>
-      <h1>${W.intro.title}</h1>
-      <p class="dek">${W.intro.dek}</p>
-      <div class="controls">
-        <button class="btn" id="start">${W.intro.cta} <span class="en">↵</span></button>
-        <span class="hint">press <kbd>Enter ↵</kbd></span>
-      </div>
-      <p class="fine">${W.intro.fine}</p>`);
-    $("#start").addEventListener("click", start);
-    onEnter = start;
-  }
-
-  /* ---------- questions ---------- */
-  function renderQ() {
-    document.body.dataset.screen = "q";
-    const q = Q[step];
-    const note = val(q, "note");
-    const advance = () => { step++; render(); };
-    const back = () => { step--; render(); };
-
-    const pick = v => {
-      A[q.id] = q.numeric ? +v : v;
-      if (q.sets) Object.entries(q.sets(v)).forEach(([k, x]) => { A[k] = x; });
-      advance();
-    };
-
-    let field, controls;
-    if (q.type === "number") {
-      const v = A[q.id] != null ? A[q.id] : (val(q, "prefill") ?? "");
-      field = `<div class="field"><input type="number" inputmode="decimal" id="num" min="0"
-                 step="${q.step || 1}" placeholder="${esc(val(q, "placeholder") || "")}"
-                 value="${esc(v)}"></div>`;
-      controls = okRow();
-    } else if (q.type === "multi") {
-      const on = A[q.id] || opts(q).filter(o => o.on !== false).map(o => o.value);
-      field = optList(q, o => on.includes(o.value));
-      controls = okRow();
-    } else {
-      field = optList(q, o => String(A[q.id]) === String(o.value));
-      controls = `<div class="controls">
-        <span class="hint">Tap an answer${opts(q).length <= 8 ? ` — or press <kbd>${LETTER(0)}</kbd> … <kbd>${LETTER(opts(q).length - 1)}</kbd>` : ""}</span>
-      </div>`;
-    }
-
-    $("#app").innerHTML = screen("", `
-      <div class="qnum">${step + 1} <span class="arw">→</span></div>
-      <div class="q">${val(q, "ask")}</div>
-      ${note ? `<p class="note">${note}</p>` : ""}
-      ${field}
-      ${controls}
-      ${step > 0 ? `<div class="controls" style="margin-top:14px"><button class="lnk" id="back">↑ Back</button></div>` : ""}`);
-
-    $("#back")?.addEventListener("click", back);
-    if (step > 0) onBack = back;
-
-    if (q.type === "number") {
-      const n = $("#num"); n.focus(); n.select?.();
-      const go = () => { const x = +n.value; if (!(x >= 0) || n.value === "") return; A[q.id] = x; advance(); };
-      $("#ok").addEventListener("click", go);
-      onEnter = go;
-    } else if (q.type === "multi") {
-      if (!A[q.id]) A[q.id] = opts(q).filter(o => o.on !== false).map(o => o.value);
-      const toggle = i => {                       // toggle in place — no full re-render, no re-animation
-        const o = opts(q)[i]; if (!o) return false;
-        const cur = A[q.id];
-        A[q.id] = cur.includes(o.value) ? cur.filter(x => x !== o.value) : cur.concat([o.value]);
-        const btn = document.querySelector('.opt[data-i="' + i + '"]');
-        if (btn) btn.classList.toggle("on", A[q.id].includes(o.value));
-        $("#ok").disabled = !A[q.id].length;
-        setSoFar();
-        return true;
-      };
-      document.querySelectorAll(".opt").forEach(b => b.addEventListener("click",
-        () => toggle(+b.dataset.i)));
-      const go = () => { if (A[q.id].length) advance(); };
-      $("#ok").addEventListener("click", go);
-      $("#ok").disabled = !A[q.id].length;
-      onLetter = i => toggle(i);
-      onEnter = go;
-    } else {
-      document.querySelectorAll(".opt").forEach(b =>
-        b.addEventListener("click", () => pick(b.dataset.v)));
-      onLetter = i => { const o = opts(q)[i]; if (!o) return false; pick(o.value); return true; };
-      onEnter = () => { if (A[q.id] != null) advance(); };
-    }
-  }
-
-  function optList(q, isOn) {
-    return `<div class="opts">${opts(q).map((o, i) =>
-      `<button class="opt ${isOn(o) ? "on" : ""}" data-v="${esc(o.value)}" data-i="${i}">
-         <span class="key">${LETTER(i)}</span>
-         <span class="lbl">${esc(o.label)}${o.hint ? `<small>${esc(o.hint)}</small>` : ""}</span>
-         <span class="ck" aria-hidden="true">✓</span>
-       </button>`).join("")}</div>`;
-  }
-  const okRow = () => `<div class="controls">
-    <button class="btn" id="ok">OK <span class="en">↵</span></button>
-    <span class="hint">press <kbd>Enter ↵</kbd></span></div>`;
-
-  /* ---------- result ---------- */
-  const money = n => "$" + Math.round(n).toLocaleString("en-CA");
-  /* The answers in words, one line a question, for the form and for copying. */
-  const strip = s => String(s == null ? "" : s).replace(/<[^>]*>/g, "").replace(/&mdash;/g, "-").replace(/&amp;/g, "&");
+  const unlocked = () => LOCK.every(id => yours.has(id));
+  const touched = () => moved.size > 0 || yours.size > 0 || !!A.who;
+  /* every answer in the Answers cell, saying which were left as they started */
   function answersText() {
-    const lines = Q.map(q => {
-      const v = A[q.id];
-      if (v == null || (Array.isArray(v) && !v.length)) return null;
-      const label = x => { const o = opts(q).find(o => o.value === x); return o ? strip(o.label) : String(x); };
-      return strip(val(q, "ask")) + " " + (Array.isArray(v) ? v.map(label).join(", ") : label(v));
-    }).filter(Boolean);
+    const ask = id => strip(val(byId(id), "ask"));
+    const label = (q, x) => { const o = opts(q).find(o => String(o.value) === String(x)); return o ? strip(o.label) : String(x); };
+    const lines = ["quotes", "hoursEach"].map(id =>
+      ask(id) + " " + byId(id).slider.show(A[id]) + (moved.has(id) ? "" : " (not changed)"));
+    if (A.who) lines.push(ask("who") + " " + label(who, A.who));
+    lines.push(ask("rate") + " $" + A.rate + " an hour" + (moved.has("rate") || A.who ? "" : " (not changed)"));
+    FINE.concat(LOCK).forEach(id => {
+      const q = byId(id), v = A[id];
+      lines.push(ask(id) + " " + (Array.isArray(v) ? v.map(x => label(q, x)).join(", ") : label(q, v)) + (yours.has(id) ? "" : " (our guess)"));
+    });
     if (SRC) lines.push("Came from: " + SRC);
     return lines.join("\n");
   }
-  function resultText(r) {
-    return r.freed.toFixed(1) + " hours a week could come off the desk, worth " + money(r.annual) +
-      " a year.\n\n" + answersText();
-  }
-  /* The site's own function saves the result, then copies it to the Sheet.
-     A refusal comes back as an error, so the owner is told it did not send. */
-  function toSheet(stage, r, who) {
-    const payload = Object.assign({ visit: VISIT, stage, calculator: CALC, lead: LEAD, src: SRC,
-      hours: r.freed, monthly: r.monthly, annual: r.annual, total: r.total, residual: r.residual,
-      extra: r.extra ? strip(r.extra.value) : "", flags: r.flags.map(f => strip(f.title)).join(" | "),
-      answers: answersText() }, who || {});
-    return fetch(SHEET, { method: "POST", body: JSON.stringify(payload) })
-      .then(res => { if (!res.ok) throw new Error("not saved"); return res; });
-  }
-  let sentResult = "";
-  function renderResult() {
-    document.body.dataset.screen = "result";
+  function payload(stage, who) {
     const r = W.compute(A);
-    /* The result goes to the sheet once per set of answers, not on every return here. */
-    if (SHEET) { const key = JSON.stringify(A); if (key !== sentResult) { sentResult = key; toSheet("result", r).catch(() => {}); } }
-    /* A page that embeds the calculator may keep the result (the offline copy
-       files it against the company on the line); nothing here depends on it. */
-    if (typeof window.fourtapsResult === "function") { try { window.fourtapsResult(W.wedge, A, r); } catch (e) {} }
-    const maxH = Math.max.apply(null, r.bars.map(b => b.hours).concat([0.001]));
-    const send = () => { step++; render(); };
-    const back = () => { step = Q.length - 1; render(); };
-    $("#app").innerHTML = screen("tall", `
-      <div class="qnum">Your numbers</div>
-      <h2 style="font-size:clamp(24px,4.6vw,34px);margin:2px 0 0">${W.headline(r)}</h2>
-
-      <div class="three">
-        <div><div class="big">${r.freed.toFixed(1)}<small>h/wk</small></div><div class="rlabel">${r.labels.hours}</div></div>
-        <div><div class="big">${money(r.monthly)}</div><div class="rlabel">${r.labels.monthly}</div></div>
-        <div><div class="big">${money(r.annual)}</div><div class="rlabel">${r.labels.annual}</div></div>
-      </div>
-
-      <h3 class="sec">Where the hours go</h3>
-      <div class="bars">${r.bars.map(b => `<div class="bar-row">
-        <span class="bl">${esc(b.label)}</span>
-        <span class="bar-track"><i style="width:${Math.max(2, (b.hours / maxH) * 100)}%"></i></span>
-        <span class="bh">${b.hours.toFixed(1)} h</span></div>`).join("")}</div>
-      <p class="note" style="margin-top:12px">Out of <b>${r.total.toFixed(0)} hours a week</b> in total,
-        <b>${r.residual.toFixed(1)} hours</b> stay with a person — the review, the approvals, the judgement calls.
-        ${r.ptline ? `<br>${r.ptline}` : ""}</p>
-
-      ${r.extra ? `<div class="upside"><div class="ul">${r.extra.label}</div><div class="uv">${r.extra.value}</div>
-         <div class="un">${r.extra.note}</div></div>` : ""}
-
-      ${r.flags.map(f => `<div class="flag ${f.tone || ""}"><b>${f.title}</b>${f.body}</div>`).join("")}
-
-      <div class="caveat"><b>What this does not know.</b> ${r.caveat}</div>
-      <div class="controls">
-        ${ENDPOINT || SHEET ? `<button class="btn" id="send">Email me this — with the working shown <span class="en">↵</span></button>`
-          : `<button class="btn" id="send">Copy my numbers</button>`}
-        <button class="lnk" id="back">↑ Change an answer</button>
-      </div>`);
-    if (ENDPOINT || SHEET) $("#send").addEventListener("click", send);
-    else $("#send").addEventListener("click", () => copyNumbers(r));
-    $("#back").addEventListener("click", back);
-    onEnter = ENDPOINT || SHEET ? send : null; onBack = back;
+    return JSON.stringify(Object.assign({ visit: VISIT, stage, calculator: "Quoting", lead: LEAD, src: SRC,
+      hours: r.freed, monthly: r.monthly, annual: r.annual, total: r.total, residual: r.residual,
+      extra: unlocked() && r.extra ? strip(r.extra.value) : "",
+      flags: flagsFor().map(f => strip(f.title)).join(" | "), answers: answersText() }, who || {}));
   }
-  function copyNumbers(r) {
-    const text = resultText(r), btn = $("#send");
-    const shown = () => {
-      if ($("#copied")) return;
-      $(".frame").insertAdjacentHTML("beforeend",
-        `<textarea id="copied" class="caveat" readonly rows="8" style="width:100%">${esc(text)}</textarea>`);
-      $("#copied").select();
-    };
-    try {
-      navigator.clipboard.writeText(text).then(() => { btn.textContent = "Copied"; }, shown);
-    } catch (e) { shown(); }
+  /* saves go one after another, so the newest answers are the ones that stay */
+  let queue = Promise.resolve(), contacted = false, sentKey = "", wait = 0;
+  function send(body) {
+    const go = () => fetch(SHEET, { method: "POST", body, keepalive: true })
+      .then(res => { if (!res.ok) throw new Error("not saved"); return res; });
+    const sent = queue.then(go, go);
+    queue = sent.catch(() => {});
+    return sent;
   }
+  function save(leaving) {
+    clearTimeout(wait);
+    if (!SHEET || !touched()) return;
+    const stage = contacted ? "contact" : unlocked() ? "result" : "first";
+    const key = stage + "|" + answersText();
+    if (key === sentKey) return;                 // nothing new since the last save
+    sentKey = key;
+    const body = payload(stage);
+    if (leaving && navigator.sendBeacon && navigator.sendBeacon(SHEET, body)) return;
+    send(body).catch(() => {});
+  }
+  const saveSoon = () => { clearTimeout(wait); wait = setTimeout(() => save(false), 1200); };
+  document.addEventListener("visibilitychange", () => { if (document.visibilityState === "hidden") save(true); });
+  window.addEventListener("pagehide", () => save(true));
 
-  /* ---------- contact ---------- */
-  function renderContact() {
-    document.body.dataset.screen = "contact";
-    const back = () => { step--; render(); };
-    $("#app").innerHTML = screen("tall", `
-      <div class="qnum">Last step</div>
-      <div class="q">Where should it go?</div>
-      <p class="note">The numbers above with the working shown, and the two things worth
-        checking before anyone spends money. No newsletter — you have to ask us for the next thing.</p>
-      <div class="fieldrow">
-        <input type="text"  id="business" placeholder="Business name" autocomplete="organization">
-        <input type="text"  id="contact"  placeholder="Your name" autocomplete="name">
-        <input type="email" id="email"    placeholder="Email" autocomplete="email" inputmode="email">
-        <input type="tel"   id="phone"    placeholder="Phone (optional)" autocomplete="tel" inputmode="tel">
-        <input type="text"  id="website"  tabindex="-1" autocomplete="off" aria-hidden="true"
-               style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
-      </div>
-      <div class="controls">
-        <button class="btn" id="submit">Send it <span class="en">↵</span></button>
-        <button class="lnk" id="back">↑ Back to my numbers</button>
-      </div>`);
-    $("#business").focus();
-    $("#back").addEventListener("click", back);
-    onBack = back;
+  /* ---------- drawing what changed ---------- */
+  let shown = null, fitCard = () => {};
+  function update() {
+    const r = W.compute(A);
+    if (shown !== null && Math.round(r.annual) !== shown) { const y = $("#year"); y.classList.remove("bump"); void y.offsetWidth; y.classList.add("bump"); }
+    shown = Math.round(r.annual);
+    $("#year").textContent = $("#myear").textContent = money(r.annual);
+    $("#ylab").textContent = r.labels.annual;
+    $("#hw").innerHTML = r.freed.toFixed(1) + "<small>h/wk</small>"; $("#hl").textContent = r.labels.hours;
+    $("#mo").innerHTML = money(r.monthly) + "<small>/month</small>"; $("#ml").textContent = r.labels.monthly;
+    $("#mmo").textContent = money(r.monthly) + "/month";
 
-    const submit = async () => {
-      const email = $("#email").value.trim();
-      if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) { $("#email").focus(); return; }
-      const btn = $("#submit"); btn.disabled = true; btn.textContent = "Sending…";
-      const r = W.compute(A);
-      if (SHEET) return sendToSheet(r, btn, { business: $("#business").value.trim(),
-        contact: $("#contact").value.trim(), email, phone: $("#phone").value.trim(),
-        website: ($("#website") || {}).value || "" });
-      try {
-        await fetch(ENDPOINT, { method: "POST", headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ wedge: W.wedge, business: $("#business").value.trim(),
-            contact: $("#contact").value.trim(), email, phone: $("#phone").value.trim(),
-            src: SRC, answers: A, result: { freed: r.freed, monthly: r.monthly, annual: r.annual,
-                                  residual: r.residual, total: r.total,
-                                  flags: r.flags.map(f => f.title),
-                                  extra: r.extra ? r.extra.value : null } }) });
-        onEnter = onBack = null;
-        document.body.dataset.screen = "done";
-        $("#app").innerHTML = screen("done", `
-          <div class="big">✓</div>
-          <h2 style="margin-top:14px">On its way.</h2>
-          <p class="note" style="margin-top:10px">We read every one of these ourselves. If your numbers
-            look unusual — in either direction — expect a question back rather than a pitch.</p>`);
-      } catch (e) {
-        btn.disabled = false; btn.textContent = "Send it";
-        $(".frame").insertAdjacentHTML("beforeend",
-          `<div class="caveat">That didn't send. Try again in a moment, or email us directly.</div>`);
-      }
-    };
-    $("#submit").addEventListener("click", submit);
-    onEnter = submit;
+    const got = LOCK.filter(id => yours.has(id)).length, open = got === LOCK.length && r.extra;
+    $("#lock").classList.toggle("open", !!open);
+    $("#lockv").textContent = open ? r.extra.value : "Answer 3 questions to see it";
+    $("#lockn").innerHTML = open ? r.extra.note : got ? got + " of 3 answered, under “Unlock”." : "They are under “Unlock”.";
+    document.querySelectorAll("#lock .dots i").forEach((d, i) => d.classList.toggle("on", i < got));
+
+    const max = Math.max.apply(null, r.bars.map(b => b.hours).concat([0.001]));
+    $("#bars").innerHTML = r.bars.map(b => `<div class="bar"><span>${b.label}</span><span class="track"><i style="width:${Math.max(2, b.hours / max * 100)}%"></i></span><span>${b.hours.toFixed(1)} h</span></div>`).join("");
+
+    $("#flags").innerHTML = flagsFor().map(f => `<div class="flag"><b>${f.title}</b>${f.body}</div>`).join("");
+
+    ["quotes", "hoursEach"].forEach(id => {
+      const s = byId(id).slider, el = $("#s-" + id), v = Math.min(s.max, Math.max(s.min, A[id]));
+      if (+el.value !== v) el.value = v;
+      el.style.setProperty("--p", ((v - s.min) / (s.max - s.min) * 100) + "%");
+      $("#o-" + id).textContent = s.show(v);
+      $("#n-" + id).textContent = typeof s.note === "function" ? s.note(A) : "";
+    });
+    const rp = Math.round(toPos(Math.min(200, Math.max(20, A.rate)))), rate = $("#s-rate");
+    if (toRate(+rate.value) !== A.rate) rate.value = rp;
+    rate.style.setProperty("--p", (+rate.value / 10) + "%");
+    $("#o-rate").textContent = "$" + A.rate + " an hour";
+    rate.setAttribute("aria-valuetext", "$" + A.rate + " an hour");
+    document.querySelectorAll("#stops .stop").forEach(st => {
+      const on = A.who === st.querySelector("button").dataset.who;
+      st.classList.toggle("on", on); st.querySelector("button").setAttribute("aria-pressed", on);
+    });
+    FINE.concat(LOCK).forEach(id => {
+      const q = byId(id), el = $("#r-" + id), mineToo = yours.has(id);
+      el.classList.toggle("yours", mineToo);
+      el.querySelector(".tag").textContent = mineToo ? "Yours" : "Our guess";
+      let txt;
+      if (q.type === "multi") { const n = A[id].length, t = opts(q).length; txt = n === t ? "All " + t + " tasks" : n + " of " + t + " tasks"; }
+      else { const o = opts(q).find(o => String(o.value) === String(A[id])); txt = o ? strip(o.chip || o.label) : ""; }
+      el.querySelector(".txt").innerHTML = txt + (!mineToo && WHY[id] ? ` <span class="why">· ${WHY[id]}</span>` : "");
+      const picked = (Array.isArray(A[id]) ? A[id] : [A[id]]).map(String);
+      el.querySelectorAll(".chip").forEach(b => { const on = picked.includes(b.dataset.v); b.classList.toggle("on", on); b.setAttribute("aria-pressed", on); });
+    });
+    fitCard();
+    saveSoon();
   }
 
-  async function sendToSheet(r, btn, who) {
-    try {
-      await toSheet("contact", r, who);
-      onEnter = onBack = null;
-      document.body.dataset.screen = "done";
-      $("#app").innerHTML = screen("done", `
-        <div class="big">✓</div>
-        <h2 style="margin-top:14px">Got it.</h2>
-        <p class="note" style="margin-top:10px">Mostafa from fourtaps will send your written result,
-          usually within one working day. We read every one of these ourselves.</p>`);
-    } catch (e) {
-      btn.disabled = false; btn.textContent = "Send it";
-      if (!$("#notsent")) $(".frame").insertAdjacentHTML("beforeend",
-        `<div class="caveat" id="notsent">That didn't send. Check your connection and try again.</div>`);
+  /* ---------- what the visitor does ---------- */
+  ["quotes", "hoursEach"].forEach(id => $("#s-" + id).addEventListener("input", e => { A[id] = +e.target.value; moved.add(id); update(); }));
+  /* sliding sets the rate only; who quotes is whichever stop they last tapped */
+  $("#s-rate").addEventListener("input", e => { A.rate = toRate(+e.target.value); moved.add("rate"); update(); });
+  document.querySelectorAll("#stops button").forEach(b => b.addEventListener("click", () => {
+    const st = STOPS.find(s => s.who === b.dataset.who); A.who = st.who; A.rate = st.rate; update();
+  }));
+  const close = el => { el.classList.remove("open"); el.querySelector(".row-head").setAttribute("aria-expanded", "false"); el.querySelector(".row-body").hidden = true; };
+  FINE.concat(LOCK).forEach(id => {
+    const q = byId(id), el = $("#r-" + id);
+    el.querySelector(".row-head").addEventListener("click", () => {
+      const opening = !el.classList.contains("open");
+      document.querySelectorAll(".row.open").forEach(close);     // one open at a time
+      if (opening) { el.classList.add("open"); el.querySelector(".row-head").setAttribute("aria-expanded", "true"); el.querySelector(".row-body").hidden = false; }
+    });
+    el.querySelectorAll(".chip").forEach(b => b.addEventListener("click", () => {
+      const o = opts(q).find(o => String(o.value) === b.dataset.v);
+      if (q.type === "multi") {
+        const next = A[id].includes(o.value) ? A[id].filter(x => x !== o.value) : A[id].concat([o.value]);
+        if (!next.length) return;                                  // the last tick stays
+        A[id] = next;
+      } else { A[id] = o.value; close(el); }
+      yours.add(id); update();
+    }));
+    const done = el.querySelector(".done");
+    if (done) done.addEventListener("click", () => { yours.add(id); close(el); update(); });
+  });
+  /* On a wide page the card reaches down to the foot of the three people under
+     the hour slider, so "Your week" and the card line up top and bottom while
+     the page is at rest. Measured again whenever anything could have moved. */
+  const wk = $("#wk"), card = $(".card"), wide = window.matchMedia("(min-width: 861px)");
+  fitCard = () => {
+    if (!wide.matches) { card.style.minHeight = ""; return; }
+    const foot = Math.max.apply(null, [...document.querySelectorAll("#stops button")].map(b => b.getBoundingClientRect().bottom));
+    card.style.minHeight = (foot - card.getBoundingClientRect().top) + "px";
+  };
+  if ("ResizeObserver" in window) new ResizeObserver(fitCard).observe(wk);
+  window.addEventListener("resize", fitCard);
+  if (document.fonts) document.fonts.ready.then(fitCard);
+  fitCard();
+  /* the written result: the form opens in place, and sends on the same row */
+  $("#send").addEventListener("click", () => { $("#send").hidden = true; $("#mail").hidden = false; $("#m-email").focus(); });
+  $("#mail").addEventListener("submit", e => {
+    e.preventDefault();
+    const email = $("#m-email").value.trim(), err = $("#m-err"), btn = $("#m-send");
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
+      err.textContent = "Please give an email we can send it to."; err.hidden = false; $("#m-email").focus(); return;
     }
+    err.hidden = true; btn.disabled = true; btn.textContent = "Sending…"; clearTimeout(wait);
+    send(payload("contact", { business: $("#m-business").value.trim(), contact: $("#m-contact").value.trim(),
+      email, phone: $("#m-phone").value.trim(), website: $("#m-website").value }))
+      .then(() => { contacted = true; sentKey = "contact|" + answersText(); $("#mail").hidden = true; $("#sent").hidden = false; })
+      .catch(() => { btn.disabled = false; btn.textContent = "Send it"; err.textContent = "That didn't send. Check your connection and try again."; err.hidden = false; });
+  });
+  /* the ways out keep the company code the visitor arrived with */
+  if (location.search) {
+    document.querySelectorAll("a[data-home]").forEach(a => { a.href = "../" + location.search; });
+    document.querySelectorAll("a[data-book]").forEach(a => { a.href = "../book/" + location.search; });
   }
-
-  render();
+  update();
 })();
-
 </script>
 </body>
 </html>

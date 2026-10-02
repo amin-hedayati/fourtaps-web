@@ -104,6 +104,8 @@ input:focus{outline:none;border-color:var(--acc);box-shadow:0 0 0 3px color-mix(
 .btn:active{transform:none;box-shadow:none}
 .btn:focus-visible,.lnk:focus-visible{outline:3px solid var(--acc);outline-offset:3px}
 .btn[disabled]{opacity:.4;cursor:default;transform:none;box-shadow:none}
+.btn.alt{background:var(--card);color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--rule2)}
+.btn.alt:hover{box-shadow:inset 0 0 0 1.5px var(--ink),5px 5px 0 0 var(--ink)}
 .btn .en{display:inline-grid;place-items:center;min-width:22px;height:22px;padding:0 5px;border-radius:6px;
   background:rgba(255,255,255,.2);font:700 12px/1 "Public Sans",sans-serif}
 .hint{color:var(--muted);font-size:14px}
@@ -137,6 +139,93 @@ input:focus{outline:none;border-color:var(--acc);box-shadow:0 0 0 3px color-mix(
 .intro .dek b{color:var(--ink);font-weight:600}
 .intro .controls{margin-top:32px}
 .fine{font-size:13px;color:var(--muted);margin:22px 0 0;line-height:1.55;max-width:52ch}
+
+/* ---- part one: its questions on one screen, the figures changing live ---- */
+.screen.wide{padding-top:88px}
+.screen.wide .frame{max-width:1060px}
+.screen.wide .eyebrow{margin-bottom:10px}
+.live-h{font-size:clamp(28px,4.2vw,40px);line-height:1.08;letter-spacing:-.02em;margin:0}
+.live-dek{font-size:16px;color:var(--muted);margin:8px 0 0;line-height:1.5;max-width:72ch}
+.live-dek b{color:var(--ink);font-weight:600}
+.live{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);grid-template-areas:"in side";
+  column-gap:48px;row-gap:20px;align-items:start;margin-top:24px}
+.live-in{grid-area:in}
+/* the figures and the way on stay together beside a long column of questions */
+.live-side{grid-area:side;position:sticky;top:24px;display:flex;flex-direction:column;gap:20px}
+.live-out{background:var(--night);color:#FFFFFF;border-radius:24px;padding:26px 26px 22px}
+.live-go .note{margin:0;font-size:14.5px}
+.live-go .controls{margin-top:14px}
+.ly{font:700 clamp(44px,6vw,64px)/1 var(--display);letter-spacing:-.02em;color:var(--lime);font-variant-numeric:tabular-nums}
+.lab{font-size:13.5px;line-height:1.4;color:rgba(255,255,255,.75);margin-top:6px}
+.pair{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-top:18px;padding-top:16px;border-top:1px solid rgba(255,255,255,.16)}
+.pair b{font:700 24px/1 var(--display);letter-spacing:-.02em;color:#FFFFFF;font-variant-numeric:tabular-nums}
+.pair b small{font:600 13px/1 var(--sans);letter-spacing:0;color:rgba(255,255,255,.6);margin-left:4px}
+/* close to the top, the card snaps up and stretches to the full width, its
+   corners flattening and the rest of its look unchanged; on the way back down
+   it settles into its place again */
+.live-out.moving{transition:top .35s cubic-bezier(.2,.8,.2,1),left .35s cubic-bezier(.2,.8,.2,1),width .35s cubic-bezier(.2,.8,.2,1),
+  border-radius .35s,box-shadow .35s}
+.live-out.docked{position:fixed;z-index:40;margin:0;border-radius:0;box-shadow:0 14px 34px -18px rgba(10,15,44,.7)}
+.lq{padding:18px 0;border-top:1px solid var(--rule)}
+.lq:first-child{border-top:0;padding-top:4px}
+.lq-top{display:flex;align-items:baseline;justify-content:space-between;gap:16px}
+.lq-top label,.lq-top .lk{font:600 16.5px/1.35 var(--sans);color:var(--ink)}
+.lq-top output{font:700 19px/1.2 var(--display);letter-spacing:-.01em;color:var(--acc);white-space:nowrap;font-variant-numeric:tabular-nums}
+.lnote{font-size:13.5px;color:var(--muted);margin:4px 0 0;line-height:1.45}
+.lnote:empty{display:none}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.chip{min-height:44px;padding:9px 16px;border-radius:999px;border:1.5px solid var(--rule2);background:var(--card);
+  color:var(--ink);font:600 15px/1.25 var(--sans);cursor:pointer;transition:background .2s,border-color .2s,color .2s}
+.chip:hover{border-color:var(--ink)}
+.chip.on{background:var(--acc);border-color:var(--acc);color:var(--acc-ink)}
+.chip:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+/* a tick-list: several can be on, so a ticked one is lighter than a picked answer */
+.chips.multi .chip.on{background:var(--acc-soft);color:var(--ink);border-color:var(--acc)}
+.chips.multi .chip.on::before{content:"✓";color:var(--acc);font-weight:700;margin-right:6px}
+.lhint{margin:10px 0 0;font-size:14px;line-height:1.45;font-weight:600;color:var(--acc)}
+/* the optional questions, grouped under the main ones and closed until asked for */
+.lx{margin-top:22px;padding:0 20px;border:1.5px solid var(--rule);border-radius:20px;background:var(--card)}
+.lx-open{display:flex;align-items:center;justify-content:space-between;gap:16px;width:100%;min-height:44px;padding:16px 0;
+  background:none;border:0;color:inherit;font:inherit;text-align:left;cursor:pointer}
+.lx-open:focus-visible{outline:3px solid var(--acc);outline-offset:4px;border-radius:12px}
+.lx-open:hover .lx-h{color:var(--acc)}
+.lx-h{display:block;font:700 17px/1.3 var(--display);letter-spacing:-.01em;color:var(--ink);transition:color .2s}
+.lx-n{display:block;font-size:14px;line-height:1.45;color:var(--muted);margin-top:4px}
+.lx-plus{flex:0 0 auto;width:36px;height:36px;border-radius:50%;display:grid;place-items:center;background:var(--acc);
+  color:var(--acc-ink);font:600 22px/1 var(--sans);transition:transform .25s cubic-bezier(.2,.8,.2,1)}
+.lx-open[aria-expanded="true"] .lx-plus{transform:rotate(45deg)}
+.lx-q{padding-bottom:4px;animation:rise .45s cubic-bezier(.2,.8,.2,1) both}
+.lx-q .lq:first-child{border-top:1px solid var(--rule);padding-top:18px}
+.lhint:empty{display:none}
+/* what they can check for themselves: where the sums come from, the tools, no sign-up */
+.trust{list-style:none;margin:16px 0 0;padding:0;display:flex;flex-direction:column;gap:8px}
+.trust li{display:grid;grid-template-columns:18px minmax(0,1fr);gap:6px;font-size:14px;line-height:1.5;color:var(--muted)}
+.trust li::before{content:"✓";color:var(--acc);font-weight:700}
+.trust b{color:var(--ink);font-weight:600}
+.nosign{margin:12px 0 0;font-size:13.5px;line-height:1.5;color:var(--muted)}
+.lq input[type=range]{-webkit-appearance:none;appearance:none;display:block;width:100%;height:32px;margin:8px 0 0;padding:0;
+  background:transparent;border:0;box-shadow:none;cursor:pointer}
+.lq input[type=range]:focus{outline:none;box-shadow:none}
+.lq input[type=range]:focus-visible{outline:3px solid var(--acc);outline-offset:3px;border-radius:8px}
+.lq input[type=range]::-webkit-slider-runnable-track{height:6px;border-radius:99px;
+  background:linear-gradient(to right,var(--acc) var(--p,50%),var(--rule) var(--p,50%))}
+.lq input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:26px;height:26px;margin-top:-10px;
+  border-radius:50%;background:#FFFFFF;border:3px solid var(--acc);box-shadow:0 2px 8px rgba(10,15,44,.22)}
+.lq input[type=range]::-moz-range-track{height:6px;border-radius:99px;background:var(--rule)}
+.lq input[type=range]::-moz-range-progress{height:6px;border-radius:99px;background:var(--acc)}
+.lq input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:#FFFFFF;border:3px solid var(--acc)}
+@media(max-width:860px){
+  .screen.wide{padding-top:80px}
+  .live{grid-template-columns:minmax(0,1fr);grid-template-areas:"out" "in" "go";margin-top:16px;row-gap:14px}
+  .live-side{display:contents}
+  .live-slot{grid-area:out}
+  .live-out{padding:16px 20px}
+  .live-go{grid-area:go}
+  .ly{font-size:40px}
+  .pair{margin-top:12px;padding-top:12px}
+  .pair b{font-size:20px}
+  .pair .lab{display:none}
+}
 
 /* ---- result ---- */
 .big{font-family:var(--display);font-weight:700;font-size:clamp(46px,12vw,84px);
@@ -187,7 +276,7 @@ footer{max-width:var(--maxw);margin:40px auto 0;padding:0 24px calc(40px + env(s
   font-size:13px;color:var(--muted);line-height:1.65}
 body[data-screen="q"] footer,body[data-screen="intro"] footer{display:none}
 
-@media(max-width:520px){.screen{padding:96px 20px 76px}.screen.tall{padding-top:100px}
+@media(max-width:520px){.screen{padding:96px 20px 76px}.screen.tall{padding-top:100px}.screen.wide{padding-top:76px}
   .top{padding-left:20px;padding-right:20px}.brand-name{font-size:21px}footer{padding-left:20px;padding-right:20px}}
 @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 
@@ -202,7 +291,7 @@ body[data-screen="q"] footer,body[data-screen="intro"] footer{display:none}
 </header>
 
 <div id="app"></div>
-<footer>Task shares come from 1,105 Canadian businesses that advertised this seat in July and August 2026. Your answers and result go to fourtaps when you finish; your name and email only if you give them.</footer>
+<footer>Task shares come from 1,105 Canadian businesses that advertised this seat in July and August 2026. What you set goes to fourtaps when you move on or leave the page; your name and email only if you give them.</footer>
 </div>
 <script>
 
@@ -232,23 +321,31 @@ window.WEDGE = (function () {
     sheet: "/api/results",
     wedge: "W1",
     numberAfter: "hours",   // the answer that makes a dollar figure possible
+    firstPart: 6,           // questions on the live screen
+    more: "See where the hours go",   // what part two adds
+    trust: [   // only what is true today; tools by name, never their logos
+      "<b>Measured, not guessed:</b> job ads from 1,105 Canadian businesses hiring bookkeepers, July and August 2026.",
+      "<b>Works with what you use:</b> QuickBooks Online, Xero, QuickBooks Desktop, Sage 50 and spreadsheets. Nothing to replace."
+    ],
   intro: {
-    eyebrow: "Nine taps · about a minute",
+    eyebrow: "Live estimate",
     title: "What do the books cost you?",
-    dek: "Most of a bookkeeping seat is <b>re-typing things that already arrived as files</b>. Tick the tasks that actually happen in your week and we will show you the hours behind each one, at your own cost per hour.",
+    dek: "Most of a bookkeeping seat is <b>re-typing things that already arrived as files</b>. Set your week below and watch what it costs.",
     cta: "Start &rarr;",
-    fine: "Nine questions, all of them a tap. When you reach your result, your answers and the result go to fourtaps, so we can talk them through with you. Your name and email go only if you ask for the written result."
+    fine: "Three more taps after this show where the hours go. What you set here goes to fourtaps when you move on or leave the page, so we can talk it through with you. Your name and email go only if you ask for the written result."
   },
     questions: [
       { id: "who", type: "choice", ask: "Who does the books today?",
         sets: function (v) { return { rate: RATE[v] }; },
         options: [
-          { value: "fte", label: "A full-time bookkeeper or admin" },
+          { value: "fte", label: "A full-time bookkeeper or admin", chip: "A full-time person" },
           { value: "pte", label: "Someone part-time" },
-          { value: "owner", label: "Me, or a family member", hint: "The most common answer under 20 staff" },
-          { value: "external", label: "An outside bookkeeping firm" },
-          { value: "accountant", label: "Our accountant does it all" } ] },
+          { value: "owner", label: "Me, or a family member", chip: "Me or family", hint: "The most common answer under 20 staff" },
+          { value: "external", label: "An outside bookkeeping firm", chip: "An outside firm" },
+          { value: "accountant", label: "Our accountant does it all", chip: "Our accountant" } ] },
       { id: "people", type: "choice", numeric: true,
+        slider: { min: 1, max: 10, step: 1, start: 1,
+          show: function (v) { return v === 1 ? "1 person" : v + " people"; } },
         ask: "How many people touch the books each week?",
         note: "Anyone who codes a transaction, chases an invoice or runs payroll — including you.",
         options: [
@@ -257,6 +354,8 @@ window.WEDGE = (function () {
           { value: 3.5, label: "Three or four" },
           { value: 6, label: "Five or more" } ] },
       { id: "hours", type: "choice", numeric: true,
+        slider: { min: 1, max: 40, step: 1, start: 8,
+          show: function (v) { return v + (v === 1 ? " hour" : " hours"); } },
         ask: "How many hours a week does it take them — <i>each</i>?",
         note: "A rough band is fine. Most owners under-count this by about a third.",
         options: [
@@ -266,6 +365,9 @@ window.WEDGE = (function () {
           { value: 27, label: "20 to 35 hours" },
           { value: 40, label: "It's a full-time job" } ] },
       { id: "rate", type: "choice", numeric: true,
+        slider: { min: 15, max: 200, step: 1, start: 26,
+          note: function (a) { return a.who ? RATE_HINT[a.who] : ""; },
+          show: function (v) { return "$" + v + " an hour"; } },
         ask: "What is that hour worth?",
         note: function (a) { return RATE_HINT[a.who] || RATE_HINT.fte; },
         options: function (a) {
@@ -277,23 +379,23 @@ window.WEDGE = (function () {
             : [[22, "About $22 an hour"], [d, "About $" + d + " an hour", "the market median for this"], [40, "About $40 an hour"], [60, "$60 or more"]];
           return bands.map(function (b) { return { value: b[0], label: b[1], hint: b[2] }; });
         } },
+      { id: "intake", type: "choice", ask: "How do receipts and supplier bills arrive?",
+        note: "This is the question that decides whether any of it works.",
+        options: [
+          { value: "digital", label: "Email or an app, almost all of it", chip: "Email or an app", hint: "The best case — it can be read straight in" },
+          { value: "mixed", label: "A mix — some email, some paper", chip: "A mix of both", hint: "Half of it is already digital" },
+          { value: "paper", label: "Mostly paper, in a folder or a shoebox", chip: "Mostly paper", hint: "The one real blocker — usually fixed first with a cheap app" } ] },
+      { id: "software", type: "choice", ask: "What do the books run on?",
+        options: [
+          { value: "cloud", label: "QuickBooks Online or Xero", hint: "Connects directly — the easiest case" },
+          { value: "desktop", label: "QuickBooks Desktop, Sage 50, Simply, Acomba", chip: "Desktop software", hint: "Works, but needs a bridge" },
+          { value: "sheets", label: "Spreadsheets", hint: "More automatable than people expect" },
+          { value: "unknown", label: "I genuinely don't know", chip: "I don't know", hint: "Fine — your bookkeeper does" } ] },
       { id: "tasks", type: "multi",
         ask: "Which of these happen every week?",
         note: "Untick anything that isn't your problem. The percentages behind them differ, so this changes the answer.",
         options: Object.keys(TASKS).map(function (k) {
           return { value: k, label: TASKS[k].label, hint: TASKS[k].hint }; }) },
-      { id: "software", type: "choice", ask: "What do the books run on?",
-        options: [
-          { value: "cloud", label: "QuickBooks Online or Xero", hint: "Connects directly — the easiest case" },
-          { value: "desktop", label: "QuickBooks Desktop, Sage 50, Simply, Acomba", hint: "Works, but needs a bridge" },
-          { value: "sheets", label: "Spreadsheets", hint: "More automatable than people expect" },
-          { value: "unknown", label: "I genuinely don't know", hint: "Fine — your bookkeeper does" } ] },
-      { id: "intake", type: "choice", ask: "How do receipts and supplier bills arrive?",
-        note: "This is the question that decides whether any of it works.",
-        options: [
-          { value: "digital", label: "Email or an app, almost all of it" },
-          { value: "mixed", label: "A mix — some email, some paper" },
-          { value: "paper", label: "Mostly paper, in a folder or a shoebox" } ] },
       { id: "scope", type: "choice", ask: "Besides the books, what else does that person do?",
         note: "The honest answer here is worth more than any number above it.",
         options: [
@@ -389,9 +491,21 @@ window.WEDGE = (function () {
      email on the same row if they ask for the written result. With neither, the
      owner can copy the numbers; a page inside Claude cannot print. */
   const SHEET = ENDPOINT ? null : (W.sheet || null);
-  const VISIT = Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
   const LEAD = (function () {
     try { return (new URLSearchParams(location.search).get("lead") || "").slice(0, 40); } catch (e) { return ""; }
+  })();
+  /* One row per visit, and a visit lasts as long as the browser tab: a reload,
+     or coming back to this calculator in the same tab, replaces the same row
+     instead of adding one. A different company code is a different visit. */
+  const VISIT = (function () {
+    const KEY = "wedge_visit_" + W.wedge + "_" + LEAD;
+    let v = null;
+    try { v = sessionStorage.getItem(KEY); } catch (e) { /* storage blocked */ }
+    if (!v) {
+      v = Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+      try { sessionStorage.setItem(KEY, v); } catch (e) { /* storage blocked */ }
+    }
+    return v;
   })();
   const CALC = W.name || ({ W1: "Bookkeeping", W2: "Quoting" }[W.wedge]) || W.wedge;
   const $ = s => document.querySelector(s);
@@ -400,6 +514,12 @@ window.WEDGE = (function () {
   const A = {};
   const Q = W.questions;
   let step = -1;
+  /* Two parts: the first `firstPart` questions share one screen and the figures
+     change as they are answered; the rest follow one at a time for anyone who
+     wants more. Without it, an intro and one question a screen, as before. */
+  const F = W.firstPart > 0 && W.firstPart < Q.length ? W.firstPart : 0;
+  let contactFrom = "";      // which screen the email form was opened from
+  const touched = new Set(); // part-one answers the visitor set themselves
   document.body.dataset.wedge = W.wedge;
   /* the way home keeps the company code the visitor arrived with */
   if (location.search) document.querySelectorAll("a[data-home]").forEach(a => { a.href = "../" + location.search; });
@@ -437,6 +557,7 @@ window.WEDGE = (function () {
   document.addEventListener("keydown", e => {
     const t = document.activeElement, typing = t && /^(INPUT|TEXTAREA)$/.test(t.tagName);
     if (t && t.tagName === "A") return;          // a focused link keeps its own Enter
+    if (t && t.closest && t.closest(".live")) return;   // so do the controls on the live screen
     if (e.key === "Enter") { if (onEnter) { e.preventDefault(); onEnter(); } return; }
     if (!typing && e.key.length === 1 && onLetter) {
       const i = e.key.toUpperCase().charCodeAt(0) - 65;
@@ -450,14 +571,19 @@ window.WEDGE = (function () {
   bar.className = "tfprog"; bar.innerHTML = "<i></i>";
   document.body.appendChild(bar);
   const setProgress = () => {
-    const pct = step < 0 ? 0 : step >= Q.length ? 100
-              : Math.round(((step + 1) / (Q.length + 1)) * 100);
+    let pct = 100;
+    if (step < 0) pct = 0;
+    else if (step < Q.length) {
+      const from = F && step >= F ? F : 0;
+      pct = Math.round(((step - from + 1) / (Q.length - from + 1)) * 100);
+    }
     bar.firstChild.style.width = pct + "%";
   };
 
   /* the number so far: a dollar figure on the question screens from the moment
      the answers can carry one, so nobody waits for the last tap to see a number.
      Unanswered questions take the sums' own middle values; it is sent nowhere. */
+  let dockWatch = null;      // stops the live card's scroll watch when the screen changes
   const sofar = document.createElement("div");
   sofar.className = "sofar"; sofar.hidden = true; sofar.setAttribute("aria-hidden", "true");
   const sofarSay = document.createElement("p");
@@ -465,14 +591,33 @@ window.WEDGE = (function () {
   document.body.appendChild(sofar); document.body.appendChild(sofarSay);
   const STILL = !!(window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches);
   let sofarWas = 0, sofarRaf = 0;
+  /* The answers so far, with an unanswered tick-list taking its usual ticks and
+     an untouched slider its starting point: the typical answers behind the live
+     figures and the number so far. */
+  function filled() {
+    const a = Object.assign({}, A);
+    Q.forEach(q => {
+      if (q.type === "multi" && a[q.id] == null) a[q.id] = opts(q).filter(o => o.on !== false).map(o => o.value);
+      if (q.slider && a[q.id] == null) a[q.id] = q.slider.start;
+    });
+    return a;
+  }
+  /* Finished means every one-at-a-time question answered. On the live screen
+     nothing has to be touched: a slider counts at its starting point and an
+     unpicked button at the typical answer, as the figures already do. */
+  const complete = () => Q.slice(F).every(q => A[q.id] != null);
+  /* Before the last answer there is no revenue figure: it needs the job value
+     and the lost-work answers, and "Not estimated" would be wrong. */
+  function outcome() {
+    const r = W.compute(filled());
+    if (!complete()) r.extra = null;
+    return r;
+  }
   function setSoFar() {
     cancelAnimationFrame(sofarRaf);
     if (step < 0 || step >= Q.length) { sofar.hidden = true; sofarSay.textContent = ""; return; }
-    const a = Object.assign({}, A);
-    Q.forEach(q => { if (q.type === "multi" && a[q.id] == null)
-      a[q.id] = opts(q).filter(o => o.on !== false).map(o => o.value); });
     let annual = 0;
-    try { annual = W.compute(a).annual || 0; } catch (e) { annual = 0; }
+    try { annual = W.compute(filled()).annual || 0; } catch (e) { annual = 0; }
     if (!(annual > 0)) {
       const at = Q.findIndex(q => q.id === W.numberAfter), left = at < 0 ? 0 : at - step + 1;
       sofarWas = 0; sofar.hidden = left <= 0; sofar.className = "sofar wait";
@@ -495,7 +640,9 @@ window.WEDGE = (function () {
 
   function render() {
     onEnter = onLetter = onBack = null;
-    if (step < 0) renderIntro();
+    if (dockWatch) { dockWatch(); dockWatch = null; }
+    saveSoFar(false);          // every move to another screen saves what is answered so far
+    if (step < 0) { if (F) renderLive(); else renderIntro(); }
     else if (step < Q.length) renderQ();
     else if (step === Q.length) renderResult();
     else renderContact();
@@ -530,7 +677,7 @@ window.WEDGE = (function () {
     const q = Q[step];
     const note = val(q, "note");
     const advance = () => { step++; render(); };
-    const back = () => { step--; render(); };
+    const back = () => { step = F && step === F ? -1 : step - 1; render(); };
 
     const pick = v => {
       A[q.id] = q.numeric ? +v : v;
@@ -616,10 +763,14 @@ window.WEDGE = (function () {
   /* The answers in words, one line a question, for the form and for copying. */
   const strip = s => String(s == null ? "" : s).replace(/<[^>]*>/g, "").replace(/&mdash;/g, "-").replace(/&amp;/g, "&");
   function answersText() {
-    const lines = Q.map(q => {
+    const lines = Q.map((q, i) => {
       const v = A[q.id];
-      if (v == null || (Array.isArray(v) && !v.length)) return null;
       const label = x => { const o = opts(q).find(o => o.value === x); return o ? strip(o.label) : String(x); };
+      /* an untouched slider or tick-list still fed the figures, so say what it stood at */
+      if (v == null && q.slider) return strip(val(q, "ask")) + " " + q.slider.show(q.slider.start) + " (not changed)";
+      if (v == null && q.type === "multi" && i < F) return strip(val(q, "ask")) + " " + filled()[q.id].map(label).join(", ") + " (not changed)";
+      if (v == null || (Array.isArray(v) && !v.length)) return null;
+      if (q.slider) return strip(val(q, "ask")) + " " + q.slider.show(v);
       return strip(val(q, "ask")) + " " + (Array.isArray(v) ? v.map(label).join(", ") : label(v));
     }).filter(Boolean);
     if (SRC) lines.push("Came from: " + SRC);
@@ -631,25 +782,216 @@ window.WEDGE = (function () {
   }
   /* The site's own function saves the result, then copies it to the Sheet.
      A refusal comes back as an error, so the owner is told it did not send. */
-  function toSheet(stage, r, who) {
-    const payload = Object.assign({ visit: VISIT, stage, calculator: CALC, lead: LEAD, src: SRC,
+  function payload(stage, r, who) {
+    return JSON.stringify(Object.assign({ visit: VISIT, stage, calculator: CALC, lead: LEAD, src: SRC,
       hours: r.freed, monthly: r.monthly, annual: r.annual, total: r.total, residual: r.residual,
       extra: r.extra ? strip(r.extra.value) : "", flags: r.flags.map(f => strip(f.title)).join(" | "),
-      answers: answersText() }, who || {});
-    return fetch(SHEET, { method: "POST", body: JSON.stringify(payload) })
+      answers: answersText() }, who || {}));
+  }
+  /* Saves go one after another, so a quick run of answers lands in order and
+     the last one sent is the one that stays. */
+  let queue = Promise.resolve();
+  function toSheet(stage, r, who) {
+    const body = payload(stage, r, who);
+    const send = () => fetch(SHEET, { method: "POST", body, keepalive: true })
       .then(res => { if (!res.ok) throw new Error("not saved"); return res; });
+    const sent = queue.then(send, send);
+    queue = sent.catch(() => {});
+    return sent;
   }
   let sentResult = "";
+  /* ---------- part one: its questions on one screen, the figures live ---------- */
+  const WORDS = ["", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"];
+  /* Before the result, what is answered so far is saved as stage "first" on
+     every move to another screen and when the page is hidden, replacing the
+     visit's row; nothing goes before the first answer, and nothing twice for
+     the same answers. Someone who already answered everything is not sent back
+     to "first": the result and the email form save their own stages. */
+  function saveSoFar(leaving) {
+    if (!SHEET || !Object.keys(A).length || complete()) return;
+    const key = "first" + JSON.stringify(A);
+    if (key === sentResult) return;
+    sentResult = key;
+    if (leaving && navigator.sendBeacon && navigator.sendBeacon(SHEET, payload("first", outcome()))) return;
+    toSheet("first", outcome()).catch(() => {});
+  }
+  document.addEventListener("visibilitychange", () => { if (document.visibilityState === "hidden") saveSoFar(true); });
+  window.addEventListener("pagehide", () => saveSoFar(true));
+
+  function renderLive() {
+    document.body.dataset.screen = "live";
+    const part = Q.slice(0, F), more = Q.length - F;
+    /* questions from `extra.from` on sit in their own box, as the optional ones */
+    const X = W.extra && W.extra.from > 0 && W.extra.from < F ? W.extra.from : F;
+    /* the box stays closed until opened, and opens by itself once one of its answers is in */
+    const xOpen = Q.slice(X, F).some(q => touched.has(q.id));
+    const control = (q, i) => q.slider
+      ? `<div class="lq">
+          <div class="lq-top"><label for="lq${i}">${val(q, "ask")}</label><output id="lo${i}" for="lq${i}"></output></div>
+          <p class="lnote" id="ln${i}"></p>
+          <input type="range" id="lq${i}" min="${q.slider.min}" max="${q.slider.max}" step="${q.slider.step}">
+        </div>`
+      : `<div class="lq" role="group" aria-labelledby="lk${i}">
+          <div class="lq-top"><span class="lk" id="lk${i}">${val(q, "ask")}</span></div>
+          ${q.type === "multi" && val(q, "note") ? `<p class="lnote">${val(q, "note")}</p>` : ""}
+          <div class="chips${q.type === "multi" ? " multi" : ""}" id="lc${i}">${opts(q).map(o =>
+            `<button type="button" class="chip" data-v="${esc(o.value)}" aria-pressed="false">${o.chip || o.label}</button>`).join("")}</div>
+          <p class="lhint" id="lh${i}"></p>
+        </div>`;
+    $("#app").innerHTML = screen("tall wide", `
+      <div class="eyebrow">${W.intro.eyebrow}</div>
+      <h1 class="live-h">${W.intro.title}</h1>
+      <p class="live-dek">${W.intro.dek}</p>
+      <div class="live">
+        <div class="live-in">${part.slice(0, X).map((q, i) => control(q, i)).join("")}${X < F ? `
+          <div class="lx">
+            <button type="button" class="lx-open" id="lxo" aria-expanded="${xOpen}" aria-controls="lxq">
+              <span><span class="lx-h" id="lxh">${W.extra.title}</span><span class="lx-n">${W.extra.note}</span></span>
+              <span class="lx-plus" aria-hidden="true">+</span>
+            </button>
+            <div class="lx-q" id="lxq" role="group" aria-labelledby="lxh"${xOpen ? "" : " hidden"}>
+              ${part.slice(X).map((q, j) => control(q, X + j)).join("")}
+            </div>
+          </div>` : ""}</div>
+        <div class="live-side">
+        <div class="live-slot"><div class="live-out">
+          <div class="ly" id="ly"></div><div class="lab" id="lyl"></div>
+          <div class="pair">
+            <div><b id="lhw"></b><div class="lab" id="lhl"></div></div>
+            <div><b id="lmo"></b><div class="lab" id="lml"></div></div>
+          </div>
+        </div></div>
+        <div class="live-go">
+          <p class="note">For everything else we use typical answers.</p>
+          ${W.trust ? `<ul class="trust">${W.trust.map(t => `<li><span>${t}</span></li>`).join("")}</ul>` : ""}
+          <div class="controls">
+            <button class="btn" id="more">${W.more || "Tell me more"} — ${WORDS[more] || more} more taps <span class="en">↵</span></button>
+            ${ENDPOINT || SHEET ? `<button class="btn alt" id="send">Email me this</button>`
+              : `<button class="btn alt" id="send">Copy my numbers</button>`}
+          </div>
+          <p class="nosign">No sign-up. No email needed to see your number.</p>
+        </div>
+        </div>
+      </div>
+      <p class="sr" role="status" id="lsay"></p>
+      <p class="fine">${W.intro.fine}</p>`);
+
+    const paint = () => {
+      const a = filled(), r = outcome();
+      part.forEach((q, i) => {
+        if (q.slider) {
+          const s = q.slider, el = $("#lq" + i), v = Math.min(s.max, Math.max(s.min, +a[q.id]));
+          if (+el.value !== v) el.value = v;
+          el.style.setProperty("--p", ((v - s.min) / (s.max - s.min) * 100) + "%");
+          $("#lo" + i).textContent = s.show(v);
+          $("#ln" + i).textContent = typeof s.note === "function" ? s.note(A) : (s.note || "");
+        } else {
+          const picked = q.type === "multi" ? a[q.id].map(String) : A[q.id] != null ? [String(A[q.id])] : [];
+          document.querySelectorAll("#lc" + i + " .chip").forEach(b => {
+            const on = picked.includes(b.dataset.v);
+            b.classList.toggle("on", on); b.setAttribute("aria-pressed", on);
+          });
+          /* their answer said back to them, where the calculator has something to say */
+          const o = q.type !== "multi" && A[q.id] != null ? opts(q).find(o => String(o.value) === String(A[q.id])) : null;
+          $("#lh" + i).textContent = o && o.hint ? o.hint : "";
+        }
+      });
+      $("#ly").textContent = money(r.annual); $("#lyl").textContent = r.labels.annual;
+      $("#lhw").innerHTML = r.freed.toFixed(1) + "<small>h/wk</small>"; $("#lhl").textContent = r.labels.hours;
+      $("#lmo").innerHTML = money(r.monthly) + "<small>/month</small>"; $("#lml").textContent = r.labels.monthly;
+    };
+    /* read out once a control settles, not on every step of a drag */
+    const say = () => { $("#lsay").textContent = "About " + money(outcome().annual) + " a year."; };
+    part.forEach((q, i) => {
+      if (q.slider) {
+        const el = $("#lq" + i);
+        el.addEventListener("input", () => { A[q.id] = +el.value; touched.add(q.id); paint(); });
+        el.addEventListener("change", say);
+      } else {
+        document.querySelectorAll("#lc" + i + " .chip").forEach(b => b.addEventListener("click", () => {
+          const v = b.dataset.v;
+          if (q.type === "multi") {
+            /* a tick-list starts with its usual ticks, and its last tick stays on */
+            const x = opts(q).find(o => String(o.value) === v).value, cur = filled()[q.id];
+            const next = cur.includes(x) ? cur.filter(y => y !== x) : cur.concat([x]);
+            if (!next.length) return;
+            A[q.id] = next;
+          } else {
+            A[q.id] = q.numeric ? +v : v;
+            /* picking who sets a typical rate, unless they already moved the rate */
+            if (q.sets) Object.entries(q.sets(v)).forEach(([k, x]) => { if (!touched.has(k)) A[k] = x; });
+          }
+          touched.add(q.id);
+          paint(); say();
+        }));
+      }
+    });
+    /* the number so far picks up where the live figure left off, not from $0 */
+    const go = () => { sofarWas = outcome().annual; step = F; render(); };
+    $("#more").addEventListener("click", go);
+    if (X < F) $("#lxo").addEventListener("click", () => {
+      const open = $("#lxo").getAttribute("aria-expanded") !== "true";
+      $("#lxo").setAttribute("aria-expanded", open); $("#lxq").hidden = !open;
+    });
+    /* On a phone-width page, close to the top, the card snaps up and stretches
+       to the full width with square corners, and settles back into its place on
+       the way down; its slot keeps its height, so nothing below it jumps. On a
+       wide page it does not dock: the card, the lines and the buttons stick
+       together beside the questions and come down with the scroll. */
+    const slot = $(".live-slot"), card = $(".live-out"), MAGNET = 40;
+    let docked = false, settle = 0;
+    const dock = () => {
+      const r = card.getBoundingClientRect();
+      clearTimeout(settle);
+      slot.style.height = r.height + "px";
+      Object.assign(card.style, { position: "fixed", zIndex: "40", top: r.top + "px", left: r.left + "px", width: r.width + "px" });
+      /* out of the screen's box while at the top: the box's fade-in leaves it
+         acting as the frame for anything fixed, so the card would pin to it */
+      document.body.appendChild(card);
+      void card.offsetWidth;                   // start the move from where it was
+      card.classList.add("moving", "docked");
+      Object.assign(card.style, { top: "0px", left: "0px", width: "100%" });
+      settle = setTimeout(() => card.classList.remove("moving"), 400);
+    };
+    const undock = () => {
+      const s = slot.getBoundingClientRect();
+      clearTimeout(settle);
+      card.classList.add("moving"); card.classList.remove("docked");
+      Object.assign(card.style, { top: s.top + "px", left: s.left + "px", width: s.width + "px" });
+      settle = setTimeout(() => {
+        card.classList.remove("moving"); card.removeAttribute("style");
+        slot.appendChild(card); slot.style.height = "";
+      }, 400);
+    };
+    const narrow = window.matchMedia("(max-width: 860px)");   // the one-column layout
+    const check = () => {
+      const want = narrow.matches && slot.getBoundingClientRect().top <= MAGNET;
+      if (want && !docked) { docked = true; dock(); }
+      else if (!want && docked) { docked = false; undock(); }
+    };
+    window.addEventListener("scroll", check, { passive: true });
+    window.addEventListener("resize", check);
+    dockWatch = () => {
+      window.removeEventListener("scroll", check); window.removeEventListener("resize", check); clearTimeout(settle);
+      if (card.parentNode !== slot) card.remove();   // a card at the top leaves with its screen
+    };
+    check();
+    if (ENDPOINT || SHEET) $("#send").addEventListener("click", () => { contactFrom = "live"; step = Q.length + 1; render(); });
+    else $("#send").addEventListener("click", () => copyNumbers(outcome()));
+    onEnter = go;
+    paint();
+  }
+
   function renderResult() {
     document.body.dataset.screen = "result";
-    const r = W.compute(A);
+    const r = outcome();
     /* The result goes to the sheet once per set of answers, not on every return here. */
-    if (SHEET) { const key = JSON.stringify(A); if (key !== sentResult) { sentResult = key; toSheet("result", r).catch(() => {}); } }
+    if (SHEET) { const key = "result" + JSON.stringify(A); if (key !== sentResult) { sentResult = key; toSheet("result", r).catch(() => {}); } }
     /* A page that embeds the calculator may keep the result (the offline copy
        files it against the company on the line); nothing here depends on it. */
     if (typeof window.fourtapsResult === "function") { try { window.fourtapsResult(W.wedge, A, r); } catch (e) {} }
     const maxH = Math.max.apply(null, r.bars.map(b => b.hours).concat([0.001]));
-    const send = () => { step++; render(); };
+    const send = () => { contactFrom = "result"; step++; render(); };
     const back = () => { step = Q.length - 1; render(); };
     $("#app").innerHTML = screen("tall", `
       <div class="qnum">Your numbers</div>
@@ -702,7 +1044,7 @@ window.WEDGE = (function () {
   /* ---------- contact ---------- */
   function renderContact() {
     document.body.dataset.screen = "contact";
-    const back = () => { step--; render(); };
+    const back = () => { step = contactFrom === "live" ? -1 : Q.length; render(); };
     $("#app").innerHTML = screen("tall", `
       <div class="qnum">Last step</div>
       <div class="q">Where should it go?</div>
@@ -728,7 +1070,7 @@ window.WEDGE = (function () {
       const email = $("#email").value.trim();
       if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) { $("#email").focus(); return; }
       const btn = $("#submit"); btn.disabled = true; btn.textContent = "Sending…";
-      const r = W.compute(A);
+      const r = outcome();
       if (SHEET) return sendToSheet(r, btn, { business: $("#business").value.trim(),
         contact: $("#contact").value.trim(), email, phone: $("#phone").value.trim(),
         website: ($("#website") || {}).value || "" });
