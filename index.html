@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Public+Sans:wght@400;500;600;700&display=swap">
 <style>
-:root{--tap:#2A3BF5;--bar:76px;--stick:18px;color-scheme:light}
+:root{--tap:#2A3BF5;--bar:76px;--stick:40px;color-scheme:light}
 /* The top bar floats over the page (fixed), so its height never moves the layout:
    --bar is how tall it looks now (full at the top, a slim strip once the page moves,
    html.compact); everything that holds still sits under one fixed edge, --stick,
@@ -80,7 +80,7 @@ html.compact .prog{display:flex;gap:4px;position:absolute;left:16px;right:16px;b
 .btn-outline-light{border:2px solid rgba(255,255,255,.35);color:#FFFFFF}
 .btn-outline-light:hover{border-color:#FFFFFF;color:#FFFFFF;transform:translateY(-2px)}
 .btn-big{min-height:64px;padding:0 30px;font-size:18px}
-.btn:focus-visible,.navlink:focus-visible,.cta-alt:focus-visible{outline:3px solid var(--tap);outline-offset:3px}
+.btn:focus-visible,.navlink:focus-visible,.qr-alt:focus-visible{outline:3px solid var(--tap);outline-offset:3px}
 .arrow{transition:transform .3s cubic-bezier(.2,.8,.2,1)}
 .btn:hover .arrow{transform:translateX(4px)}
 
@@ -394,24 +394,36 @@ html.compact .prog{display:flex;gap:4px;position:absolute;left:16px;right:16px;b
 .qb[aria-pressed="true"] small{color:rgba(255,255,255,.82)}
 .qnext{appearance:none;border:0;border-radius:999px;background:var(--tap);color:#FFFFFF;font:inherit;font-size:16px;font-weight:700;min-height:48px;padding:0 30px;cursor:pointer}
 .qb:focus-visible,.qnext:focus-visible{outline:3px solid var(--tap);outline-offset:2px}
-.qlive{margin:2px 0 0;font-size:14px;color:#4B5270}
-.qlive b{color:#0A0F2C;font-variant-numeric:tabular-nums}
 .night .qn{color:#D7FF3F}
-.night .qnote,.night .qlive{color:rgba(255,255,255,.72)}
-.night .qlive b{color:#FFFFFF}
-.qr-y{margin:0;display:flex;flex-direction:column;align-items:center;gap:4px}
-.qr-y b{font-family:"Plus Jakarta Sans",ui-sans-serif,system-ui,sans-serif;font-size:clamp(44px,min(12vw,8svh),72px);font-weight:700;line-height:1;letter-spacing:-0.04em;font-variant-numeric:tabular-nums}
-.qr-y span{font-size:15px;color:#4B5270}
-.qr-h{margin:0;font-size:16px;color:#4B5270}
-.qr-h b{color:#0A0F2C}
-.qr-x{width:100%;padding:14px 16px;border-radius:16px;background:#0A0F2C;color:#FFFFFF;display:flex;flex-direction:column;gap:4px}
-.qr-x span{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#D7FF3F}
-.qr-x b{font-family:"Plus Jakarta Sans",ui-sans-serif,system-ui,sans-serif;font-size:26px;font-weight:700;letter-spacing:-0.02em}
-.qr-x small{font-size:13px;line-height:1.4;color:rgba(255,255,255,.75)}
-.qr-head{margin:0;font-family:"Plus Jakarta Sans",ui-sans-serif,system-ui,sans-serif;font-size:18px;font-weight:700;text-wrap:balance}
-.qr-go{display:flex;flex-direction:column;align-items:center;gap:10px}
+.night .qnote{color:rgba(255,255,255,.72)}
 .qr-alt{font-size:15px;font-weight:600;color:#4B5270}
 .qr-fine{margin:0;max-width:420px;font-size:12px;line-height:1.5;color:#4B5270}
+
+/* the thread: what slow quotes cost them, in the top strip from their week on,
+   changing with every answer */
+.cost{display:none}
+html.compact .nav.counting{--bar:40px}
+html.compact .nav.counting .cost{display:flex;position:absolute;left:0;right:0;top:calc(env(safe-area-inset-top,0px) + 6px);justify-content:center;gap:5px;
+  margin:0;font-size:12.5px;font-weight:600;color:#4B5270;white-space:nowrap}
+.nav .cost b{color:#0A0F2C;font-variant-numeric:tabular-nums}
+.nav.dark .cost{color:rgba(255,255,255,.72)}
+.nav.dark .cost b{color:#D7FF3F}
+/* what it costs */
+.cost-parts{display:flex;flex-direction:column;gap:6px;font-size:clamp(16px,4.2vw,19px);line-height:1.4;color:rgba(255,255,255,.78)}
+.cost-parts p{margin:0}
+.cost-parts b{color:#FFFFFF;font-variant-numeric:tabular-nums}
+/* the decision: their next quote two ways, the result, the call */
+.dz{width:100%;max-width:560px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.dz-c{display:flex;flex-direction:column;gap:6px;padding:16px 14px;border-radius:16px;background:#FFFFFF;border:1.5px solid #DDE1EC;text-align:left;
+  font-size:14px;line-height:1.35;color:#4B5270}
+.dz-c b{font-size:18px;color:#0A0F2C}
+.dz-cost{margin-top:4px;font-weight:700;color:#0A0F2C}
+.dz-f{background:var(--tap);border-color:var(--tap);color:rgba(255,255,255,.85)}
+.dz-f b,.dz-f .dz-cost{color:#FFFFFF}
+.dz-r{display:flex;flex-direction:column;align-items:center;gap:12px}
+.dz-r .ln b{color:var(--tap)}
+.steps-s li{font-size:clamp(15px,4vw,18px)}
+.steps-s b{display:inline;font-size:1em}
 
 /* how we start: a real order, so numbered */
 .steps4{list-style:none;margin:6px 0 0;padding:0;max-width:560px;display:flex;flex-direction:column;gap:clamp(14px,2.4vh,22px);text-align:left}
@@ -419,18 +431,6 @@ html.compact .prog{display:flex;gap:4px;position:absolute;left:16px;right:16px;b
 .steps4 i{width:36px;height:36px;margin-top:-2px;border-radius:50%;display:grid;place-items:center;background:var(--tap);color:#FFFFFF;font-style:normal;font-weight:700;font-size:15px}
 .steps4 b{display:block;font-family:"Plus Jakarta Sans",ui-sans-serif,system-ui,sans-serif;font-size:1.15em;font-weight:700;letter-spacing:-0.02em;color:#0A0F2C}
 
-/* final call */
-.book{padding:128px 0 96px}
-.cta{position:relative;overflow:hidden;border-radius:36px;background:var(--tap);color:#FFFFFF;padding:88px 64px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:28px}
-.cta-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.08) 1px,transparent 1px);background-size:56px 56px}
-.cta-pills{position:relative;display:grid;grid-template-columns:repeat(2,auto);gap:8px}
-.cta-pills .pill{width:12px;height:12px}
-.cta h2{position:relative;margin:0;font-size:68px;line-height:1.02;font-weight:700;max-width:880px;text-wrap:balance}
-.cta p{position:relative;margin:0;font-size:20px;line-height:1.55;color:rgba(255,255,255,.88);max-width:560px}
-.cta-row{position:relative;display:flex;flex-wrap:wrap;justify-content:center;gap:14px}
-.cta-row .btn{max-width:100%;overflow-wrap:anywhere}
-.cta-alt{position:relative;font-size:16px;font-weight:600;color:rgba(255,255,255,.85)}
-.cta-alt:hover{color:#FFFFFF}
 
 /* footer */
 .foot{padding:32px 0 calc(48px + env(safe-area-inset-bottom,0px));font-size:15px;color:#4B5270}
@@ -460,12 +460,6 @@ html.compact .prog{display:flex;gap:4px;position:absolute;left:16px;right:16px;b
   .hc-rows{grid-template-columns:minmax(0,1fr);gap:6px}
   .hc-q{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:baseline;column-gap:12px;padding:8px 14px 2px;border-radius:12px}
   .hc-q input{grid-column:1 / -1}
-  .cta h2{font-size:38px}
-  .book{padding:88px 0 64px}
-  .cta{padding:64px 24px;border-radius:28px}
-}
-@media (max-width:640px){
-  .cta-row{flex-direction:column;align-items:stretch;width:100%}
 }
 @media (max-width:360px){
   .nav-cta{min-height:42px !important;padding:0 14px !important;font-size:14px !important;white-space:nowrap}
@@ -501,6 +495,7 @@ html.compact .prog{display:flex;gap:4px;position:absolute;left:16px;right:16px;b
 </nav>
 <a class="btn btn-primary nav-cta" href="book/" style="min-height:46px;padding:0 20px;font-size:15px">Book a free call</a>
 </div>
+<p class="cost" aria-live="polite"><span>Your slow quotes cost</span> <b id="cost-now">$18,560</b> <span>a year</span></p>
 </header>
 
 <main>
@@ -520,7 +515,7 @@ html.compact .prog{display:flex;gap:4px;position:absolute;left:16px;right:16px;b
 </div>
 <p class="hc-more">Slow quotes also <b>lose you jobs</b>.</p>
 <div class="hc-go">
-<a class="btn btn-primary btn-big" id="hc-go" href="quoting/"><span id="hc-go-t">See the full picture</span><span class="arrow" aria-hidden="true">→</span></a>
+<a class="btn btn-primary btn-big" id="hc-go" href="quoting/"><span id="hc-go-t">Follow one of your quotes</span><span class="arrow" aria-hidden="true">→</span></a>
 <a class="hc-alt" id="hc-book" href="book/" hidden>Or book a free call →</a>
 </div>
 </div>
@@ -532,39 +527,48 @@ html.compact .prog{display:flex;gap:4px;position:absolute;left:16px;right:16px;b
 <div class="story">
 <div class="dusk" aria-hidden="true"></div>
 
-<section id="ask-desk" class="ch qz qmini night" aria-label="Two questions about your desk">
-<div class="ch-in">
-<div class="qslot" data-ask="priceSrc scope" data-label="About your desk"></div>
-</div>
-</section>
-
-<section id="problem" class="ch night one" aria-label="A quote, by hand">
+<section id="problem" class="ch night one" aria-label="One of your quotes, start to finish">
 <div class="ch-in has-ph">
 <img class="ch-ph" src="img/desk.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async">
 <div class="desk" aria-hidden="true">
 <div class="st-bar"><b>9:41</b><span><i></i><i></i><i></i><i></i><em></em></span></div>
-<span class="w-time">At the desk: <b id="d-time">5 min</b></span>
+<span class="w-time">At the desk: <b class="d-time">5 min</b></span>
 <div class="sc sc1"><div class="w-bar"><i></i><i></i><i></i><span>Inbox</span></div><div class="w-body"><div class="mail new"><b>New quote request</b><span>40 valves, two sizes. Can you price it by Friday?</span></div><div class="mail"><b>Supplier newsletter</b><span>September price changes</span></div><div class="mail"><b>Re: Job 2291</b><span>Thanks, received.</span></div><div class="mail"><b>Invoice 8812</b><span>Payment reminder</span></div></div></div>
 <div class="sc sc2"><div class="w-bar"><i></i><i></i><i></i><span>New quote request</span></div><div class="w-body"><div class="from"><b>From: a customer</b><span>Today, 9:14 am</span></div><div class="att"><i>PDF</i>specs.pdf · 6 pages</div><div class="tx"><span style="width:94%"></span><span style="width:86%"></span><span style="width:97%"></span><span style="width:60%"></span><span style="width:91%"></span><span style="width:78%"></span><span style="width:88%"></span><span class="scan"></span></div></div></div>
 <div class="sc sc3"><div class="w-bar"><i></i><i></i><i></i><span>Looking up prices</span></div><div class="w-tabs"><span>Price list</span><span>Supplier A</span><span>Job 2104</span></div><div class="w-body"><div class="find">Search: <span class="typed">2" ball valve</span></div><div class="rows"><div><b>1" ball valve</b><em>$18.40</em></div><div><b>1½" ball valve</b><em>$24.10</em></div><div><b>2" ball valve</b><em>$32.00</em></div><div><b>2" gate valve</b><em>$41.75</em></div><div><b>Steel pipe, 10 ft</b><em>$30.90</em></div><div><b>Pipe cap, 2"</b><em>$3.20</em></div><span class="hop"></span></div></div></div>
 <div class="sc sc4"><div class="w-bar"><i></i><i></i><i></i><span>Quote template.docx</span></div><div class="w-body"><div class="from"><b>Quote Q-1042</b><span>Draft</span></div><div class="ql" style="--d:.3s"><b>2" brass ball valve × 12</b><em>$384.00</em></div><div class="ql" style="--d:1.1s"><b>Steel pipe, 10 ft × 40</b><em>$1,236.00</em></div><div class="ql" style="--d:1.9s"><b>Delivery</b><em>$0.00</em></div><div class="ql qtot" style="--d:2.7s"><b>Total</b><em>$1,620.00</em></div></div></div>
 <div class="sc sc5"><div class="w-bar"><i></i><i></i><i></i><span>Sent</span></div><div class="w-body"><div class="sent"><b>Quote Q-1042</b><span>Sent Thursday, 4:52 pm</span><i>✓</i></div><div class="fu" style="--d:.8s"><b>Monday</b><span>Following up on our quote…</span></div><div class="fu" style="--d:1.6s"><b>Wednesday</b><span>Any update on the valves?</span></div><div class="fu" style="--d:2.4s"><b>Friday</b><span>No reply yet.</span></div></div></div>
 </div>
-<span class="ch-k">A quote, by hand</span>
+<span class="ch-k">One of your quotes</span>
 <div class="slot">
-<p class="ln bt" data-mark="s1">A request lands.</p>
+<p class="ln bt" data-mark="s1">9:14. A request lands.</p>
 <p class="ln bt" data-mark="s2">Someone reads it.</p>
-<p class="ln bt" data-mark="s3">Looks up every price.</p>
+<p class="ln bt" data-mark="s3">Then looks up every price.</p>
+</div>
+</div>
+</section>
+
+<section id="ask-price" class="ch qz qmini night" aria-label="A question about your prices">
+<div class="ch-in">
+<div class="qslot" data-ask="priceSrc" data-label="Your quotes"></div>
+</div>
+</section>
+
+<section id="problem2" class="ch night one" aria-label="The same quote, sent and chased">
+<div class="ch-in has-ph">
+<img class="ch-ph" src="img/desk.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async">
+<span class="ch-k">One of your quotes</span>
+<div class="slot">
 <p class="ln bt" data-mark="s4">Builds the number.</p>
-<p class="ln bt" data-mark="s5">Sends it. Chases it.</p>
+<p class="ln bt" data-mark="s5">Sends it Thursday. Chases it.</p>
 <p class="ln ln-big bt" data-mark="end"><span class="lime" id="ch-h">1.5 hours</span>. Every quote.</p>
 </div>
 </div>
 </section>
 
-<section id="ask-steps" class="ch qz qmini night" aria-label="Two questions about your quotes">
+<section id="ask-wait" class="ch qz qmini night" aria-label="A question about your customers">
 <div class="ch-in">
-<div class="qslot" data-ask="intake tasks" data-label="About your quotes"></div>
+<div class="qslot" data-ask="turnaround" data-label="Your customers"></div>
 </div>
 </section>
 
@@ -578,9 +582,18 @@ html.compact .prog{display:flex;gap:4px;position:absolute;left:16px;right:16px;b
 </div>
 </section>
 
-<section id="ask-lost" class="ch qz qmini night" aria-label="Three questions about your customers">
+<section id="ask-lost" class="ch qz qmini night" aria-label="Two questions about your customers">
 <div class="ch-in">
-<div class="qslot" data-ask="turnaround lost jobValue" data-label="About your customers"></div>
+<div class="qslot" data-ask="lost jobValue" data-label="Your customers"></div>
+</div>
+</section>
+
+<section id="cost" class="ch night" aria-label="What slow quotes cost you">
+<div class="ch-in">
+<span class="ch-k">What it costs</span>
+<p class="ln bt">Slow quotes cost you</p>
+<p class="ln ln-big bt"><span class="lime" id="cost-y">$18,560</span> a year.</p>
+<div class="cost-parts bt"><p><b id="cost-a">$18,560</b> in quoting time</p><p id="cost-b"></p></div>
 </div>
 </section>
 
@@ -608,56 +621,39 @@ html.compact .prog{display:flex;gap:4px;position:absolute;left:16px;right:16px;b
 </div>
 </section>
 
-<section id="who" class="ch" aria-label="Who we are">
+<section id="who" class="ch qz" aria-label="Who builds it">
 <div class="ch-in">
-<span class="ch-k">Who we are</span>
-<figure class="ch-fig bt"><img src="img/shop.jpg" alt="A small machine shop: workbenches and machines under tall factory windows, a big fan on the wall" width="1200" height="832" loading="lazy" decoding="async"><figcaption>The kind of shop we work for.</figcaption></figure>
-<p class="ln bt">Big companies already automate their work.</p>
-<p class="ln bt">Small shops get sold hype instead.</p>
-<p class="ln ln-s bt">We think the 12-person business deserves the real thing — sized for it, explained honestly, a person always in control.</p>
-<div class="was bt"><p class="ch-p">Before fourtaps, we worked at</p><p class="was-n" aria-label="Amazon, Sony and Ateam"><span>Amazon</span><span>Sony</span><span>Ateam</span></p><p class="ch-p">Now we work for the 12-person shop.</p></div>
+<span class="ch-k">Who builds it</span>
+<div class="qslot">
+<div class="qs bt"><figure class="ch-fig"><img src="img/shop.jpg" alt="A small machine shop: workbenches and machines under tall factory windows, a big fan on the wall" width="1200" height="832" loading="lazy" decoding="async"><figcaption>The kind of shop we work for.</figcaption></figure><p class="ln ln-s">We think the 12-person business deserves the real thing — sized for it, explained honestly, a person always in control.</p></div>
+<div class="qs bt"><div class="was"><p class="ch-p">Before fourtaps, we worked at</p><p class="was-n" aria-label="Amazon, Sony and Ateam"><span>Amazon</span><span>Sony</span><span>Ateam</span></p><p class="ch-p">Now we work for the 12-person shop.</p></div></div>
+<div class="qs bt"><p class="ln ln-s">Small steps. Stop after any.</p><ol class="steps4 steps-s">
+<li><i class="display">1</i><span><b>A free call.</b> 30 minutes.</span></li>
+<li><i class="display">2</i><span><b>We measure one desk.</b> The real number, even if it’s small.</span></li>
+<li><i class="display">3</i><span><b>We build it,</b> in your own system.</span></li>
+<li><i class="display">4</i><span><b>We keep it running,</b> if you want.</span></li>
+</ol><p class="ch-p"><b>If a person is the better answer, we’ll tell you.</b></p></div>
+</div>
 </div>
 </section>
 
-<section id="start" class="ch" aria-label="How we start">
+<section id="decide" class="ch" aria-label="Your next quote">
 <div class="ch-in">
-<span class="ch-k">How we start</span>
-<p class="ln bt">Small steps. Stop after any.</p>
-<ol class="steps4">
-<li class="bt"><i class="display">1</i><span><b>A free call.</b> 30 minutes. No pressure.</span></li>
-<li class="bt"><i class="display">2</i><span><b>We measure one desk.</b> You get the real number, even if it’s small.</span></li>
-<li class="bt"><i class="display">3</i><span><b>We build it.</b> In your own system. Nothing goes live until you’ve tried it.</span></li>
-<li class="bt"><i class="display">4</i><span><b>We keep it running.</b> Checks, fixes, small changes. Only if you want it.</span></li>
-</ol>
-<div class="ch-end bt"><p class="ln ln-s blue">If a person is the better answer, we’ll tell you.</p><p class="ch-p">Quotes on paper, a site visit for every job, a few quotes a week: hire someone. We’ll say so, even if it costs us the job.</p></div>
+<span class="ch-k">Your next quote</span>
+<p class="ln bt">Two ways to run it.</p>
+<div class="dz bt">
+<div class="dz-c"><b class="display">By hand</b><span id="dz-each">1.5 hours a quote</span><span id="dz-wait">Sent in a day or two</span><span class="dz-cost" id="dz-cost">$18,560 a year</span></div>
+<div class="dz-c dz-f"><b class="display">With fourtaps</b><span>Minutes a quote</span><span>Ready the same day</span><span class="dz-cost">You approve each one</span></div>
 </div>
-</section>
-
-<section id="number" class="ch qz" aria-label="Your real number">
-<div class="ch-in">
-<span class="ch-k">Your real number</span>
-<div class="qslot" id="qslot">
-<div class="qs bt"><p class="ln">Seven taps. Your real number.</p><p class="ch-p">The sliders were a start. Tap the answer that fits, or skip one you don’t know.</p></div>
+<div class="dz-r bt">
+<p class="ln ln-s">About <b id="dz-back">$18,560</b> a year back in your business.</p>
+<a class="btn btn-primary btn-big" href="book/">Book a free 30-minute call<span class="arrow" aria-hidden="true">→</span></a>
+<a class="qr-alt" id="dz-tune" href="quoting/">Fine-tune my number →</a>
+<p class="qr-fine" id="dz-fine"></p>
 </div>
 </div>
 </section>
 </div>
-
-<section id="book" class="book">
-<div class="wrap">
-<div class="reveal cta">
-<div class="cta-grid" aria-hidden="true"></div>
-<span class="cta-pills" aria-hidden="true"><span class="pill"></span><span class="pill"></span><span class="pill"></span><span class="pill lime"></span></span>
-<h2 class="display">You're four taps from <span class="lime">a lighter week.</span></h2>
-<p>Book a free 30-minute call. We'll tell you, honestly, whether your quoting desk is a fit, and where it isn't.</p>
-<div class="cta-row">
-<a class="btn btn-lime" href="book/">Book your free call<span class="arrow" aria-hidden="true">→</span></a>
-<a class="btn btn-outline-light" href="mailto:mostafa@fourtaps.com">mostafa@fourtaps.com</a>
-</div>
-<a class="cta-alt" href="quoting/">Or see your full number first →</a>
-</div>
-</div>
-</section>
 
 </main>
 
@@ -807,7 +803,7 @@ html.compact .prog{display:flex;gap:4px;position:absolute;left:16px;right:16px;b
     });
     var back=homeBack=!!mem||!!(hset.q||hset.h||hset.r);
     $('.st-sub').textContent=back?'On quoting time, from your answers.':'On quoting time, for a typical shop.';
-    $('#hc-go-t').textContent=back?'Back to your full result':'See the full picture';
+    $('#hc-go-t').textContent=back?'Back to your full result':'Follow one of your quotes';
     $('#hc-book').hidden=!back;
   }
   homeFor();
@@ -824,7 +820,7 @@ html.compact .prog{display:flex;gap:4px;position:absolute;left:16px;right:16px;b
     [hq,hh,hr].forEach(function(el){ el.style.setProperty('--p',((el.value-el.min)/(el.max-el.min)*100)+'%'); });
     var p=new URLSearchParams(location.search);
     if(hset.q) p.set('q',q); if(hset.h) p.set('h',h); if(hset.r) p.set('r',r);
-    var s=p.toString(); $('#hc-go').href=homeBack||!W?'quoting/'+(s?'?'+s:''):'#ask-desk';   /* on to the first questions, or back to their full result */
+    var s=p.toString(); $('#hc-go').href=homeBack||!W?'quoting/'+(s?'?'+s:''):'#problem';   /* into the story of one of their quotes, or back to their full result */
     if(R) qResult(R);
   }
   [[hq,'q'],[hh,'h'],[hr,'r']].forEach(function(x){ x[0].addEventListener('input',function(){ hset[x[1]]=1; hcalc(); }); });
@@ -877,36 +873,29 @@ html.compact .prog{display:flex;gap:4px;position:absolute;left:16px;right:16px;b
     var titleTop=top(firstCh)+nextTitle.offsetTop;   /* where it sits before its chapter holds still */
     spines.style.setProperty('--len',Math.max(80,titleTop-(endTop+from)-24)+'px');
   }
-  /* "Your real number": after its opening, one page per question, a tap on an answer
-     turning to the next (the tasks question, several answers, has its own Next), then
-     the full result. Saved as the quoting page saves: same visit, same row, stage
-     "first" until the last three are answered, then "result". */
-  var qslot=$('#qslot');
+  /* The story follows one of the visitor's quotes, and asks the four questions that
+     move the result at the moment each happens (data-ask): where prices come from as
+     the prices are looked up; how long the customer waits once it is sent; work lost
+     and what a job is worth after "Meanwhile". A tap on an answer goes on, a tap
+     anywhere else skips (our guess stays). What they set saves as the quoting page
+     saves: same visit and row, stage "first" until the three about customers are
+     answered, then "result". The phone of "One of your quotes" is drawn once and
+     copied into the chapter's second half. */
+  var deskTwo=$('#problem2 .ch-in'), deskOne=$('#problem .desk');
+  if(deskTwo&&deskOne) deskTwo.insertBefore(deskOne.cloneNode(true),deskTwo.querySelector('.ch-k'));
   function qPage(id,label,i,n){
     var q=qById(id), multi=q.type==='multi';
     return '<div class="qs bt" data-q="'+id+'"><p class="qn">'+esc(label)+(n>1?' · '+(i+1)+' of '+n:'')+'</p><h3 class="qa display">'+esc(q.ask)+'</h3>'+
       (multi?'<p class="qnote">Untick any that don’t happen.</p>':'')+
       '<div class="qo'+(multi?' multi':'')+'" role="group" aria-label="'+esc(q.ask)+'">'+qOpts(q).map(function(o){
         return '<button type="button" class="qb" data-v="'+esc(o.value)+'" aria-pressed="false"><b>'+esc(o.chip||o.label)+'</b>'+(o.hint&&!multi?'<small>'+esc(o.hint)+'</small>':'')+'</button>';
-      }).join('')+'</div>'+(multi?'<button type="button" class="qnext">Next</button>':'')+
-      '<p class="qlive">Your number now: <b></b> a year</p></div>';
+      }).join('')+'</div>'+(multi?'<button type="button" class="qnext">Next</button>':'')+'</div>';
   }
   if(W){
-    /* in the story, each question after what it is about (data-ask) */
     all('.qslot[data-ask]').forEach(function(sl){
       var ids=sl.getAttribute('data-ask').split(' '), lab=sl.getAttribute('data-label');
       sl.insertAdjacentHTML('beforeend',ids.map(function(id,i){ return qPage(id,lab,i,ids.length); }).join(''));
     });
-    /* at the end, every question again (those already answered are taken out by
-       qSyncEnd), then the result */
-    if(qslot) qslot.insertAdjacentHTML('beforeend',QZ.map(function(id){ return qPage(id,'Still to answer',0,1); }).join('')+
-    '<div class="qs bt qres" data-q="result"><p class="qn">With your answers</p>'+
-      '<p class="qr-y"><b id="qr-year"></b><span id="qr-ylab"></span></p>'+
-      '<p class="qr-h" id="qr-hours"></p>'+
-      '<div class="qr-x"><span>And the work lost to slow quotes</span><b id="qr-extra"></b><small id="qr-xnote"></small></div>'+
-      '<p class="qr-head" id="qr-head"></p>'+
-      '<div class="qr-go"><a class="btn btn-primary" href="book/">Book a free call<span class="arrow" aria-hidden="true">→</span></a><a class="qr-alt" id="qr-all" href="quoting/">See every number →</a></div>'+
-      '<p class="qr-fine" id="qr-count"></p></div>');
     qMark(); hcalc();
     $('.story').addEventListener('click',function(e){
       var b=e.target.closest('.qs .qb'), nx=e.target.closest('.qs .qnext');
@@ -919,28 +908,8 @@ html.compact .prog{display:flex;gap:4px;position:absolute;left:16px;right:16px;b
       }
       qYours[id]=1;
       qMark(); hcalc(); qRemember(); qSaveSoon();
-      if(!sl.closest('#number')) qSyncEnd();
       if(!still&&(nx||!multi)) setTimeout(nextPage,260);
     });
-  }
-  /* The end asks only what is still unanswered. Pages answered along the way leave
-     it (and stop counting as pages), but never while the visitor is at or in it,
-     so nothing moves under them. */
-  function qSyncEnd(first){
-    var end=$('#number'); if(!end||!W||!qslot) return;
-    var x=chs.filter(function(c){ return c.c===end; })[0];
-    if(!first&&x&&scrollY>x.y-innerHeight) return;
-    var left=0;
-    all('#qslot .qs[data-q]').forEach(function(sl){
-      var id=sl.getAttribute('data-q'); if(id==='result') return;
-      var done=!!qYours[id]; sl.hidden=done; sl.classList.toggle('bt',!done); if(!done) left++;
-    });
-    var intro=qslot.firstElementChild;
-    intro.querySelector('.ln').textContent=left?(left===1?'One more tap.':(['','','Two','Three','Four','Five','Six','Seven'][left]||left)+' more taps.')+' Your real number.':'Your real number.';
-    intro.querySelector('.ch-p').textContent=left===QZ.length?'The sliders were a start. Tap the answer that fits, or skip one you don’t know.'
-      :left?'You skipped '+(left===1?'this one':'these')+' along the way. Tap the answer that fits.':'From everything you told us.';
-    if(x){ x.b=[].slice.call(end.querySelectorAll('.bt')); end.style.setProperty('--n',x.b.length); }
-    if(!first) stageAll();
   }
   function qMark(){
     all('.qs[data-q]').forEach(function(sl){
@@ -952,23 +921,30 @@ html.compact .prog{display:flex;gap:4px;position:absolute;left:16px;right:16px;b
       });
     });
   }
+  /* What slow quotes cost them: the quoting time, plus the work lost to late quotes
+     once they have told us anything about it (never our guess alone). The same
+     figure in the top strip, on "What it costs" and in the decision. */
   function qResult(R){
-    all('.qlive b').forEach(function(b){ b.textContent='$'+Math.round(R.annual).toLocaleString('en-CA'); });
-    if(!$('#qr-year')) return;
-    var open=LOCKS.every(function(id){ return qYours[id]; }), n=QZ.filter(function(id){ return qYours[id]; }).length;
-    $('#qr-year').textContent='$'+Math.round(R.annual).toLocaleString('en-CA');
-    $('#qr-ylab').textContent=R.labels.annual;
-    $('#qr-hours').innerHTML='<b>'+R.freed.toFixed(1)+' hours</b> a week of lookup work, off the desk';
-    $('#qr-extra').textContent=open?R.extra.value:'Answer the last three';
-    $('#qr-xnote').textContent=!open?'How long customers wait, work lost, and what a job is worth.'
-      :R.extra.value==='Not estimated'?'You told us lateness has not cost you work, so we do not invent a figure.'
-      :'If same-day quoting wins back the work you lose to being late. From your own answers.';
-    $('#qr-head').textContent=W.headline(R);
-    $('#qr-count').textContent=(n===QZ.length?'From your answers. ':'From your answers to '+n+' of '+QZ.length+'; the rest are our guesses. ')+
-      'They go to fourtaps so we can talk them through with you; no name or email.';
-    var p=new URLSearchParams(location.search);
-    if(hset.q) p.set('q',hq.value); if(hset.h) p.set('h',hh.value); if(hset.r) p.set('r',hr.value);
-    var s=p.toString(); $('#qr-all').href='quoting/'+(s?'?'+s:'');
+    var m=function(n){ return '$'+Math.round(n).toLocaleString('en-CA'); };
+    var told=!!(qYours.turnaround||qYours.lost||qYours.jobValue), up=0;
+    if(told&&R.extra&&/\$/.test(R.extra.value)) up=+String(R.extra.value).replace(/[^0-9]/g,'')||0;
+    var tot=R.annual+up, set=function(sel,t){ var el=$(sel); if(el) el.textContent=t; };
+    set('#cost-now',m(tot)); set('#cost-y',m(tot)); set('#cost-a',m(R.annual));
+    set('#cost-b',!told?'Work lost to late quotes: not counted, you skipped those.':up?m(up)+' in work lost to late quotes':'No work lost to late quotes, you told us.');
+    var cb=$('#cost-b'); if(cb&&up) cb.innerHTML='<b>'+m(up)+'</b> in work lost to late quotes';
+    set('#dz-each',$('#hc-ho').textContent+' a quote');
+    set('#dz-wait',{same:'Sent the same day',d2:'Sent in a day or two',d5:'Sent in three to five days',week:'Sent in a week or more'}[QA.turnaround]||'Sent in a day or two');
+    set('#dz-cost',m(tot)+' a year');
+    set('#dz-back',m(tot));
+    var asked=['priceSrc','turnaround','lost','jobValue'], skipped=asked.filter(function(id){ return !qYours[id]; }).length;
+    set('#dz-fine','From your answers'+(skipped?'; we guessed the '+(skipped===1?'one':skipped)+' you skipped':'')+'. '+
+      (up?'The lost-work part is an estimate from them, not a promise. ':'')+'They go to fourtaps so we can talk them through with you; no name or email.');
+    var tune=$('#dz-tune');
+    if(tune){
+      var p=new URLSearchParams(location.search);
+      if(hset.q) p.set('q',hq.value); if(hset.h) p.set('h',hh.value); if(hset.r) p.set('r',hr.value);
+      var s=p.toString(); tune.href='quoting/'+(s?'?'+s:'');
+    }
   }
   /* what the quoting page reads on arrival, so "See every number" opens filled in */
   function qRemember(){
@@ -1046,7 +1022,6 @@ html.compact .prog{display:flex;gap:4px;position:absolute;left:16px;right:16px;b
       chs.push({c:c,b:b,lit:c.classList.contains('turn'),marks:!!c.querySelector('[data-mark]')});
     });
   }
-  qSyncEnd(true);
   function storyMeasure(){
     chs.forEach(function(x){
       var inn=x.c.firstElementChild;
@@ -1070,15 +1045,17 @@ html.compact .prog{display:flex;gap:4px;position:absolute;left:16px;right:16px;b
       if(x.y-y<=navh&&x.y+x.h-y>navh) dark=x.c.classList.contains('night')||(x.lit&&last<1);   /* is it under the bar */
     });
     bar.classList.toggle('dark',dark);
+    bar.classList.toggle('counting',!still&&y>=stageStart()+stageRange()-4);   /* the cost so far, from their week on */
   }
   /* chapter 1's timer: the time at the desk so far, a share of the visitor's own
      hours on each quote, reaching all of it when the quote is sent */
   var DT={s1:.05,s2:.2,s3:.6,s4:.85,s5:1,end:1};
   function deskTime(m){
-    var el=$('#d-time'); if(!el||!DT[m]) return;
-    if(DT[m]===1){ el.textContent=$('#hc-ho').textContent; return; }
+    if(!DT[m]) return;
+    var els=all('.d-time'), say=function(t){ els.forEach(function(el){ el.textContent=t; }); };
+    if(DT[m]===1){ say($('#hc-ho').textContent); return; }
     var min=Math.max(5,Math.round(+hh.value*60*DT[m]/5)*5);
-    el.textContent=min<60?min+' min':(Math.floor(min/60)+' h '+(min%60?min%60+' min':'')).trim();
+    say(min<60?min+' min':(Math.floor(min/60)+' h '+(min%60?min%60+' min':'')).trim());
   }
   addEventListener('scroll',storyScroll,{passive:true});
   /* the pages: the top, the calculator ready, every beat of every chapter, the call
@@ -1089,18 +1066,20 @@ html.compact .prog{display:flex;gap:4px;position:absolute;left:16px;right:16px;b
   if(!still){ d.documentElement.classList.add('paged'); bar.appendChild(prog); }
   function snapMeasure(){
     if(still) return;
-    var ys=[0,stageStart()+stageRange()];
-    chs.forEach(function(x){ ys.push(x.pin); for(var i=1;i<x.b.length;i++) ys.push(x.pin+(i-.2)*x.step); });
-    ys.push(top($('#book'))-bar.offsetHeight, d.documentElement.scrollHeight-innerHeight);
+    var ys=[0,stageStart()+stageRange()], g=[2];
+    chs.forEach(function(x){
+      var n=x.b.length; ys.push(x.pin); for(var i=1;i<n;i++) ys.push(x.pin+(i-.2)*x.step);
+      if(x.c.classList.contains('qmini')) g[g.length-1]+=n; else g.push(n);   /* a question counts with the part before it */
+    });
+    var foot=d.documentElement.scrollHeight-innerHeight;
+    if(foot>ys[ys.length-1]+40){ ys.push(foot); g[g.length-1]+=1; }
     ys.forEach(function(y,i){
       var m=snaps[i];
       if(!m){ m=d.createElement('i'); m.className='snap'; m.setAttribute('aria-hidden','true'); d.body.appendChild(m); snaps.push(m); }
       m.style.top=Math.max(0,Math.round(y))+'px';
     });
     while(snaps.length>ys.length) d.body.removeChild(snaps.pop());
-    snapYs=ys; groups=[2];
-    chs.forEach(function(x){ if(x.c.classList.contains('qmini')) groups[groups.length-1]+=x.b.length; else groups.push(x.b.length); });
-    groups.push(2);
+    snapYs=ys; groups=g;
     if(prog.children.length!==groups.length) prog.innerHTML=groups.map(function(){ return '<i><b></b></i>'; }).join('');
     progScroll();
   }
