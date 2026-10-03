@@ -120,7 +120,8 @@ html.compact .prog{display:flex;gap:4px;position:absolute;left:16px;right:16px;b
 .st-bg{position:absolute;left:0;right:0;top:calc(-1 * var(--stick));bottom:calc(100svh - 100lvh - 2px);z-index:-1;pointer-events:none;opacity:0;transition:opacity .6s ease}
 .stage.ph .st-bg{opacity:1}
 .st-ph,.st-shade{position:absolute;inset:0;width:100%;height:100%}
-.st-ph{object-fit:cover}
+.st-ph{object-fit:cover;opacity:0;transition:opacity .6s ease}
+.st-ph.on{opacity:1}
 .st-shade{background:linear-gradient(180deg,rgba(10,15,44,.6),rgba(10,15,44,.42) 40%,rgba(10,15,44,.8))}
 .stage.ph .st-w{color:#FFFFFF;text-shadow:0 2px 20px rgba(10,15,44,.5)}
 .stage.ph .hc-n{color:#FFFFFF}
@@ -893,21 +894,27 @@ html.compact .prog{display:flex;gap:4px;position:absolute;left:16px;right:16px;b
      columns through web/api/lead.js. Without a code, or with no Site words, the
      page stays as it is. */
   /* the first slide's photo: the desk, or on a company's page a photo of its kind of
-     business (L.photo). It shows once loaded. A company's page waits up to 1.5s for
-     its kind, then falls back to the desk. */
-  var heroImg=$('.st-ph'), heroSet=false;
+     business (L.photo). The slide is dark from the start and the photo fades in once
+     loaded. A company's first lookup can take 3 to 5 seconds (the script reads the
+     whole Sheet), so its page waits up to 6s before showing the desk, and still
+     switches to its own photo if the answer comes later. */
+  var heroImg=$('.st-ph'), heroKind=null;
+  if(!still&&heroImg){ stage.classList.add('ph'); bar.classList.add('onph'); }
   function hero(kind){
-    if(heroSet||still||!heroImg) return;
-    heroSet=true;
-    heroImg.onload=function(){ stage.classList.add('ph'); bar.classList.add('onph'); };
-    heroImg.src='img/hero-'+(kind||'desk')+'.jpg';
+    if(still||!heroImg) return;
+    kind=kind||'desk';
+    if(kind===heroKind) return;
+    heroKind=kind;
+    heroImg.classList.remove('on');
+    heroImg.onload=function(){ heroImg.classList.add('on'); };
+    heroImg.src='img/hero-'+kind+'.jpg';
   }
   (function(){
     var code=''; try{ code=(new URLSearchParams(location.search).get('lead')||'').toLowerCase(); }catch(e){}
     if(!/^[a-hjkmnp-z][a-hjkmnp-z2-9]{7}$/.test(code)){ hero(); return; }
-    setTimeout(function(){ hero(); },1500);
+    setTimeout(function(){ if(!heroKind) hero(); },6000);
     fetch('/api/lead?code='+code).then(function(r){ return r.ok?r.json():null; }).then(function(L){
-      if(!L||!L.ok){ hero(); return; }
+      if(!L||!L.ok){ if(!heroKind) hero(); return; }
       hero(L.photo);
       if(L.name){ $('.st-for').textContent='For '+L.name; $('.st-for').hidden=false; }
       var est=false;
@@ -919,7 +926,7 @@ html.compact .prog{display:flex;gap:4px;position:absolute;left:16px;right:16px;b
       if(L.line) $('.st-sub').textContent=L.line;
       else if(est) $('.st-sub').textContent='Our estimate from your job ad.';
       stageAll();
-    }).catch(function(){ hero(); });
+    }).catch(function(){ if(!heroKind) hero(); });
   })();
   stageAll();
   addEventListener('scroll',stageScroll,{passive:true});
