@@ -102,7 +102,7 @@ html.compact .prog{display:flex;gap:4px;position:absolute;left:16px;right:16px;b
   white-space:normal;text-wrap:balance;line-height:1.3;width:calc(min(86vw,600px) / var(--S))}   /* wraps; divided by the zoom so it fits the screen at the start */
 /* under the figure one line: the hours they get back, from the same sliders; on a
    company's own page, also how long its job ad has been open. Nothing invented. */
-.st-back{font-size:clamp(15px,.5em,22px);font-weight:600;letter-spacing:-0.01em;color:var(--tap)}
+.st-back{font-size:clamp(15px,.5em,22px);font-weight:600;letter-spacing:-0.01em;color:var(--tap);white-space:normal;text-wrap:balance;line-height:1.25;width:calc(min(86vw,600px) / var(--S))}
 .st-back b{font-weight:700;font-variant-numeric:tabular-nums}
 .st-ad{font-weight:600;color:#0A0F2C}
 /* on a company's own page, its name over the statement */
@@ -113,7 +113,7 @@ html.compact .prog{display:flex;gap:4px;position:absolute;left:16px;right:16px;b
   border:1px solid rgba(10,15,44,.10);color:var(--tap);font-size:18px}
 .st-how:hover{color:var(--tap)}
 /* The first two slides stand on a real photo of the work (web/img/hero-<kind>.jpg):
-   the desk, or on a company's page its kind of business. Darkened, the words white,
+   the truck by default, or on a company's page its kind of business. Darkened, the words white,
    the calculator's card nearly solid so its labels read; the fade into chapter 1
    starts dark to meet it. It reaches up under the top bar and down past the address
    bar. Only with motion; otherwise the slides are as before. */
@@ -125,7 +125,6 @@ html.compact .prog{display:flex;gap:4px;position:absolute;left:16px;right:16px;b
 .st-shade{background:linear-gradient(180deg,rgba(10,15,44,.6),rgba(10,15,44,.42) 40%,rgba(10,15,44,.8))}
 .stage.ph .st-w{color:#FFFFFF;text-shadow:0 2px 20px rgba(10,15,44,.5)}
 .stage.ph .hc-n{color:#FFFFFF}
-.stage.ph .hc{background:rgba(255,255,255,.9)}
 .stage.ph .hc-l,.stage.ph .hc-more,.stage.ph .hc-alt{color:rgba(255,255,255,.82)}
 .stage.ph .hc-more b{color:#FFFFFF}
 .stage.ph + .story .dusk{background:#0A0F2C}
@@ -151,39 +150,28 @@ html.compact .prog{display:flex;gap:4px;position:absolute;left:16px;right:16px;b
 .stage.still .st-calc{opacity:1;transform:none;pointer-events:auto;margin-top:24px}
 .hc-more{max-width:680px;font-size:17px;line-height:1.45;color:#4B5270;text-wrap:balance}
 .hc-more b{color:#0A0F2C;font-weight:600}
-/* the card is frosted glass over the page's colours: see-through and blurred,
-   a light rim catching the top-left, a soft sheen, controls like glass beads */
-.hc{position:relative;isolation:isolate;width:100%;max-width:860px;border-radius:30px;padding:18px 8px;text-align:left;
-  background:rgba(255,255,255,.72);border:1px solid rgba(255,255,255,.55);
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.9),inset 0 -1px 0 rgba(255,255,255,.25),0 30px 70px -36px rgba(10,15,44,.28),0 8px 24px -14px rgba(10,15,44,.14)}
-@supports ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){
-  .hc{background:linear-gradient(160deg,rgba(255,255,255,.62),rgba(255,255,255,.30));
-    -webkit-backdrop-filter:blur(26px) saturate(180%);backdrop-filter:blur(26px) saturate(180%)}
-}
-.hc::before{content:"";position:absolute;inset:0;z-index:-1;border-radius:inherit;padding:1.5px;pointer-events:none;
-  background:linear-gradient(135deg,rgba(255,255,255,.95),rgba(255,255,255,.2) 38%,rgba(255,255,255,.05) 62%,rgba(255,255,255,.7));
-  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude}
-.hc::after{content:"";position:absolute;inset:0;z-index:-1;border-radius:inherit;pointer-events:none;
-  background:radial-gradient(120% 70% at 0% 0%,rgba(255,255,255,.55),rgba(255,255,255,0) 60%)}
+/* the three sliders, each in its own white box (like the story's answer buttons),
+   side by side on a wide screen and one under another on a phone */
+.hc{width:100%;max-width:860px;text-align:left}
 .hc-n{font-size:1em;line-height:.95;font-weight:700;letter-spacing:-0.045em;padding:0 .06em;font-variant-numeric:tabular-nums;color:#0A0F2C}
 .hc-l{font-size:18px;line-height:1.4;color:#4B5270;text-align:center;text-wrap:balance}
-.hc-rows{display:grid;grid-template-columns:repeat(3,minmax(0,1fr))}
-.hc-q{display:flex;flex-direction:column;gap:2px;padding:4px 24px}
-.hc-q + .hc-q{border-left:1px solid rgba(10,15,44,.08)}
+.hc-rows{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.hc-q{display:flex;flex-direction:column;gap:0;padding:10px 16px 6px;border-radius:14px;background:#FFFFFF;border:1.5px solid #DDE1EC;
+  box-shadow:0 10px 30px -18px rgba(10,15,44,.35)}
 .hc-q label{font-size:13px;font-weight:600;letter-spacing:.01em;color:#4B5270}
-.hc-q output{font-family:"Plus Jakarta Sans",ui-sans-serif,system-ui,sans-serif;font-size:21px;font-weight:700;letter-spacing:-0.01em;color:#0A0F2C;font-variant-numeric:tabular-nums}
-.hc input[type=range]{-webkit-appearance:none;appearance:none;display:block;width:100%;height:34px;margin:6px 0 0;padding:0;background:transparent;cursor:pointer}
+.hc-q output{font-family:"Plus Jakarta Sans",ui-sans-serif,system-ui,sans-serif;font-size:19px;font-weight:700;letter-spacing:-0.01em;color:#0A0F2C;font-variant-numeric:tabular-nums}
+.hc input[type=range]{-webkit-appearance:none;appearance:none;display:block;width:100%;height:28px;margin:2px 0 0;padding:0;background:transparent;cursor:pointer}
 .hc input[type=range]:focus{outline:none}
 .hc input[type=range]:focus-visible{outline:3px solid var(--tap);outline-offset:3px;border-radius:12px}
 .hc input[type=range]::-webkit-slider-runnable-track{height:8px;border-radius:99px;
   background:linear-gradient(90deg,var(--tap) var(--p,50%),rgba(10,15,44,.10) var(--p,50%));box-shadow:inset 0 1px 2px rgba(10,15,44,.12)}
-.hc input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:30px;height:30px;margin-top:-11px;border:0;border-radius:50%;
+.hc input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:26px;height:26px;margin-top:-9px;border:0;border-radius:50%;
   background:radial-gradient(circle at 35% 28%,#FFFFFF 0,#F6F7FF 55%,#E4E7F8 100%);
   box-shadow:0 6px 16px -4px rgba(10,15,44,.30),0 0 0 .5px rgba(10,15,44,.10),inset 0 1px 1px #FFFFFF;transition:transform .18s cubic-bezier(.2,.8,.2,1)}
 .hc input[type=range]:active::-webkit-slider-thumb{transform:scale(1.18)}
 .hc input[type=range]::-moz-range-track{height:8px;border-radius:99px;background:rgba(10,15,44,.10)}
 .hc input[type=range]::-moz-range-progress{height:8px;border-radius:99px;background:var(--tap)}
-.hc input[type=range]::-moz-range-thumb{width:28px;height:28px;border:0;border-radius:50%;background:#FFFFFF;
+.hc input[type=range]::-moz-range-thumb{width:24px;height:24px;border:0;border-radius:50%;background:#FFFFFF;
   box-shadow:0 6px 16px -4px rgba(10,15,44,.30),0 0 0 .5px rgba(10,15,44,.10)}
 /* its button: a plain pill in the site blue, darker on hover, no lift */
 #hc-go{border-radius:999px;padding:0 30px;background:var(--tap);box-shadow:none;transition:background-color .2s}
@@ -383,6 +371,48 @@ html.compact .prog{display:flex;gap:4px;position:absolute;left:16px;right:16px;b
 .taps4{transition:opacity .6s ease}
 .moving .turn:not(.lit) .taps4{opacity:0}
 
+/* your real number: one question per page, its answers as big buttons; with motion
+   only the current page shows (the others stacked under it, out of reach of taps) */
+.qslot{width:100%;max-width:520px;display:flex;flex-direction:column;gap:32px}
+.moving .qz .qslot{display:grid;gap:0}
+.moving .qz .qslot>.qs{grid-area:1 / 1;align-self:center}
+.moving .qz .bt.on:not(.cur){opacity:0;transform:translateY(-18px)}
+.moving .qz .bt:not(.cur){pointer-events:none}
+.qs{display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center}
+.qn{margin:0;font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--tap)}
+.qa{margin:0;font-size:clamp(22px,min(5.6vw,4.4svh),32px);line-height:1.2;font-weight:700;letter-spacing:-0.02em;text-wrap:balance}
+.qnote{margin:-6px 0 0;font-size:14px;color:#4B5270}
+.qo{width:100%;display:flex;flex-direction:column;gap:8px}
+.qo.multi{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}
+.qb{appearance:none;width:100%;min-height:50px;padding:10px 16px;border-radius:14px;border:1.5px solid #DDE1EC;background:#FFFFFF;color:#0A0F2C;
+  font:inherit;text-align:left;cursor:pointer;display:flex;flex-direction:column;justify-content:center;gap:2px;transition:background-color .2s,border-color .2s,color .2s}
+.qb b{font-size:16px;font-weight:600;line-height:1.3}
+.qb small{font-size:13px;line-height:1.35;color:#4B5270}
+.qo.multi .qb{min-height:46px;padding:8px 12px}
+.qo.multi .qb b{font-size:15px}
+.qb[aria-pressed="true"]{background:var(--tap);border-color:var(--tap);color:#FFFFFF}
+.qb[aria-pressed="true"] small{color:rgba(255,255,255,.82)}
+.qnext{appearance:none;border:0;border-radius:999px;background:var(--tap);color:#FFFFFF;font:inherit;font-size:16px;font-weight:700;min-height:48px;padding:0 30px;cursor:pointer}
+.qb:focus-visible,.qnext:focus-visible{outline:3px solid var(--tap);outline-offset:2px}
+.qlive{margin:2px 0 0;font-size:14px;color:#4B5270}
+.qlive b{color:#0A0F2C;font-variant-numeric:tabular-nums}
+.night .qn{color:#D7FF3F}
+.night .qnote,.night .qlive{color:rgba(255,255,255,.72)}
+.night .qlive b{color:#FFFFFF}
+.qr-y{margin:0;display:flex;flex-direction:column;align-items:center;gap:4px}
+.qr-y b{font-family:"Plus Jakarta Sans",ui-sans-serif,system-ui,sans-serif;font-size:clamp(44px,min(12vw,8svh),72px);font-weight:700;line-height:1;letter-spacing:-0.04em;font-variant-numeric:tabular-nums}
+.qr-y span{font-size:15px;color:#4B5270}
+.qr-h{margin:0;font-size:16px;color:#4B5270}
+.qr-h b{color:#0A0F2C}
+.qr-x{width:100%;padding:14px 16px;border-radius:16px;background:#0A0F2C;color:#FFFFFF;display:flex;flex-direction:column;gap:4px}
+.qr-x span{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#D7FF3F}
+.qr-x b{font-family:"Plus Jakarta Sans",ui-sans-serif,system-ui,sans-serif;font-size:26px;font-weight:700;letter-spacing:-0.02em}
+.qr-x small{font-size:13px;line-height:1.4;color:rgba(255,255,255,.75)}
+.qr-head{margin:0;font-family:"Plus Jakarta Sans",ui-sans-serif,system-ui,sans-serif;font-size:18px;font-weight:700;text-wrap:balance}
+.qr-go{display:flex;flex-direction:column;align-items:center;gap:10px}
+.qr-alt{font-size:15px;font-weight:600;color:#4B5270}
+.qr-fine{margin:0;max-width:420px;font-size:12px;line-height:1.5;color:#4B5270}
+
 /* how we start: a real order, so numbered */
 .steps4{list-style:none;margin:6px 0 0;padding:0;max-width:560px;display:flex;flex-direction:column;gap:clamp(14px,2.4vh,22px);text-align:left}
 .steps4 li{display:grid;grid-template-columns:auto minmax(0,1fr);gap:16px;align-items:start;font-size:clamp(16px,4.3vw,19px);line-height:1.45;color:#4B5270}
@@ -424,13 +454,11 @@ html.compact .prog{display:flex;gap:4px;position:absolute;left:16px;right:16px;b
 @media (max-width:960px){
   .wrap{padding:0 20px}
   .navlinks{display:none}
-  .hc{padding:4px 20px;border-radius:28px}
   .st-num{font-size:clamp(52px,15vw,96px)}
   .stage-in{--S:1.35}
   .hc-l{font-size:17px}
-  .hc-rows{grid-template-columns:minmax(0,1fr)}
-  .hc-q{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:baseline;column-gap:12px;padding:14px 0 8px}
-  .hc-q + .hc-q{border-left:0;border-top:1px solid rgba(10,15,44,.08)}
+  .hc-rows{grid-template-columns:minmax(0,1fr);gap:6px}
+  .hc-q{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:baseline;column-gap:12px;padding:8px 14px 2px;border-radius:12px}
   .hc-q input{grid-column:1 / -1}
   .cta h2{font-size:38px}
   .book{padding:88px 0 64px}
@@ -438,6 +466,9 @@ html.compact .prog{display:flex;gap:4px;position:absolute;left:16px;right:16px;b
 }
 @media (max-width:640px){
   .cta-row{flex-direction:column;align-items:stretch;width:100%}
+}
+@media (max-width:360px){
+  .nav-cta{min-height:42px !important;padding:0 14px !important;font-size:14px !important;white-space:nowrap}
 }
 @media (max-width:560px){
   :root{--bar:68px}
@@ -501,6 +532,12 @@ html.compact .prog{display:flex;gap:4px;position:absolute;left:16px;right:16px;b
 <div class="story">
 <div class="dusk" aria-hidden="true"></div>
 
+<section id="ask-desk" class="ch qz qmini night" aria-label="Two questions about your desk">
+<div class="ch-in">
+<div class="qslot" data-ask="priceSrc scope" data-label="About your desk"></div>
+</div>
+</section>
+
 <section id="problem" class="ch night one" aria-label="A quote, by hand">
 <div class="ch-in has-ph">
 <img class="ch-ph" src="img/desk.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async">
@@ -525,6 +562,12 @@ html.compact .prog{display:flex;gap:4px;position:absolute;left:16px;right:16px;b
 </div>
 </section>
 
+<section id="ask-steps" class="ch qz qmini night" aria-label="Two questions about your quotes">
+<div class="ch-in">
+<div class="qslot" data-ask="intake tasks" data-label="About your quotes"></div>
+</div>
+</section>
+
 <section id="meanwhile" class="ch night" aria-label="Meanwhile">
 <div class="ch-in has-ph">
 <img class="ch-ph" src="img/pipes.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async">
@@ -532,6 +575,12 @@ html.compact .prog{display:flex;gap:4px;position:absolute;left:16px;right:16px;b
 <p class="ln bt">Your customer asked a few shops.</p>
 <p class="ln bt">The first price back usually wins.</p>
 <p class="ln bt"><span class="lime">Yours is still on someone’s desk.</span></p>
+</div>
+</section>
+
+<section id="ask-lost" class="ch qz qmini night" aria-label="Three questions about your customers">
+<div class="ch-in">
+<div class="qslot" data-ask="turnaround lost jobValue" data-label="About your customers"></div>
 </div>
 </section>
 
@@ -583,6 +632,15 @@ html.compact .prog{display:flex;gap:4px;position:absolute;left:16px;right:16px;b
 <div class="ch-end bt"><p class="ln ln-s blue">If a person is the better answer, we’ll tell you.</p><p class="ch-p">Quotes on paper, a site visit for every job, a few quotes a week: hire someone. We’ll say so, even if it costs us the job.</p></div>
 </div>
 </section>
+
+<section id="number" class="ch qz" aria-label="Your real number">
+<div class="ch-in">
+<span class="ch-k">Your real number</span>
+<div class="qslot" id="qslot">
+<div class="qs bt"><p class="ln">Seven taps. Your real number.</p><p class="ch-p">The sliders were a start. Tap the answer that fits, or skip one you don’t know.</p></div>
+</div>
+</div>
+</section>
 </div>
 
 <section id="book" class="book">
@@ -624,6 +682,7 @@ html.compact .prog{display:flex;gap:4px;position:absolute;left:16px;right:16px;b
 
 </div>
 
+<script src="quote.js"></script>
 <script>
 (function(){
   var d=document;
@@ -715,7 +774,27 @@ html.compact .prog{display:flex;gap:4px;position:absolute;left:16px;right:16px;b
      and the share its own answers give, which replaces the starting share), and
      its links home carry ?q=&h=&r=. Either one turns the first screen into
      theirs: their figure, "Back to your full result" and "Or book a free call". */
-  var SHARE=4.164/7, hq=$('#hc-q'), hh=$('#hc-h'), hr=$('#hc-r'), hset={};
+  var SHARE=4.164/7, hq=$('#hc-q'), hh=$('#hc-h'), hr=$('#hc-r'), hset={}, homeBack=false;
+  /* "Your real number", the story's last chapter, asks the quoting calculator's seven
+     other questions (web/quote.js); the three sliders above are its first answers.
+     QA holds the seven: our guesses until the visitor answers (qYours), or what this
+     tab already told the quoting page (its memory, fourtaps_quote_<code>), so the two
+     pages always show the same figure. Without quote.js the sliders work alone. */
+  var W=window.WEDGE, QZ=['priceSrc','tasks','intake','scope','turnaround','lost','jobValue'], LOCKS=['turnaround','lost','jobValue'];
+  var LEAD=(function(){ try{ return (new URLSearchParams(location.search).get('lead')||'').slice(0,40); }catch(e){ return ''; } })();
+  var MEMO='fourtaps_quote_'+LEAD, QA={}, qYours={}, qEst={};
+  function qById(id){ return W.questions.filter(function(q){ return q.id===id; })[0]; }
+  function qOpts(q){ return (typeof q.options==='function'?q.options(QA):q.options)||[]; }
+  if(W){
+    QZ.forEach(function(id){ QA[id]=W.guesses[id]; });
+    QA.tasks=qOpts(qById('tasks')).map(function(o){ return o.value; });
+    try{
+      var qm=JSON.parse(sessionStorage.getItem(MEMO)||'null');
+      if(qm&&qm.A) QZ.forEach(function(id){ if(qm.A[id]!=null) QA[id]=qm.A[id]; });
+      if(qm&&qm.yours) qm.yours.forEach(function(id){ if(QZ.indexOf(id)>=0) qYours[id]=1; });
+    }catch(e){ /* storage blocked */ }
+  }
+  function qAnswers(){ var a={quotes:+hq.value, hoursEach:+hh.value, rate:+hr.value}; for(var k in QA) a[k]=QA[k]; return a; }
   function homeFor(){
     var p, mem=null;
     try{ p=new URLSearchParams(location.search); }catch(e){ p=new URLSearchParams(''); }
@@ -726,16 +805,16 @@ html.compact .prog{display:flex;gap:4px;position:absolute;left:16px;right:16px;b
       if(!(v>=+x[0].min&&v<=+x[0].max)&&mem) v=parseFloat(mem[x[1]]);
       if(v>=+x[0].min&&v<=+x[0].max){ x[0].value=v; hset[x[1]]=1; }
     });
-    var back=!!mem||!!(hset.q||hset.h||hset.r);
+    var back=homeBack=!!mem||!!(hset.q||hset.h||hset.r);
     $('.st-sub').textContent=back?'On quoting time, from your answers.':'On quoting time, for a typical shop.';
     $('#hc-go-t').textContent=back?'Back to your full result':'See the full picture';
     $('#hc-book').hidden=!back;
   }
   homeFor();
   function hcalc(){
-    var q=+hq.value, h=+hh.value, r=+hr.value, yr=q*h*SHARE*r*52;
+    var q=+hq.value, h=+hh.value, r=+hr.value, R=W?W.compute(qAnswers()):null, yr=R?R.annual:q*h*SHARE*r*52;
     $('#hc-n').textContent='$'+Math.round(yr).toLocaleString('en-CA');
-    var hb=q*h*SHARE;   /* hours a week off the desk */
+    var hb=R?R.freed:q*h*SHARE;   /* hours a week off the desk */
     $('#st-hb').textContent=hb<1?Math.max(5,Math.round(hb*12)*5)+' minutes':Math.round(hb)+(Math.round(hb)===1?' hour':' hours');
     /* the sky follows the figure: none of it under $5,000 a year, all of it at $500,000 */
     skyHeat=Math.max(0,Math.min(1,(Math.log10(Math.max(1,yr))-Math.log10(5000))/2)); skyRedraw();
@@ -745,7 +824,8 @@ html.compact .prog{display:flex;gap:4px;position:absolute;left:16px;right:16px;b
     [hq,hh,hr].forEach(function(el){ el.style.setProperty('--p',((el.value-el.min)/(el.max-el.min)*100)+'%'); });
     var p=new URLSearchParams(location.search);
     if(hset.q) p.set('q',q); if(hset.h) p.set('h',h); if(hset.r) p.set('r',r);
-    var s=p.toString(); $('#hc-go').href='quoting/'+(s?'?'+s:'');
+    var s=p.toString(); $('#hc-go').href=homeBack||!W?'quoting/'+(s?'?'+s:''):'#ask-desk';   /* on to the first questions, or back to their full result */
+    if(R) qResult(R);
   }
   [[hq,'q'],[hh,'h'],[hr,'r']].forEach(function(x){ x[0].addEventListener('input',function(){ hset[x[1]]=1; hcalc(); }); });
   hcalc();
@@ -755,18 +835,21 @@ html.compact .prog{display:flex;gap:4px;position:absolute;left:16px;right:16px;b
      (--D, measured from where it sits in the calculator) and shrinks (--S), and the
      calculator rises in; at the end the calculator takes taps. "How?" scrolls there. */
   var stage=$('.stage'), stageIn=$('.stage-in'), num=$('.st-num');
-  var spines=$('.spines'), nextTitle=$('#problem .desk');
+  var spines=$('.spines');
   function top(el){ var y=0; while(el){ y+=el.offsetTop; el=el.offsetParent; } return y; }
   function stick(){ return parseFloat(getComputedStyle(stageIn).top)||0; }
   function stageStart(){ return Math.max(0,top(stage)-stick()); }
   function stageRange(){ return Math.max(1,top(stage)+stage.offsetHeight-stageIn.offsetHeight-stick()-stageStart()); }
   function stageMeasure(){
     if(still) return;
-    var mid=stageIn.clientHeight/2, at=num.offsetTop+num.offsetHeight/2, D=mid-at;
-    /* a tall stack (a company's page) moves up so its last line stays clear of "How?" */
-    var S=parseFloat(getComputedStyle(stageIn).getPropertyValue('--S'))||1, half=num.offsetHeight/2,
-        below=at+S*(half+$('.st-below').offsetHeight), above=at-S*(half+$('.st-pay').offsetHeight);
-    D=Math.min(D,$('.st-how').offsetTop-28-below); D=Math.max(D,8-above);
+    /* the whole statement, from "Pay" (or the company's name) down to its last line,
+       sits in the middle of the room between the full top bar and "How?"; if it is
+       taller than that room, its top stays clear of the bar */
+    var at=num.offsetTop+num.offsetHeight/2, S=parseFloat(getComputedStyle(stageIn).getPropertyValue('--S'))||1,
+        half=num.offsetHeight/2, up=S*(half+$('.st-pay').offsetHeight), down=S*(half+$('.st-below').offsetHeight),
+        roomTop=(innerWidth<=560?68:76)-stick()+12, roomBottom=$('.st-how').offsetTop-24,
+        D=(roomTop+roomBottom)/2+(up-down)/2-at;
+    D=Math.min(D,roomBottom-down-at); D=Math.max(D,roomTop+up-at);
     stageIn.style.setProperty('--D',Math.round(D)+'px');
   }
   function stageScroll(){
@@ -784,15 +867,168 @@ html.compact .prog{display:flex;gap:4px;position:absolute;left:16px;right:16px;b
   /* the four lines start 40px under the button and run to just above the first
      chapter's screen, measured from where the stage sits once it lets go at the end. */
   function reach(){
+    var firstCh=$('.story .ch'), nextTitle=firstCh&&firstCh.querySelector('.qs,.desk,.ch-k');
     if(!spines||!nextTitle||still) return;
     var go=$('.hc-go'), y=0, el=go;
     while(el&&el!==stageIn){ y+=el.offsetTop; el=el.offsetParent; }   /* the same in every browser, however it picks offsetParent */
     var from=y+go.offsetHeight+40;
     var endTop=top(stage)+stage.offsetHeight-stageIn.offsetHeight;
     spines.style.setProperty('--from',from+'px');
-    var titleTop=top($('#problem'))+nextTitle.offsetTop;   /* where it sits before its chapter holds still */
+    var titleTop=top(firstCh)+nextTitle.offsetTop;   /* where it sits before its chapter holds still */
     spines.style.setProperty('--len',Math.max(80,titleTop-(endTop+from)-24)+'px');
   }
+  /* "Your real number": after its opening, one page per question, a tap on an answer
+     turning to the next (the tasks question, several answers, has its own Next), then
+     the full result. Saved as the quoting page saves: same visit, same row, stage
+     "first" until the last three are answered, then "result". */
+  var qslot=$('#qslot');
+  function qPage(id,label,i,n){
+    var q=qById(id), multi=q.type==='multi';
+    return '<div class="qs bt" data-q="'+id+'"><p class="qn">'+esc(label)+(n>1?' · '+(i+1)+' of '+n:'')+'</p><h3 class="qa display">'+esc(q.ask)+'</h3>'+
+      (multi?'<p class="qnote">Untick any that don’t happen.</p>':'')+
+      '<div class="qo'+(multi?' multi':'')+'" role="group" aria-label="'+esc(q.ask)+'">'+qOpts(q).map(function(o){
+        return '<button type="button" class="qb" data-v="'+esc(o.value)+'" aria-pressed="false"><b>'+esc(o.chip||o.label)+'</b>'+(o.hint&&!multi?'<small>'+esc(o.hint)+'</small>':'')+'</button>';
+      }).join('')+'</div>'+(multi?'<button type="button" class="qnext">Next</button>':'')+
+      '<p class="qlive">Your number now: <b></b> a year</p></div>';
+  }
+  if(W){
+    /* in the story, each question after what it is about (data-ask) */
+    all('.qslot[data-ask]').forEach(function(sl){
+      var ids=sl.getAttribute('data-ask').split(' '), lab=sl.getAttribute('data-label');
+      sl.insertAdjacentHTML('beforeend',ids.map(function(id,i){ return qPage(id,lab,i,ids.length); }).join(''));
+    });
+    /* at the end, every question again (those already answered are taken out by
+       qSyncEnd), then the result */
+    if(qslot) qslot.insertAdjacentHTML('beforeend',QZ.map(function(id){ return qPage(id,'Still to answer',0,1); }).join('')+
+    '<div class="qs bt qres" data-q="result"><p class="qn">With your answers</p>'+
+      '<p class="qr-y"><b id="qr-year"></b><span id="qr-ylab"></span></p>'+
+      '<p class="qr-h" id="qr-hours"></p>'+
+      '<div class="qr-x"><span>And the work lost to slow quotes</span><b id="qr-extra"></b><small id="qr-xnote"></small></div>'+
+      '<p class="qr-head" id="qr-head"></p>'+
+      '<div class="qr-go"><a class="btn btn-primary" href="book/">Book a free call<span class="arrow" aria-hidden="true">→</span></a><a class="qr-alt" id="qr-all" href="quoting/">See every number →</a></div>'+
+      '<p class="qr-fine" id="qr-count"></p></div>');
+    qMark(); hcalc();
+    $('.story').addEventListener('click',function(e){
+      var b=e.target.closest('.qs .qb'), nx=e.target.closest('.qs .qnext');
+      if(!b&&!nx) return;
+      var sl=e.target.closest('.qs'), id=sl.getAttribute('data-q'), q=qById(id), multi=q.type==='multi';
+      if(b){
+        var v=b.getAttribute('data-v');
+        if(multi){ var list=QA[id].slice(), at=list.indexOf(v); if(at>=0) list.splice(at,1); else list.push(v); QA[id]=list; }
+        else QA[id]=q.numeric?+v:v;
+      }
+      qYours[id]=1;
+      qMark(); hcalc(); qRemember(); qSaveSoon();
+      if(!sl.closest('#number')) qSyncEnd();
+      if(!still&&(nx||!multi)) setTimeout(nextPage,260);
+    });
+  }
+  /* The end asks only what is still unanswered. Pages answered along the way leave
+     it (and stop counting as pages), but never while the visitor is at or in it,
+     so nothing moves under them. */
+  function qSyncEnd(first){
+    var end=$('#number'); if(!end||!W||!qslot) return;
+    var x=chs.filter(function(c){ return c.c===end; })[0];
+    if(!first&&x&&scrollY>x.y-innerHeight) return;
+    var left=0;
+    all('#qslot .qs[data-q]').forEach(function(sl){
+      var id=sl.getAttribute('data-q'); if(id==='result') return;
+      var done=!!qYours[id]; sl.hidden=done; sl.classList.toggle('bt',!done); if(!done) left++;
+    });
+    var intro=qslot.firstElementChild;
+    intro.querySelector('.ln').textContent=left?(left===1?'One more tap.':(['','','Two','Three','Four','Five','Six','Seven'][left]||left)+' more taps.')+' Your real number.':'Your real number.';
+    intro.querySelector('.ch-p').textContent=left===QZ.length?'The sliders were a start. Tap the answer that fits, or skip one you don’t know.'
+      :left?'You skipped '+(left===1?'this one':'these')+' along the way. Tap the answer that fits.':'From everything you told us.';
+    if(x){ x.b=[].slice.call(end.querySelectorAll('.bt')); end.style.setProperty('--n',x.b.length); }
+    if(!first) stageAll();
+  }
+  function qMark(){
+    all('.qs[data-q]').forEach(function(sl){
+      var id=sl.getAttribute('data-q'); if(id==='result') return;
+      var v=QA[id], multi=Array.isArray(v);
+      [].forEach.call(sl.querySelectorAll('.qb'),function(b){
+        var bv=b.getAttribute('data-v'), on=multi?v.map(String).indexOf(bv)>=0:(!!qYours[id]&&String(v)===bv);
+        b.setAttribute('aria-pressed',on?'true':'false');
+      });
+    });
+  }
+  function qResult(R){
+    all('.qlive b').forEach(function(b){ b.textContent='$'+Math.round(R.annual).toLocaleString('en-CA'); });
+    if(!$('#qr-year')) return;
+    var open=LOCKS.every(function(id){ return qYours[id]; }), n=QZ.filter(function(id){ return qYours[id]; }).length;
+    $('#qr-year').textContent='$'+Math.round(R.annual).toLocaleString('en-CA');
+    $('#qr-ylab').textContent=R.labels.annual;
+    $('#qr-hours').innerHTML='<b>'+R.freed.toFixed(1)+' hours</b> a week of lookup work, off the desk';
+    $('#qr-extra').textContent=open?R.extra.value:'Answer the last three';
+    $('#qr-xnote').textContent=!open?'How long customers wait, work lost, and what a job is worth.'
+      :R.extra.value==='Not estimated'?'You told us lateness has not cost you work, so we do not invent a figure.'
+      :'If same-day quoting wins back the work you lose to being late. From your own answers.';
+    $('#qr-head').textContent=W.headline(R);
+    $('#qr-count').textContent=(n===QZ.length?'From your answers. ':'From your answers to '+n+' of '+QZ.length+'; the rest are our guesses. ')+
+      'They go to fourtaps so we can talk them through with you; no name or email.';
+    var p=new URLSearchParams(location.search);
+    if(hset.q) p.set('q',hq.value); if(hset.h) p.set('h',hh.value); if(hset.r) p.set('r',hr.value);
+    var s=p.toString(); $('#qr-all').href='quoting/'+(s?'?'+s:'');
+  }
+  /* what the quoting page reads on arrival, so "See every number" opens filled in */
+  function qRemember(){
+    try{
+      var m=JSON.parse(sessionStorage.getItem(MEMO)||'null')||{}, A=m.A||{}, a=qAnswers(), k;
+      for(k in a) A[k]=a[k]; m.A=A;
+      var y=m.yours||[]; for(k in qYours) if(y.indexOf(k)<0) y.push(k); m.yours=y;
+      var mv=m.moved||[]; [['q','quotes'],['h','hoursEach'],['r','rate']].forEach(function(x){ if(hset[x[0]]&&mv.indexOf(x[1])<0) mv.push(x[1]); }); m.moved=mv;
+      sessionStorage.setItem(MEMO,JSON.stringify(m));
+    }catch(e){ /* storage blocked */ }
+  }
+  var QVISIT=W?(function(){
+    var K='wedge_visit_'+W.wedge+'_'+LEAD, v=null;
+    try{ v=sessionStorage.getItem(K); }catch(e){ /* storage blocked */ }
+    if(!v){ v=Date.now().toString(36)+Math.random().toString(36).slice(2,8); try{ sessionStorage.setItem(K,v); }catch(e){ /* storage blocked */ } }
+    return v;
+  })():'';
+  var QSRC=(function(){
+    var K='wedge_src', stored=null, qs=location.search.replace(/^\?/,'').slice(0,300), src=qs;
+    try{ stored=sessionStorage.getItem(K); }catch(e){ /* storage blocked */ }
+    if(!src){ try{ var h=d.referrer?new URL(d.referrer).hostname:''; if(h&&h!==location.hostname) src='ref='+h; }catch(e){ /* opaque referrer */ } }
+    if(!qs&&stored) return stored;
+    if(src){ try{ sessionStorage.setItem(K,src); }catch(e){ /* ignore */ } }
+    return src;
+  })();
+  function qLabel(q,x){ var o=qOpts(q).filter(function(o){ return String(o.value)===String(x); })[0]; return o?o.label:String(x); }
+  function qText(){
+    var left=function(k){ return hset[k]?'':qEst[k]?' (our estimate)':' (not changed)'; };
+    var lines=[qById('quotes').ask+' '+qById('quotes').slider.show(+hq.value)+left('q'),
+      qById('hoursEach').ask+' '+qById('hoursEach').slider.show(+hh.value)+left('h'),
+      qById('rate').ask+' $'+hr.value+' an hour'+left('r')];
+    QZ.forEach(function(id){
+      var q=qById(id), v=QA[id];
+      lines.push(q.ask+' '+(Array.isArray(v)?v.map(function(x){ return qLabel(q,x); }).join(', '):qLabel(q,v))+(qYours[id]?'':' (our guess)'));
+    });
+    lines.push('Answered on the home page.');
+    if(QSRC) lines.push('Came from: '+QSRC);
+    return lines.join('\n');
+  }
+  var qSent='', qWait=0, qQueue=Promise.resolve();
+  function qSave(leaving){
+    clearTimeout(qWait);
+    if(!W||!Object.keys(qYours).length) return;
+    var stage=LOCKS.every(function(id){ return qYours[id]; })?'result':'first', key=stage+'|'+qText();
+    if(key===qSent) return;
+    qSent=key;
+    var R=W.compute(qAnswers()), mine={quotes:+hq.value, hoursEach:+hh.value, rate:+hr.value, tasks:QA.tasks};
+    QZ.forEach(function(id){ if(qYours[id]) mine[id]=QA[id]; });   /* warnings only from what they told us */
+    var body=JSON.stringify({visit:QVISIT, stage:stage, calculator:'Quoting', lead:LEAD, src:QSRC,
+      hours:R.freed, monthly:R.monthly, annual:R.annual, total:R.total, residual:R.residual,
+      extra:stage==='result'&&R.extra?String(R.extra.value).replace(/<[^>]*>/g,''):'',
+      flags:W.compute(mine).flags.map(function(f){ return f.title; }).join(' | '), answers:qText()});
+    if(leaving&&navigator.sendBeacon&&navigator.sendBeacon(W.sheet,body)) return;
+    var go=function(){ return fetch(W.sheet,{method:'POST',body:body,keepalive:true}); };
+    qQueue=qQueue.then(go,go).catch(function(){});
+  }
+  function qSaveSoon(){ clearTimeout(qWait); qWait=setTimeout(function(){ qSave(false); },1200); }
+  d.addEventListener('visibilitychange',function(){ if(d.visibilityState==='hidden') qSave(true); });
+  addEventListener('pagehide',function(){ qSave(true); });
+
   /* The story: each chapter holds still for --n beats of scrolling, and its parts
      (.bt) come in one beat at a time: the first as the chapter comes up the screen,
      the rest while it holds. Scrolling back takes them away again. In a chapter
@@ -810,6 +1046,7 @@ html.compact .prog{display:flex;gap:4px;position:absolute;left:16px;right:16px;b
       chs.push({c:c,b:b,lit:c.classList.contains('turn'),marks:!!c.querySelector('[data-mark]')});
     });
   }
+  qSyncEnd(true);
   function storyMeasure(){
     chs.forEach(function(x){
       var inn=x.c.firstElementChild;
@@ -861,7 +1098,9 @@ html.compact .prog{display:flex;gap:4px;position:absolute;left:16px;right:16px;b
       m.style.top=Math.max(0,Math.round(y))+'px';
     });
     while(snaps.length>ys.length) d.body.removeChild(snaps.pop());
-    snapYs=ys; groups=[2].concat(chs.map(function(x){ return x.b.length; }),[2]);
+    snapYs=ys; groups=[2];
+    chs.forEach(function(x){ if(x.c.classList.contains('qmini')) groups[groups.length-1]+=x.b.length; else groups.push(x.b.length); });
+    groups.push(2);
     if(prog.children.length!==groups.length) prog.innerHTML=groups.map(function(){ return '<i><b></b></i>'; }).join('');
     progScroll();
   }
@@ -883,9 +1122,12 @@ html.compact .prog{display:flex;gap:4px;position:absolute;left:16px;right:16px;b
   if(!still) d.addEventListener('click',function(e){
     if(e.defaultPrevented||e.button>0||e.target.closest('a,button,input,select,textarea,[role="button"]')) return;
     if(e.target.closest('label')) e.preventDefault();   /* a slider's name: turn the page, do not jump to the slider */
+    nextPage();
+  });
+  function nextPage(){
     var y=scrollY, ys=snaps.map(function(m){ return parseInt(m.style.top,10); }).sort(function(a,b){ return a-b; });
     for(var j=0;j<ys.length;j++) if(ys[j]>y+2){ scrollTo({top:ys[j],behavior:'smooth'}); return; }
-  });
+  }
   function stageAll(){ stageMeasure(); stageScroll(); storyMeasure(); storyScroll(); reach(); snapMeasure(); }
 
   /* A company's own page: with its lead code in the link, its name over the
@@ -893,16 +1135,17 @@ html.compact .prog{display:flex;gap:4px;position:absolute;left:16px;right:16px;b
      visitor has set their own) and one line about it, all from the Sheet's "Site"
      columns through web/api/lead.js. Without a code, or with no Site words, the
      page stays as it is. */
-  /* the first slide's photo: the desk, or on a company's page a photo of its kind of
-     business (L.photo). The slide is dark from the start and the photo fades in once
-     loaded. A company's first lookup can take 3 to 5 seconds (the script reads the
-     whole Sheet), so its page waits up to 6s before showing the desk, and still
-     switches to its own photo if the answer comes later. */
+  /* the first slide's photo: the truck by default, or on a company's page a photo of
+     its kind of business (L.photo; "desk" for one that fits no kind). The slide is
+     dark from the start and the photo fades in once loaded. A company's first lookup
+     can take 3 to 5 seconds (the script reads the whole Sheet), so its page waits up
+     to 6s before showing the default, and still switches to its own photo if the
+     answer comes later. */
   var heroImg=$('.st-ph'), heroKind=null;
   if(!still&&heroImg){ stage.classList.add('ph'); bar.classList.add('onph'); }
   function hero(kind){
     if(still||!heroImg) return;
-    kind=kind||'desk';
+    kind=kind||'trucking';
     if(kind===heroKind) return;
     heroKind=kind;
     heroImg.classList.remove('on');
@@ -919,7 +1162,7 @@ html.compact .prog{display:flex;gap:4px;position:absolute;left:16px;right:16px;b
       if(L.name){ $('.st-for').textContent='For '+L.name; $('.st-for').hidden=false; }
       var est=false;
       if(!(hset.q||hset.h||hset.r)) [[hq,'q'],[hh,'h'],[hr,'r']].forEach(function(x){
-        if(L[x[1]]>=+x[0].min&&L[x[1]]<=+x[0].max){ x[0].value=L[x[1]]; est=true; }
+        if(L[x[1]]>=+x[0].min&&L[x[1]]<=+x[0].max){ x[0].value=L[x[1]]; est=true; qEst[x[1]]=1; }
       });
       if(est){ hcalc(); $('.st-calc .hc-l').textContent='a year of quoting time. Our estimate: move the sliders.'; }
       if(L.adAge!=null&&L.hiring){ $('.st-ad').textContent='Your “'+L.hiring+'” ad has been open '+L.adAge+(L.adAge===1?' day.':' days.'); $('.st-ad').hidden=false; }
