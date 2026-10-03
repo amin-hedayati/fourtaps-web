@@ -40,12 +40,20 @@ main{max-width:1108px;margin:0 auto;padding:8px 24px 64px}
 h1{font:700 clamp(28px,4.2vw,40px)/1.08 var(--display);letter-spacing:-.02em;margin:0;text-wrap:balance}
 .dek{font-size:16px;line-height:1.5;color:var(--muted);margin:8px 0 0;max-width:68ch}
 .dek b{color:var(--ink);font-weight:600}
-.grid{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:48px;align-items:start;margin-top:26px}
+/* three steps down the page, each with its own part of the result beside it */
+.stepx{padding:32px 0;border-top:1px solid var(--rule)}
+.stepx:first-of-type{border-top:0;padding-top:22px}
+.stepx-h{display:flex;align-items:flex-start;gap:14px;margin-bottom:18px}
+.stepx-h b{flex:0 0 auto;width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:var(--acc);color:var(--acc-ink);font:700 15px/1 var(--display)}
+.stepx-h h2{margin:3px 0 0;font:700 22px/1.2 var(--display);letter-spacing:-.02em}
+.stepx-h p{margin:4px 0 0;font-size:14.5px;line-height:1.45;color:var(--muted)}
+.stepx-body{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:48px;align-items:start}
+.stepx-r{display:flex;flex-direction:column;gap:16px}
+.stepx-end{display:flex;flex-direction:column;gap:14px;max-width:560px}
+.now{margin:0 0 14px;font-size:14px;color:var(--muted)}
+.now b{font:700 26px/1 var(--display);letter-spacing:-.02em;color:var(--ink);margin-right:6px;font-variant-numeric:tabular-nums}
 
-/* left: what they set */
-.sec + .sec{margin-top:30px}
-.sec-h{font:700 13px/1.2 var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--acc);margin:0}
-.sec-n{font-size:14.5px;line-height:1.45;color:var(--muted);margin:4px 0 12px}
+/* what they set */
 .ctl{padding:16px 0;border-top:1px solid var(--rule)}
 .ctl:first-of-type{border-top:0;padding-top:4px}
 .ctl-top{display:flex;align-items:baseline;justify-content:space-between;gap:16px}
@@ -107,10 +115,7 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;bac
 .done{margin-top:12px}
 
 /* right: the number and what it means */
-.panel{position:sticky;top:20px;display:flex;flex-direction:column;gap:16px}
 .card{background:var(--night);color:#FFFFFF;border-radius:24px;padding:24px 24px 20px;display:flex;flex-direction:column}
-.card .pair{margin-bottom:16px}
-.card .lock{margin-top:auto}    /* when the card is stretched, the locked figure sits at its foot */
 .year{display:inline-block;transform-origin:left center;font:700 clamp(44px,6vw,64px)/1 var(--display);letter-spacing:-.02em;color:var(--lime);font-variant-numeric:tabular-nums}
 .year.bump{animation:bump .35s ease}
 @keyframes bump{40%{transform:scale(1.035)}}
@@ -120,6 +125,9 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;bac
 .pair b small{font:600 12px/1 var(--sans);letter-spacing:0;color:rgba(255,255,255,.6);margin-left:4px}
 .lock{padding:14px 16px;border-radius:16px;border:1px dashed rgba(255,255,255,.3);background:rgba(255,255,255,.06);transition:background .3s}
 .lock.open{background:var(--acc);border:1px solid var(--acc)}
+/* in step 3 the locked figure is a card of its own: dashed while locked, blue once open */
+.card.lock{padding:22px 24px;border-radius:24px;border:1px dashed rgba(10,15,44,.35);background:var(--night)}
+.card.lock.open{border:1px solid var(--acc);background:var(--acc)}
 .lock-h{font:700 12px/1.2 var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--lime)}
 .lock-v{font:700 22px/1.2 var(--display);letter-spacing:-.01em;margin-top:8px}
 .lock.open .lock-v{font-size:30px}
@@ -166,10 +174,10 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;bac
 /* phone: the number rides along at the top from the start */
 .mbar{display:none}
 @media(max-width:860px){
+  .stepx-body{grid-template-columns:minmax(0,1fr);gap:20px}
+  .stepx{padding:26px 0}
   main{padding-left:20px;padding-right:20px}
   .top{padding-left:20px;padding-right:20px}
-  .grid{grid-template-columns:minmax(0,1fr);gap:26px;margin-top:18px}
-  .panel{position:static}
   .mbar{display:flex;position:sticky;top:0;z-index:30;align-items:baseline;gap:10px;margin:14px -20px 0;padding:10px 20px;
     background:var(--night);color:#FFFFFF;box-shadow:0 14px 30px -18px rgba(10,15,44,.7)}
   .mbar b{font:700 26px/1 var(--display);letter-spacing:-.02em;color:var(--lime);font-variant-numeric:tabular-nums}
@@ -414,6 +422,26 @@ window.WEDGE = (function () {
   A.tasks = opts(byId("tasks")).map(o => o.value);
   const yours = new Set();          // our guesses the visitor has changed
   const moved = new Set();          // sliders the visitor has moved
+  const est = new Set();            // sliders started at our estimate for this company
+  /* this tab's answers so far, so a reload or a trip to the home page and back
+     picks up where they left off (one memory per company code, like the visit) */
+  const MEMO = "fourtaps_quote_" + (function () {
+    try { return (new URLSearchParams(location.search).get("lead") || "").slice(0, 40); } catch (e) { return ""; }
+  })();
+  try {
+    const m = JSON.parse(sessionStorage.getItem(MEMO) || "null");
+    if (m && m.A) { Object.assign(A, m.A); (m.yours || []).forEach(id => yours.add(id)); (m.moved || []).forEach(id => moved.add(id)); }
+  } catch (e) { /* storage blocked */ }
+  /* the three answers from the home page's sliders, when the visitor came from there */
+  (function () {
+    let p; try { p = new URLSearchParams(location.search); } catch (e) { return; }
+    [["quotes", "q"], ["hoursEach", "h"]].forEach(([id, k]) => {
+      const s = byId(id).slider, v = parseFloat(p.get(k));
+      if (v >= s.min && v <= s.max) { A[id] = v; moved.add(id); }
+    });
+    const r = parseFloat(p.get("r"));
+    if (r >= 20 && r <= 200) { A.rate = Math.round(r); moved.add("rate"); }
+  })();
   const WHY = { priceSrc: "the most common answer", lost: "the most common answer" };
   const FINE = ["priceSrc", "tasks", "intake", "scope"], LOCK = ["turnaround", "lost", "jobValue"];
   const LABEL = { priceSrc: "Where your prices come from", tasks: "Tasks on every quote", intake: "How requests arrive",
@@ -465,11 +493,10 @@ window.WEDGE = (function () {
     <h1>${W.intro.title}</h1>
     <p class="dek">${W.intro.dek}</p>
     <div class="mbar" aria-hidden="true"><b id="myear"></b><span>a year</span><em id="mmo"></em></div>
-    <div class="grid">
-      <div>
-        <section class="sec" id="wk" aria-labelledby="h1s">
-          <h2 class="sec-h" id="h1s">Your week</h2>
-          <p class="sec-n">Three sliders. The number moves as you go.</p>
+    <section class="stepx" id="wk" aria-labelledby="h1s">
+      <header class="stepx-h"><b aria-hidden="true">1</b><div><h2 id="h1s">Your week</h2><p>Three sliders. The number moves as you go.</p></div></header>
+      <div class="stepx-body">
+        <div class="stepx-q">
           ${slider("quotes")}
           ${slider("hoursEach")}
           <div class="ctl">
@@ -478,59 +505,68 @@ window.WEDGE = (function () {
             <div class="stops" id="stops" role="group" aria-label="Who puts the quotes together">${STOPS.map(s =>
               `<div class="stop" style="--f:${toPos(s.rate) / 1000}"><button type="button" data-who="${s.who}" aria-pressed="false"><span>${s.label}</span><small>$${s.rate}/hr</small></button></div>`).join("")}</div>
           </div>
-        </section>
-        <section class="sec" aria-labelledby="h2s">
-          <h2 class="sec-h" id="h2s">Our guesses</h2>
-          <p class="sec-n">We filled these in for you. Change any that are wrong.</p>
-          <div class="rows">${FINE.map(row).join("")}</div>
-        </section>
-        <section class="sec" aria-labelledby="h3s">
-          <h2 class="sec-h" id="h3s">Unlock: work lost to slow quotes</h2>
-          <p class="sec-n">Answer these three and we show what late quotes cost you in jobs.</p>
-          <div class="rows unlock">${LOCK.map(row).join("")}</div>
-        </section>
-      </div>
-      <aside class="panel" aria-label="Your numbers">
-        <div class="card">
-          <div class="year" id="year"></div><div class="lab" id="ylab"></div>
-          <div class="pair">
-            <div><b id="hw"></b><div class="lab" id="hl"></div></div>
-            <div><b id="mo"></b><div class="lab" id="ml"></div></div>
+        </div>
+        <div class="stepx-r">
+          <div class="card">
+            <div class="year" id="year"></div><div class="lab" id="ylab"></div>
+            <div class="pair">
+              <div><b id="hw"></b><div class="lab" id="hl"></div></div>
+              <div><b id="mo"></b><div class="lab" id="ml"></div></div>
+            </div>
           </div>
-          <div class="lock" id="lock">
+          ${W.trust ? `<ul class="trust">${W.trust.map(t => `<li><span>${t}</span></li>`).join("")}</ul>` : ""}
+        </div>
+      </div>
+    </section>
+    <section class="stepx" aria-labelledby="h2s">
+      <header class="stepx-h"><b aria-hidden="true">2</b><div><h2 id="h2s">Our guesses</h2><p>We filled these in for you. Change any that are wrong.</p></div></header>
+      <div class="stepx-body">
+        <div class="stepx-q"><div class="rows">${FINE.map(row).join("")}</div></div>
+        <div class="stepx-r">
+          <div class="box"><p class="now"><b id="y2"></b>a year, with your answers</p><h3>Where the hours go</h3><div id="bars"></div></div>
+          <div class="flags" id="flags2"></div>
+        </div>
+      </div>
+    </section>
+    <section class="stepx" aria-labelledby="h3s">
+      <header class="stepx-h"><b aria-hidden="true">3</b><div><h2 id="h3s">Unlock: work lost to slow quotes</h2><p>Answer these three and we show what late quotes cost you in jobs.</p></div></header>
+      <div class="stepx-body">
+        <div class="stepx-q"><div class="rows unlock">${LOCK.map(row).join("")}</div></div>
+        <div class="stepx-r">
+          <div class="card lock" id="lock">
             <div class="lock-h">Work lost to slow quotes</div>
             <div class="lock-v" id="lockv"></div>
             <div class="lock-n" id="lockn"></div>
             <div class="dots" aria-hidden="true"><i></i><i></i><i></i></div>
           </div>
+          <div class="flags" id="flags3"></div>
         </div>
-        <div class="box"><h3>Where the hours go</h3><div id="bars"></div></div>
-        <div class="flags" id="flags"></div>
-        <div class="cta">
-          <button type="button" class="btn" id="send">Email me this, with the working</button>
-          <a class="btn alt" data-book href="../book/">Book a free call</a>
-        </div>
-        <form class="mail" id="mail" hidden novalidate>
-          <p class="mail-h">Where should it go?</p>
-          <input id="m-business" type="text" placeholder="Business name" autocomplete="organization" aria-label="Business name">
-          <input id="m-contact" type="text" placeholder="Your name" autocomplete="name" aria-label="Your name">
-          <input id="m-email" type="email" placeholder="Email" autocomplete="email" inputmode="email" aria-label="Email" required>
-          <input id="m-phone" type="tel" placeholder="Phone (optional)" autocomplete="tel" inputmode="tel" aria-label="Phone (optional)">
-          <input id="m-website" class="hp" type="text" tabindex="-1" autocomplete="off" aria-hidden="true">
-          <p class="mail-err" id="m-err" role="alert" hidden></p>
-          <button type="submit" class="btn" id="m-send">Send it</button>
-          <p class="fine">The numbers with the working shown, and the two things worth checking before anyone spends money. No newsletter.</p>
-        </form>
-        <div class="sent" id="sent" role="status" hidden><b>Got it.</b>Mostafa from fourtaps will send your written result, usually within one working day. We read every one of these ourselves.</div>
-        ${W.trust ? `<ul class="trust">${W.trust.map(t => `<li><span>${t}</span></li>`).join("")}</ul>` : ""}
-        <p class="fine">What you set here goes to fourtaps as you change it, so we can talk it through with you. Your name and email go only if you ask for the written result.</p>
-      </aside>
-    </div>`;
+      </div>
+    </section>
+    <section class="stepx stepx-end" aria-label="Your written result">
+      <div class="cta">
+        <button type="button" class="btn" id="send">Email me this, with the working</button>
+        <a class="btn alt" data-book href="../book/">Book a free call</a>
+      </div>
+      <form class="mail" id="mail" hidden novalidate>
+        <p class="mail-h">Where should it go?</p>
+        <input id="m-business" type="text" placeholder="Business name" autocomplete="organization" aria-label="Business name">
+        <input id="m-contact" type="text" placeholder="Your name" autocomplete="name" aria-label="Your name">
+        <input id="m-email" type="email" placeholder="Email" autocomplete="email" inputmode="email" aria-label="Email" required>
+        <input id="m-phone" type="tel" placeholder="Phone (optional)" autocomplete="tel" inputmode="tel" aria-label="Phone (optional)">
+        <input id="m-website" class="hp" type="text" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <p class="mail-err" id="m-err" role="alert" hidden></p>
+        <button type="submit" class="btn" id="m-send">Send it</button>
+        <p class="fine">The numbers with the working shown, and the two things worth checking before anyone spends money. No newsletter.</p>
+      </form>
+      <div class="sent" id="sent" role="status" hidden><b>Got it.</b>Mostafa from fourtaps will send your written result, usually within one working day. We read every one of these ourselves.</div>
+      <p class="fine">What you set here goes to fourtaps as you change it, so we can talk it through with you. Your name and email go only if you ask for the written result.</p>
+    </section>`;
 
   /* warnings only from what the visitor told us, never from our guesses */
-  function flagsFor() {
+  function flagsFor(only) {
     const mine = { quotes: A.quotes, hoursEach: A.hoursEach, rate: A.rate, who: A.who, tasks: A.tasks };
-    yours.forEach(id => { mine[id] = A[id]; });
+    yours.forEach(id => { if (!only || only.includes(id)) mine[id] = A[id]; });
     return W.compute(mine).flags;
   }
 
@@ -580,10 +616,10 @@ window.WEDGE = (function () {
   function answersText() {
     const ask = id => strip(val(byId(id), "ask"));
     const label = (q, x) => { const o = opts(q).find(o => String(o.value) === String(x)); return o ? strip(o.label) : String(x); };
-    const lines = ["quotes", "hoursEach"].map(id =>
-      ask(id) + " " + byId(id).slider.show(A[id]) + (moved.has(id) ? "" : " (not changed)"));
+    const left = id => moved.has(id) ? "" : est.has(id) ? " (our estimate)" : " (not changed)";
+    const lines = ["quotes", "hoursEach"].map(id => ask(id) + " " + byId(id).slider.show(A[id]) + left(id));
     if (A.who) lines.push(ask("who") + " " + label(who, A.who));
-    lines.push(ask("rate") + " $" + A.rate + " an hour" + (moved.has("rate") || A.who ? "" : " (not changed)"));
+    lines.push(ask("rate") + " $" + A.rate + " an hour" + (A.who ? "" : left("rate")));
     FINE.concat(LOCK).forEach(id => {
       const q = byId(id), v = A[id];
       lines.push(ask(id) + " " + (Array.isArray(v) ? v.map(x => label(q, x)).join(", ") : label(q, v)) + (yours.has(id) ? "" : " (our guess)"));
@@ -643,7 +679,11 @@ window.WEDGE = (function () {
     const max = Math.max.apply(null, r.bars.map(b => b.hours).concat([0.001]));
     $("#bars").innerHTML = r.bars.map(b => `<div class="bar"><span>${b.label}</span><span class="track"><i style="width:${Math.max(2, b.hours / max * 100)}%"></i></span><span>${b.hours.toFixed(1)} h</span></div>`).join("");
 
-    $("#flags").innerHTML = flagsFor().map(f => `<div class="flag"><b>${f.title}</b>${f.body}</div>`).join("");
+    /* each step's warnings come from that step's answers */
+    const flagHTML = only => flagsFor(only).map(f => `<div class="flag"><b>${f.title}</b>${f.body}</div>`).join("");
+    $("#flags2").innerHTML = flagHTML(FINE);
+    $("#flags3").innerHTML = flagHTML(LOCK);
+    $("#y2").textContent = money(r.annual);
 
     ["quotes", "hoursEach"].forEach(id => {
       const s = byId(id).slider, el = $("#s-" + id), v = Math.min(s.max, Math.max(s.min, A[id]));
@@ -674,6 +714,16 @@ window.WEDGE = (function () {
     });
     fitCard();
     saveSoon();
+    /* left for the home page, so going back to it shows this visitor their own
+       figure: the sliders they moved and the share their answers give */
+    if (touched()) try {
+      const m = { s: r.total > 0 ? r.freed / r.total : 0 };
+      if (moved.has("quotes")) m.q = A.quotes;
+      if (moved.has("hoursEach")) m.h = A.hoursEach;
+      if (moved.has("rate") || A.who) m.r = A.rate;
+      sessionStorage.setItem("fourtaps_calc", JSON.stringify(m));
+      sessionStorage.setItem(MEMO, JSON.stringify({ A, yours: [...yours], moved: [...moved] }));
+    } catch (e) { /* storage blocked */ }
   }
 
   /* ---------- what the visitor does ---------- */
@@ -716,6 +766,22 @@ window.WEDGE = (function () {
   window.addEventListener("resize", fitCard);
   if (document.fonts) document.fonts.ready.then(fitCard);
   fitCard();
+  /* A company's own page: with its lead code in the link, its name in the title,
+     our estimates from its job ad as the starting sliders (any the visitor has not
+     set themselves) and a line saying so, from the Sheet's "Site" columns through
+     web/api/lead.js. Without a code, or with no Site words, nothing changes. */
+  if (/^[a-hjkmnp-z][a-hjkmnp-z2-9]{7}$/.test(LEAD.toLowerCase())) {
+    fetch("/api/lead?code=" + LEAD.toLowerCase()).then(r => r.ok ? r.json() : null).then(L => {
+      if (!L || !L.ok) return;
+      if (L.name) document.querySelector("#app h1").textContent = "What do slow quotes cost " + L.name + "?";
+      [["quotes", "q"], ["hoursEach", "h"], ["rate", "r"]].forEach(([id, k]) => {
+        if (L[k] == null || moved.has(id) || (id === "rate" && A.who)) return;
+        A[id] = L[k]; est.add(id);
+      });
+      if (est.size) document.querySelector("#wk .stepx-h p").textContent = "Our estimate from your job ad. Move the sliders to match your week.";
+      update();
+    }).catch(() => {});
+  }
   /* the written result: the form opens in place, and sends on the same row */
   $("#send").addEventListener("click", () => { $("#send").hidden = true; $("#mail").hidden = false; $("#m-email").focus(); });
   $("#mail").addEventListener("submit", e => {
