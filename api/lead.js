@@ -6,7 +6,7 @@
 // for, and only those few fields come back, checked and cut to length; a code
 // that matches nothing gets nothing. Answers are kept for a minute at Vercel's
 // edge, so a change in the Sheet shows within a minute.
-const SHEET = "https://script.google.com/macros/s/AKfycbwfCScLJyqVr5G6LWdxwj9-RSmKgegp920hUruuDPJVsuxCDPyDLjWuY5wYgkmNkenUzg/exec";
+const SHEET = "https://script.google.com/macros/s/AKfycbyBp-081mlew3RwCED8tNva576UwG-hoEvqqVeLw_soGjfJeVX3JRWwS2K3AMm4YvD2cg/exec";
 const CODE = /^[a-hjkmnp-z][a-hjkmnp-z2-9]{7}$/;   // as lead-code.py makes them
 const KINDS = ["desk", "electrical", "construction", "warehouse", "trucking", "factory", "metal", "mechanical"];   // web/img/hero-<kind>.jpg
 
